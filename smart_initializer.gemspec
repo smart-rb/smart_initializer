@@ -5,7 +5,7 @@ require_relative 'lib/smart_core/initializer/version'
 Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new('>= 2.4.9')
 
-  spec.name    = 'gem_template_rb'
+  spec.name    = 'smart_initializer'
   spec.version = SmartCore::Initializer::VERSION
   spec.authors = ['Rustam Ibragimov']
   spec.email   = ['iamdaiver@gmail.com']
