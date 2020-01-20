@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors = ['Rustam Ibragimov']
   spec.email   = ['iamdaiver@gmail.com']
 
-  spec.summary     = '1'
-  spec.description = '2'
+  spec.summary     = 'Initializer DSL'
+  spec.description = 'Initializer DSL'
   spec.homepage    = 'https://github.com/smart-rb/smart_initialier'
   spec.license     = 'MIT'
 
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'smart_engine', '~> 0.2'
+  spec.add_dependency 'smart_engine', '~> 0.4'
 
   spec.add_development_dependency 'bundler',          '~> 2.1'
   spec.add_development_dependency 'rake',             '~> 13.0'

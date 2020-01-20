@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    gem_template_rb (0.1.0)
-      smart_engine (~> 0.2)
+    smart_initializer (0.1.0)
+      smart_engine (~> 0.4)
 
 GEM
   remote: https://rubygems.org/
@@ -59,8 +59,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    smart_engine (0.2.0)
-    unicode-display_width (1.6.0)
+    smart_engine (0.4.0)
+    unicode-display_width (1.6.1)
 
 PLATFORMS
   ruby
@@ -68,10 +68,10 @@ PLATFORMS
 DEPENDENCIES
   armitage-rubocop (~> 0.78)
   bundler (~> 2.1)
-  gem_template_rb!
   rake (~> 13.0)
   rspec (~> 3.9)
   simplecov (~> 0.17)
+  smart_initializer!
 
 BUNDLED WITH
-   2.1.0
+   2.1.2
