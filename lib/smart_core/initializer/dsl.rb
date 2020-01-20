@@ -68,25 +68,42 @@ module SmartCore::Initializer::DSL
       __definer__.define_parameter(name, type, cast, privacy, finalize, dynamic_options)
     end
 
+    # @param names [Array<String, Symbol>]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def params
+    def params(*names)
+      __definer__.define_parameters(*names)
     end
 
+    # @param name [String, Symbol]
+    # @param type [String, Symbol, SmartCore::Types::Primitive]
+    # @option cast [Boolean]
+    # @option privacy [String, Symbol]
+    # @option finalize [String, Symbol, Proc]
+    # @param dynamic_options [Hash<Symbol,Any>]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def option
+    def option(
+      name,
+      type, # TODO: SmartCore::Types::Value::Any by default
+      cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
+      privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
+      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT,
+      **dynamic_options
+    )
     end
 
+    # @param names [Array<String, Symbol>]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def options
+    def options(*names)
+      __definer__.define_options(*names)
     end
   end
 end

@@ -13,13 +13,13 @@ class SmartCore::Initializer::Attribute::Finalizer::InstanceMethod
   end
 
   # @param value [Any]
-  # @param isntance [Any]
+  # @param instance [Any]
   # @return [value]
   #
   # @pai private
   # @since 0.1.0
   def call(value, instance)
-    isntance.send(finalizer, value)
+    instance.send(finalizer, value)
   end
 
   private
