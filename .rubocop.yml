@@ -13,3 +13,7 @@ AllCops:
     - Rakefile
     - smart_initializer.gemspec
     - bin/console
+
+# NOTE: It is not suitable for infrastracture-level frameworks
+Metrics/ParameterLists:
+  Enabled: false
