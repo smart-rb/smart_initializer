@@ -13,6 +13,7 @@ module SmartCore::Initializer::DSL
       base_klass.instance_eval do
         instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
+        instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
       end
 
       base_klass.extend(ClassMethods)
@@ -36,6 +37,56 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     def __options__
       @__options__
+    end
+
+    # @return [SmartCore::Initializer::Attribute::Definer]
+    #
+    # @api private
+    # @since 0.1.0
+    def __definer__
+      @__definer__
+    end
+
+    # @param name [String, Symbol]
+    # @param type [String, Symbol, SmartCore::Types::Primitive]
+    # @option cast [Boolean]
+    # @option privacy [String, Symbol]
+    # @option finalize [String, Symbol, Proc]
+    # @param dynamic_options [Hash<Symbol,Any>]
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def param(
+      name,
+      type, # TODO: SmartCore::Types::Value::Any by default
+      cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
+      privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
+      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT,
+      **dynamic_options
+    )
+      __definer__.define_parameter(name, type, cast, privacy, finalize, dynamic_options)
+    end
+
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def params
+    end
+
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def option
+    end
+
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def options
     end
   end
 end

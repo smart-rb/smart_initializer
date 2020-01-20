@@ -4,6 +4,8 @@ RSpec.describe 'Smoke Test' do
   specify do
     class User
       include SmartCore::Initializer
+
+      param :user_id, :string, cast: true, default: 'test', privacy: :private
     end
 
     # class User
