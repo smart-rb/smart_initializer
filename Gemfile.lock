@@ -3,6 +3,7 @@ PATH
   specs:
     smart_initializer (0.1.0)
       smart_engine (~> 0.4)
+      smart_types (~> 0.1.0.alpha)
 
 GEM
   remote: https://rubygems.org/
@@ -60,6 +61,8 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     smart_engine (0.4.0)
+    smart_types (0.1.0.alpha)
+      smart_engine (~> 0.4)
     unicode-display_width (1.6.1)
 
 PLATFORMS

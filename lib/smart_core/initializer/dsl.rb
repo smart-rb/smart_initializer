@@ -91,7 +91,7 @@ module SmartCore::Initializer::DSL
       name,
       type, # TODO: SmartCore::Types::Value::Any by default
       cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
-      privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
+      privacy: SmartCore::Initializer::Attribute::DEFAULT_PRIVACY_MODE,
       finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT_FINALIZER,
       **dynamic_options
     )

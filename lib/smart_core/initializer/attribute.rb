@@ -3,7 +3,7 @@
 # @api private
 # @since 0.1.0
 class SmartCore::Initializer::Attribute
-  require_relative 'attribute/options'
+  require_relative 'attribute/parameters'
   require_relative 'attribute/list'
   require_relative 'attribute/finalizer'
   require_relative 'attribute/definer'
@@ -16,8 +16,13 @@ class SmartCore::Initializer::Attribute
     public:    :public,
     protected: :protected,
     private:   :private,
-    default:   :public
   }.freeze
+
+  # @return [Symbol]
+  #
+  # @api private
+  # @since 0.1.0
+  DEFAULT_PRIVACY_MODE = PRIVACY_MODES[:public]
 
   # @return [Boolean]
   #
@@ -25,11 +30,11 @@ class SmartCore::Initializer::Attribute
   # @since 0.1.0
   DEFAULT_CAST_BEHAVIOUR = false
 
-  # @return [SmartCore::Initializer::Attribute::Options]
+  # @return [SmartCore::Initializer::Attribute::Parameters]
   #
   # @api private
   # @since 0.1.0
-  attr_reader :options
+  attr_reader :parameters
 
   # @option name [String, Symbol]
   # @option type [String, Symbol, SmartCore::Types::Primitive]
@@ -42,7 +47,7 @@ class SmartCore::Initializer::Attribute
   # @api private
   # @since 0.1.0
   def initialize(name:, type:, privacy:, final:, cast:, **dynamic_options)
-    @options = SmartCore::Initializer::Attribute::Parameters.create(
+    @options = SmartCore::Initializer::Attribute::Parameters::Factory.create(
       name:    name,
       type:    type,
       privacy: privacy,
