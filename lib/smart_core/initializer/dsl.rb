@@ -62,7 +62,7 @@ module SmartCore::Initializer::DSL
       type, # TODO: SmartCore::Types::Value::Any by default
       cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
       privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
-      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT,
+      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT_FINALIZER,
       **dynamic_options
     )
       __definer__.define_parameter(name, type, cast, privacy, finalize, dynamic_options)
@@ -92,7 +92,7 @@ module SmartCore::Initializer::DSL
       type, # TODO: SmartCore::Types::Value::Any by default
       cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
       privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
-      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT,
+      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT_FINALIZER,
       **dynamic_options
     )
     end

@@ -42,7 +42,7 @@ class SmartCore::Initializer::Attribute
   # @api private
   # @since 0.1.0
   def initialize(name:, type:, privacy:, final:, cast:, **dynamic_options)
-    @options = SmartCore::Initializer::Attribute::Options::Factory.create(
+    @options = SmartCore::Initializer::Attribute::Parameters.create(
       name:    name,
       type:    type,
       privacy: privacy,

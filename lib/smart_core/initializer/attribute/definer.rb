@@ -35,6 +35,7 @@ class SmartCore::Initializer::Attribute::Definer
   # @since 0.1.0
   def define_parameters(*names)
     thread_safe do
+
     end
   end
 
@@ -50,6 +51,7 @@ class SmartCore::Initializer::Attribute::Definer
   # @since 0.1.0
   def define_parameter(name, type, cast, privacy, finalize, dynamic_options)
     thread_safe do
+
     end
   end
 
@@ -60,6 +62,7 @@ class SmartCore::Initializer::Attribute::Definer
   # @since 0.1.0
   def define_options(*names)
     thread_safe do
+
     end
   end
 
