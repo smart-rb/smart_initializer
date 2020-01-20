@@ -4,7 +4,9 @@
 # @since 0.1.0
 class SmartCore::Initializer::Attribute::Options
   require_relative 'options/factory'
-
+  
+  # TODO: think about @param optional [Boolean] Required or not
+  # TODO: think about @param as [String, Symbol] Alias method
   # @param name [String]
   # @param type [SmartCore::Types::Primitive]
   # @param privacy [Symbol]
