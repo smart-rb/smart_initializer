@@ -59,7 +59,7 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     def param(
       name,
-      type, # TODO: SmartCore::Types::Value::Any by default
+      type = SmartCore::Types::Value::Any,
       privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
       finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
       cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
@@ -89,7 +89,7 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     def option(
       name,
-      type, # TODO: SmartCore::Types::Value::Any by default
+      type = SmartCore::Types::Value::Any,
       privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
       finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
       cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,

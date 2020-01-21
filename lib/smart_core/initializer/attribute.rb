@@ -9,11 +9,38 @@ class SmartCore::Initializer::Attribute
   require_relative 'attribute/definer'
   require_relative 'attribute/factory'
 
-  # @return [SmartCore::Initializer::Attribute::Parameters]
-  #
-  # @api private
   # @since 0.1.0
-  attr_reader :parameters
+  extend Forwardable
+
+  # @retirn [String]
+  #
+  # @since 0.1.0
+  # @version 0.1.0
+  def_delegator :parameters, :name
+
+  # @retirn [SmartCore::Types::Primitive]
+  #
+  # @since 0.1.0
+  # @version 0.1.0
+  def_delegator :parameters, :type
+
+  # @retirn [Symbol]
+  #
+  # @since 0.1.0
+  # @version 0.1.0
+  def_delegator :parameters, :privacy
+
+  # @retirn [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
+  #
+  # @since 0.1.0
+  # @version 0.1.0
+  def_delegator :parameters, :finalizer
+
+  # @retirn [Boolean]
+  #
+  # @since 0.1.0
+  # @version 0.1.0
+  def_delegator :parameters, :cast
 
   # @param name [String]
   # @param type [SmartCore::Types::Primitive]
@@ -30,4 +57,12 @@ class SmartCore::Initializer::Attribute
       name, type, privacy, finalizer, cast, dynamic_options
     )
   end
+
+  private
+
+  # @return [SmartCore::Initializer::Attribute::Parameters]
+  #
+  # @api private
+  # @since 0.1.0
+  attr_reader :parameters
 end

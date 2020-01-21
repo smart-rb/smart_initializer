@@ -31,6 +31,12 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   DEFAULT_FINALIZER = proc { |value| value }.freeze
 
+  # @return [Hash]
+  #
+  # @api private
+  # @since 0.1.0
+  DEFAULT_DYNAMIC_OPTIONS = {}.freeze
+
   # @return [String]
   #
   # @api private
