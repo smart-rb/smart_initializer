@@ -15,16 +15,17 @@ class SmartCore::Initializer::Attribute::Definer
 
   # @param name [String, Symbol]
   # @param type [String, Symbol, SmartCore::Types::Primitive]
-  # @param cast [Boolean]
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
+  # @param cast [Boolean]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_parameter(name, type, cast, privacy, finalize, dynamic_options)
+  def define_parameter(name, type, privacy, finalize, cast, dynamic_options)
     thread_safe do
+      attribute = build_attribute(name, type, privacy, finalize, cast, dynamic_options)
     end
   end
 
@@ -41,17 +42,17 @@ class SmartCore::Initializer::Attribute::Definer
 
   # @param name [String, Symbol]
   # @param type [String, Symbol, SmartCore::Types::Primitive]
-  # @param cast [Boolean]
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
+  # @param cast [Boolean]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_parameter(name, type, cast, privacy, finalize, dynamic_options)
+  def define_option(name, type, privacy, finalize, cast, dynamic_options)
     thread_safe do
-
+      attribute = build_attribute(name, type, privacy, finalize, cast, dynamic_options)
     end
   end
 
@@ -73,6 +74,22 @@ class SmartCore::Initializer::Attribute::Definer
   # @api private
   # @since 0.1.0
   attr_reader :klass
+
+  # @param name [String, Symbol]
+  # @param type [String, Symbol, SmartCore::Types::Primitive]
+  # @param privacy [String, Symbol]
+  # @param finalize [String, Symbol, Proc]
+  # @param cast [Boolean]
+  # @param dynamic_options [Hash<Symbol,Any>]
+  # @return [SmartCore::Initializer::Attribute]
+  #
+  # @api private
+  # @since 0.1.0
+  def build_attribute(name, type, privacy, finalize, cast, dynamic_options)
+    SmartCore::Initializer::Attribute::Factory.create(
+      name, type, privacy, finalize, cast, dynamic_options
+    )
+  end
 
   # @param block [Block]
   # @return [Any]

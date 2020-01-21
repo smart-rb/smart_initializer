@@ -60,12 +60,12 @@ module SmartCore::Initializer::DSL
     def param(
       name,
       type, # TODO: SmartCore::Types::Value::Any by default
-      cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
-      privacy: SmartCore::Initializer::Attribute::PRIVACY_MODES[:default],
-      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT_FINALIZER,
+      privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
+      finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
+      cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
       **dynamic_options
     )
-      __definer__.define_parameter(name, type, cast, privacy, finalize, dynamic_options)
+      __definer__.define_parameter(name, type, privacy, finalize, cast, dynamic_options)
     end
 
     # @param names [Array<String, Symbol>]
@@ -90,11 +90,12 @@ module SmartCore::Initializer::DSL
     def option(
       name,
       type, # TODO: SmartCore::Types::Value::Any by default
-      cast: SmartCore::Initializer::Attribute::DEFAULT_CAST_BEHAVIOUR,
-      privacy: SmartCore::Initializer::Attribute::DEFAULT_PRIVACY_MODE,
-      finalize: SmartCore::Initializer::Attribute::Finalizer::DEFAULT_FINALIZER,
+      privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
+      finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
+      cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
       **dynamic_options
     )
+      __definer__.define_option(name, type, privacy, finalize, cast, dynamic_options)
     end
 
     # @param names [Array<String, Symbol>]
