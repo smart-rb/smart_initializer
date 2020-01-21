@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email   = ['iamdaiver@gmail.com']
 
   spec.summary     = 'Initializer DSL'
-  spec.description = 'Initializer DSL'
+  spec.description = 'A simple and convenient way to declare complex constructors.'
   spec.homepage    = 'https://github.com/smart-rb/smart_initialier'
   spec.license     = 'MIT'
 
