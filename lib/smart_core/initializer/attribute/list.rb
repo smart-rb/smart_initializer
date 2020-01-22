@@ -45,6 +45,23 @@ class SmartCore::Initializer::Attribute::List
     end
   end
 
+  # @return [Integer]
+  #
+  # @api private
+  # @since 0.1.0
+  def size
+    thread_safe { attributes.size }
+  end
+
+  # @param block [Block]
+  # @return [Integer]
+  #
+  # @api private
+  # @since 0.1.0
+  def count(&block)
+    thread_safe { attributes.values.count(&block) }
+  end
+
   private
 
   # @return [Hash<String,SmartCore::Initializer::Attribute>]

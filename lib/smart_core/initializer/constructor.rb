@@ -21,6 +21,10 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   def construct
+    parameters, options = extract_arguments
+
+    binding.irb
+
     klass.allocate
   end
 
@@ -43,4 +47,28 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   attr_reader :block
+
+  # @return [Array<Array<Any>,Hash<Symbol,Any>>]
+  #
+  # @api private
+  # @since 0.1.0
+  def extract_arguments
+    <<~THINKING
+      если klass.__options__.size == 0 - значит все идет в parameters
+      если klass.__options__.size >= 1 И в arguments последний аттрибут - это хэш чисто с symbol'сами
+        - послединй элемент летит как кварги
+    THINKING
+
+    parameters = []
+    options = {}
+
+    if klass.__options__.size >= 1 && arguments.last.is_a?(Hash) && arguments.last.keys.all? { |key| key.is_a?(Symbol) }
+      parameters = arguments.size == 1 ? [] : arguments[0..-2]
+      options = arguments.last
+    else
+      parameters = arguments.dup
+    end
+
+    [parameters, options]
+  end
 end
