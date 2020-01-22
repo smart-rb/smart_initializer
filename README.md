@@ -38,8 +38,8 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 
 Limitations:
 
-- `param` has no :default directive (at all);
-- last hash argument (from `#new` invocation) will be treated as `kwarg`-attribute list;
+- `param` has no :default option (at all);
+- last hash argument (from `#new` invocation) will be treated as `kwarg` attribute list;
 
 ---
 
