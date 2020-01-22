@@ -9,6 +9,7 @@ module SmartCore::Initializer
   require_relative 'initializer/version'
   require_relative 'initializer/errors'
   require_relative 'initializer/attribute'
+  require_relative 'initializer/constructor'
   require_relative 'initializer/dsl'
 
   class << self

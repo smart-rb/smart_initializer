@@ -47,6 +47,16 @@ module SmartCore::Initializer::DSL
       @__definer__
     end
 
+    # @param arguments [Array]
+    # @param block [Block]
+    # @return [Any]
+    #
+    # @api public
+    # @since 0.1.0
+    def new(*arguments, &block)
+      SmartCore::Initializer::Constructor.new(self, arguments, block).construct
+    end
+
     # @param name [String, Symbol]
     # @param type [String, Symbol, SmartCore::Types::Primitive]
     # @option cast [Boolean]

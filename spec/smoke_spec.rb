@@ -10,6 +10,8 @@ RSpec.describe 'Smoke Test' do
       param :user_id, SmartCore::Types::Value::Integer, cast: true, default: 'test', privacy: :private
       option :password, SmartCore::Types::Value::Integer, cast: true, default: 'test', privacy: :private
     end
+
+    expect(User.new).to be_a(User)
   end
 
   specify 'param and option overlapping' do
