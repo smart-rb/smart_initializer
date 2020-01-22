@@ -12,37 +12,49 @@ class SmartCore::Initializer::Attribute
   # @since 0.1.0
   extend Forwardable
 
-  # @retirn [String]
+  # @return [Symbol]
   #
+  # @pai private
   # @since 0.1.0
-  # @version 0.1.0
   def_delegator :parameters, :name
 
-  # @retirn [SmartCore::Types::Primitive]
+  # @return [SmartCore::Types::Primitive]
   #
+  # @pai private
   # @since 0.1.0
-  # @version 0.1.0
   def_delegator :parameters, :type
 
-  # @retirn [Symbol]
+  # @return [Symbol]
   #
+  # @pai private
   # @since 0.1.0
-  # @version 0.1.0
   def_delegator :parameters, :privacy
 
-  # @retirn [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
+  # @return [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
   #
+  # @pai private
   # @since 0.1.0
-  # @version 0.1.0
   def_delegator :parameters, :finalizer
 
-  # @retirn [Boolean]
+  # @return [Boolean]
   #
+  # @pai private
   # @since 0.1.0
-  # @version 0.1.0
   def_delegator :parameters, :cast
 
-  # @param name [String]
+  # @return [Any]
+  #
+  # @api private
+  # @since 0.1.0
+  def_delegator :parameters, :default
+
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.1.0
+  def_delegator :parameters, :has_default?
+
+  # @param name [Symbol]
   # @param type [SmartCore::Types::Primitive]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]

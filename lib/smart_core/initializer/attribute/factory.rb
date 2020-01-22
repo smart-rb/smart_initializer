@@ -14,7 +14,7 @@ class SmartCore::Initializer::Attribute::Factory
     #
     # @api private
     # @since 0.1.0
-    def create(name, type,  privacy, finalize, cast, dynamic_options)
+    def create(name, type, privacy, finalize, cast, dynamic_options)
       name            = prepare_name_param(name)
       type            = prepare_type_param(type)
       privacy         = prepare_privacy_param(privacy)
@@ -28,7 +28,7 @@ class SmartCore::Initializer::Attribute::Factory
     private
 
     # @param name [String, Symbol]
-    # @return [String]
+    # @return [Symbol]
     #
     # @api private
     # @since 0.1.0
@@ -39,7 +39,7 @@ class SmartCore::Initializer::Attribute::Factory
         ERROR_MESSAGE
       end
 
-      name.to_s
+      name.to_sym
     end
 
     # @param type [String, Symbol, SmartCore::Types::Primitive]

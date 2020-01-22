@@ -14,6 +14,7 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
+        instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
       end
 
       base_klass.extend(ClassMethods)

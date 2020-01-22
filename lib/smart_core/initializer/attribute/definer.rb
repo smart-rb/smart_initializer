@@ -41,7 +41,7 @@ class SmartCore::Initializer::Attribute::Definer
       names.map do |name|
         build_attribute(
           name,
-          SmartCore::Types::Any,
+          SmartCore::Types::Value::Any,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
@@ -83,7 +83,7 @@ class SmartCore::Initializer::Attribute::Definer
       names.map do |name|
         build_attribute(
           name,
-          SmartCore::Types::Any,
+          SmartCore::Types::Value::Any,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,

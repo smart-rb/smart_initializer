@@ -11,6 +11,18 @@ module SmartCore::Initializer
 
   # @api public
   # @since 0.1.0
+  ParameterArgumentError = Class.new(ArgumentError)
+
+  # @api public
+  # @since 0.1.0
+  OptionArgumentError = Class.new(ArgumentError)
+
+  # @api public
+  # @since 0.1.0
+  NoDefaultValueError = Class.new(Error)
+
+  # @api public
+  # @since 0.1.0
   OptionOverlapError = Class.new(ArgumentError)
 
   # @api public
