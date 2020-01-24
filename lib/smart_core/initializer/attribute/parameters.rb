@@ -76,7 +76,6 @@ class SmartCore::Initializer::Attribute::Parameters
   # @param cast [Boolean]
   # @param dynamic_options [Hash<Symbol,Any>]
   #   - :default - default value (Proc value will be called)
-  #   - :memoize - (TODO)
   # @return [void]
   #
   # @api private
