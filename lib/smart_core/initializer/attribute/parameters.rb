@@ -67,6 +67,7 @@ class SmartCore::Initializer::Attribute::Parameters
   # @api private
   # @since 0.1.0
   attr_reader :cast
+  alias_method :cast?, :cast
 
   # @param name [Symbol]
   # @param type [SmartCore::Types::Primitive]

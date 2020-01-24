@@ -10,7 +10,7 @@ module SmartCore::Initializer::Attribute::Finalizer
   #
   # @api private
   # @since 0.1.0
-  DEFAULT_FINALIZER = proc { |value| value }.freeze
+  DEFAULT_FINALIZER = proc { |value, _instance| value }.freeze
 
   class << self
     # @param finalization_approach [String, Symbol, Proc]

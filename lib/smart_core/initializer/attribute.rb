@@ -40,7 +40,7 @@ class SmartCore::Initializer::Attribute
   #
   # @pai private
   # @since 0.1.0
-  def_delegator :parameters, :cast
+  def_delegators :parameters, :cast, :cast?
 
   # @return [Any]
   #

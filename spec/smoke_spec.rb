@@ -16,6 +16,15 @@ RSpec.describe 'Smoke Test' do
 
     user = User.new(1, { admin: true }, '0exp', password: 'kek', metadata: {}, datameta: {})
     expect(user).to be_a(User)
+
+    expect { user.user_id }.to raise_error(NoMethodError)
+    expect(user.send(:user_id)).to eq(1)
+    expect(user.creds).to eq(admin: true)
+    expect(user.nickname).to eq('0exp')
+    expect { user.password }.to raise_error(NoMethodError)
+    expect(user.send(:password)).to eq(0)
+    expect(user.metadata).to eq({})
+    expect(user.datameta).to eq({})
   end
 
   specify 'param and option overlapping' do
