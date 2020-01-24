@@ -13,7 +13,7 @@ class SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock
   end
 
   # @param value [Any]
-  # @param isntance [Any]
+  # @param instance [Any]
   # @return [value]
   #
   # @pai private
