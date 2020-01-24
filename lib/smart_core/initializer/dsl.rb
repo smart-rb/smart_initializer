@@ -16,10 +16,29 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
       end
-
       base_klass.extend(ClassMethods)
+      base_klass.singleton_class.prepend(ClassInheritance)
+    end
+  end
 
-      # TODO: support for inheritance
+  # @api private
+  # @since 0.1.0
+  module ClassInheritance
+    # @param child_klass [Class]
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def inherited(child_klass)
+      child_klass.instance_eval do
+        instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
+        instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
+        instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
+        instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
+      end
+      child_klass.extend(ClassMethods)
+      SmartCore::Initializer::DSL::Inheritance.inerhit(base: self, child: child_klass)
+      super
     end
   end
 
