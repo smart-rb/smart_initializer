@@ -18,6 +18,8 @@ module SmartCore::Initializer::DSL
       end
 
       base_klass.extend(ClassMethods)
+
+      # TODO: support for inheritance
     end
   end
 
