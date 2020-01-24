@@ -6,12 +6,6 @@ module SmartCore::Initializer::Attribute::Finalizer
   require_relative 'finalizer/instance_method'
   require_relative 'finalizer/anonymous_block'
 
-  # @return [Proc]
-  #
-  # @api private
-  # @since 0.1.0
-  DEFAULT_FINALIZER = proc { |value, _instance| value }.freeze
-
   class << self
     # @param finalization_approach [String, Symbol, Proc]
     # @return [SmartCore::Initializer::Attribute::Finalizer::InstanceMethod]
