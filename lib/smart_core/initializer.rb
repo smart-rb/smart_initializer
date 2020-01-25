@@ -21,5 +21,7 @@ module SmartCore::Initializer
     def included(base_klass)
       base_klass.include(SmartCore::Initializer::DSL)
     end
+
+    # TODO: think about type aliases
   end
 end
