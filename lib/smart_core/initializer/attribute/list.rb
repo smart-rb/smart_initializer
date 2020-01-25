@@ -25,6 +25,17 @@ class SmartCore::Initializer::Attribute::List
   end
   alias_method :<<, :add
 
+  # @param list [SmartCore::Initializer::Attribute::List]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def concat(list)
+    thread_safe do
+      list.each { |attribute| add(attribute.dup) }
+    end
+  end
+
   # @param attribute [SmartCore::Initializer::Attribute]
   # @return [void]
   #

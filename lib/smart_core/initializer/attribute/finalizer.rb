@@ -3,6 +3,7 @@
 # @api private
 # @since 0.1.0
 module SmartCore::Initializer::Attribute::Finalizer
+  require_relative 'finalizer/abstract'
   require_relative 'finalizer/instance_method'
   require_relative 'finalizer/anonymous_block'
 

@@ -3,6 +3,8 @@
 # @api private
 # @since 0.1.0
 module SmartCore::Initializer::DSL
+  require_relative 'dsl/inheritance'
+
   class << self
     # @param base_klass [Class]
     # @return [void]
@@ -37,7 +39,7 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
       end
       child_klass.extend(ClassMethods)
-      SmartCore::Initializer::DSL::Inheritance.inerhit(base: self, child: child_klass)
+      SmartCore::Initializer::DSL::Inheritance.inherit(base: self, child: child_klass)
       super
     end
   end

@@ -69,6 +69,12 @@ class SmartCore::Initializer::Attribute::Parameters
   attr_reader :cast
   alias_method :cast?, :cast
 
+  # @return [Hash<Symbol,Any>]
+  #
+  # @api private
+  # @since 0.1.0
+  attr_reader :dynamic_options
+
   # @param name [Symbol]
   # @param type [SmartCore::Types::Primitive]
   # @param privacy [Symbol]
@@ -112,12 +118,4 @@ class SmartCore::Initializer::Attribute::Parameters
 
     defalut_value.is_a?(Proc) ? default_value.call : default_value
   end
-
-  private
-
-  # @return [Hash<Symbol,Any>]
-  #
-  # @api private
-  # @since 0.1.0
-  attr_reader :dynamic_options
 end

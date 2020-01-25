@@ -70,6 +70,21 @@ class SmartCore::Initializer::Attribute
     )
   end
 
+  # @return [SmartCore::Initializer::Attribute]
+  #
+  # @api private
+  # @since 0.1.0
+  def dup
+    self.class.new(
+      parameters.name.dup,
+      parameters.type,
+      parameters.privacy,
+      parameters.finalizer.dup,
+      parameters.cast,
+      parameters.dynamic_options.dup
+    )
+  end
+
   private
 
   # @return [SmartCore::Initializer::Attribute::Parameters]

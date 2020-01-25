@@ -11,7 +11,8 @@ module SmartCore::Initializer::DSL::Inheritance
     # @api private
     # @since 0.1.0
     def inherit(base:, child:)
-      # TODO: realize
+      child.__params__.concat(base.__params__)
+      child.__options__.concat(base.__options__)
     end
   end
 end

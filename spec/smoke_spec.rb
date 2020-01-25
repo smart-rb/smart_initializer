@@ -29,6 +29,23 @@ RSpec.describe 'Smoke Test' do
     expect(user.keka).to eq('123')
   end
 
+  specify 'inheritance' do
+    class Base
+      include SmartCore::Initializer
+
+      param :a
+      option :b
+
+      params :c, :d, :e
+      options :f, :g
+    end
+
+    class Concnrete < Base
+    end
+
+    # TODO: better specs
+  end
+
   specify 'param and option overlapping' do
     expect do
       Class.new do
