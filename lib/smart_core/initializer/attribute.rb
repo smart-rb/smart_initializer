@@ -10,7 +10,7 @@ class SmartCore::Initializer::Attribute
   require_relative 'attribute/factory'
 
   # @since 0.1.0
-  extend Forwardable
+  extend ::Forwardable
 
   # @return [Symbol]
   #

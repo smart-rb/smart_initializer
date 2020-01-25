@@ -2,6 +2,7 @@
 
 require 'smart_core'
 require 'smart_core/types'
+require 'forwardable'
 
 # @api public
 # @since 0.1.0
@@ -27,32 +28,18 @@ module SmartCore::Initializer
     end
   end
 
-  # @since 0.1.0
-  type_alias(:nil, SmartCore::Types::Value::Nil)
-  # @since 0.1.0
-  type_alias(:string, SmartCore::Types::Value::String)
-  # @since 0.1.0
-  type_alias(:symbol, SmartCore::Types::Value::Symbol)
-  # @since 0.1.0
-  type_alias(:text, SmartCore::Types::Value::Text)
-  # @since 0.1.0
+  type_alias(:nil,     SmartCore::Types::Value::Nil)
+  type_alias(:string,  SmartCore::Types::Value::String)
+  type_alias(:symbol,  SmartCore::Types::Value::Symbol)
+  type_alias(:text,    SmartCore::Types::Value::Text)
   type_alias(:integer, SmartCore::Types::Value::Integer)
-  # @since 0.1.0
-  type_alias(:float, SmartCore::Types::Value::Float)
-  # @since 0.1.0
+  type_alias(:float,   SmartCore::Types::Value::Float)
   type_alias(:numeric, SmartCore::Types::Value::Numeric)
-  # @since 0.1.0
   type_alias(:boolean, SmartCore::Types::Value::Boolean)
-  # @since 0.1.0
-  type_alias(:array, SmartCore::Types::Value::Array)
-  # @since 0.1.0
-  type_alias(:hash, SmartCore::Types::Value::Hash)
-  # @since 0.1.0
-  type_alias(:proc, SmartCore::Types::Value::Proc)
-  # @since 0.1.0
-  type_alias(:class, SmartCore::Types::Value::Class)
-  # @since 0.1.0
-  type_alias(:module, SmartCore::Types::Value::Module)
-  # @since 0.1.0
-  type_alias(:any, SmartCore::Types::Value::Any)
+  type_alias(:array,   SmartCore::Types::Value::Array)
+  type_alias(:hash,    SmartCore::Types::Value::Hash)
+  type_alias(:proc,    SmartCore::Types::Value::Proc)
+  type_alias(:class,   SmartCore::Types::Value::Class)
+  type_alias(:module,  SmartCore::Types::Value::Module)
+  type_alias(:any,     SmartCore::Types::Value::Any)
 end

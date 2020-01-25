@@ -9,6 +9,7 @@ class SmartCore::Initializer::TypeAliasing::AliasList
   # @since 0.1.0
   def initialize
     @list = {}
+    @lock = SmartCore::Engine::Lock.new
   end
 
   # @param alias_name [String, Symbol]
@@ -28,7 +29,7 @@ class SmartCore::Initializer::TypeAliasing::AliasList
       'Type object should be a type of SmartCore::Types::Primitive'
     ) unless type.is_a?(SmartCore::Types::Primitive)
 
-    set_alias(alias_name, type)
+    thread_safe { set_alias(alias_name, type) }
   end
 
   # @param alias_name [String, Symbol]
@@ -42,7 +43,7 @@ class SmartCore::Initializer::TypeAliasing::AliasList
       'Type alias should be a type of string or symbol'
     ) unless alias_name.is_a?(String) || alias_name.is_a?(Symbol)
 
-    get_alias(alias_name)
+    thread_safe { get_alias(alias_name) }
   end
 
   private
@@ -53,6 +54,15 @@ class SmartCore::Initializer::TypeAliasing::AliasList
   # @since 0.1.0
   attr_reader :list
 
+  # @param block [Block]
+  # @return [Any]
+  #
+  # @api private
+  # @since 0.1.0
+  def thread_safe(&block)
+    @lock.synchronize(&block)
+  end
+
   # @param alias_name [String, Symbol]
   # @param type [SmartCore::Types::Primitive]
   # @return [void]
@@ -60,6 +70,11 @@ class SmartCore::Initializer::TypeAliasing::AliasList
   # @api private
   # @since 0.1.0
   def set_alias(alias_name, type)
+    alias_name = normalized_alias(alias_name)
+    ::Warning.warn(
+      "[SmartCore::Initializer] Type alias with name \"#{alias_name}\"" \
+      ' is already exists and shadowed by new type.'
+    ) if list.key?(alias_name)
     list[normalized_alias(alias_name)] = type
   end
 

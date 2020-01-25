@@ -32,6 +32,10 @@ RSpec.describe 'Smoke Test' do
     expect(user.keka).to eq('123')
   end
 
+  specify 'WARNS' do
+    SmartCore::Initializer.type_alias(:string, SmartCore::Types::Value::String)
+  end
+
   specify 'inheritance' do
     class NanoBase
       include SmartCore::Initializer
