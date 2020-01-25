@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.1.0)
+    smart_initializer (0.1.0.alpha1)
       smart_engine (~> 0.5)
       smart_types (~> 0.1.0.alpha4)
 
