@@ -36,10 +36,23 @@ end
 User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 ```
 
-Limitations:
+**Limitations**:
 
 - `param` has no :default option (at all);
 - last hash argument will be treated as `kwarg`s;
+
+**Type aliasing**:
+
+```ruby
+SmartCore::Initializer.type_alias(:hash, SmartCore::Types::Value::Hash)
+
+class User
+  include SmartCore::Initializer
+
+  param :data, :hash
+  option :metadata, :hash
+end
+```
 
 ---
 
