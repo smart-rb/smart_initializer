@@ -11,7 +11,7 @@ module SmartCore::Initializer::DSL
     #
     # @api private
     # @since 0.1.0
-    def included(base_klass)
+    def extended(base_klass)
       base_klass.instance_eval do
         instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)

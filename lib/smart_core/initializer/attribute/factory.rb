@@ -54,7 +54,11 @@ class SmartCore::Initializer::Attribute::Factory
         ERROR_MESSAGE
       end
 
-      type
+      if type.is_a?(String) || type.is_a?(Symbol)
+        SmartCore::Initializer.type_from_alias(type)
+      else
+        type
+      end
     end
 
     # @param cast [Boolean]

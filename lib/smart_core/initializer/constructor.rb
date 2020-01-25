@@ -104,7 +104,11 @@ class SmartCore::Initializer::Constructor
 
     parameter_definitions.each_pair do |attribute, parameter_value|
       parameter_value = attribute.type.cast(parameter_value) if attribute.cast?
+
+      # TODO: fail with SmartCore::Initializer::ArgumentError
+      #   (isntead of SmartCore::Types::TypeError)
       attribute.type.validate!(parameter_value)
+
       final_value = attribute.finalizer.call(parameter_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
@@ -119,7 +123,11 @@ class SmartCore::Initializer::Constructor
     klass.__options__.each do |attribute|
       option_value = passed_options.fetch(attribute.name) { attribute.default }
       option_value = attribute.type.cast(option_value) if attribute.cast?
+
+      # TODO: fail with SmartCore::Initializer::ArgumentError
+      #   (isntead of SmartCore::Types::TypeError)
       attribute.type.validate!(option_value)
+
       final_value = attribute.finalizer.call(option_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end

@@ -15,7 +15,10 @@ RSpec.describe 'Smoke Test' do
       options :metadata, :datameta
     end
 
-    user = User.new(1, { admin: true }, '0exp', password: 'kek', metadata: {}, datameta: {}, keka: 123)
+    user = User.new(
+      1, { admin: true }, '0exp', password: 'kek', metadata: {}, datameta: {}, keka: 123
+    )
+
     expect(user).to be_a(User)
 
     expect { user.user_id }.to raise_error(NoMethodError)
@@ -30,7 +33,7 @@ RSpec.describe 'Smoke Test' do
   end
 
   specify 'inheritance' do
-    class Base
+    class NanoBase
       include SmartCore::Initializer
 
       param :a
@@ -40,10 +43,29 @@ RSpec.describe 'Smoke Test' do
       options :f, :g
     end
 
-    class Concnrete < Base
+    Concrete = Class.new(NanoBase)
+    concrete = Concrete.new(1, 2, 3, 4, b: 6, f: 7, g: 8)
+
+    expect(concrete.a).to eq(1)
+    expect(concrete.b).to eq(6)
+    expect(concrete.c).to eq(2)
+    expect(concrete.d).to eq(3)
+    expect(concrete.e).to eq(4)
+    expect(concrete.f).to eq(7)
+    expect(concrete.g).to eq(8)
+  end
+
+  specify 'type aliases' do
+    class Animal
+      include SmartCore::Initializer
+
+      param :name, :string
+      option :age, :integer
     end
 
-    # TODO: better specs
+    expect { Animal.new(123, age: 123) }.to raise_error(SmartCore::Types::TypeError)
+    expect { Animal.new('test', age: 'test') }.to raise_error(SmartCore::Types::TypeError)
+    expect { Animal.new('test', age: 123) }.not_to raise_error
   end
 
   specify 'param and option overlapping' do
