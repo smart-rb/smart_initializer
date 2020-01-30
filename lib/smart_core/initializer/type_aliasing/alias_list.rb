@@ -72,7 +72,7 @@ class SmartCore::Initializer::TypeAliasing::AliasList
   def set_alias(alias_name, type)
     alias_name = normalized_alias(alias_name)
     ::Warning.warn( # TODO: SmartCore::Engine::Instrumenting
-      "[SmartCore::Initializer] Shadowing of already existing type alias \"#{alias_name}\""
+      "[SmartCore::Initializer] Shadowing of already existing \"#{alias_name}\" type alias."
     ) if list.key?(alias_name)
     list[normalized_alias(alias_name)] = type
   end
