@@ -13,11 +13,20 @@ RSpec.describe 'Smoke Test' do
 
       params :creds, :nickname
       options :metadata, :datameta
+
+      def initialize(*attrs, &block)
+        @attrs = attrs
+        @block = block
+      end
+
+      attr_reader :attrs
+      attr_reader :block
     end
 
+    random_block_result = rand(1...1000)
     user = User.new(
       1, { admin: true }, '0exp', password: 'kek', metadata: {}, datameta: {}, keka: 123
-    )
+    ) { random_block_result }
 
     expect(user).to be_a(User)
 
@@ -30,6 +39,13 @@ RSpec.describe 'Smoke Test' do
     expect(user.metadata).to eq({})
     expect(user.datameta).to eq({})
     expect(user.keka).to eq('123')
+
+    expect(user.attrs).to eq(
+      [1, {:admin=>true}, "0exp", {:password=>"kek", :metadata=>{}, :datameta=>{}, :keka=>123}]
+    )
+
+    expect(user.block).to be_a(Proc)
+    expect(user.block.call).to eq(random_block_result)
   end
 
   specify 'type alias shadowing warn' do
