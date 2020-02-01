@@ -13,6 +13,15 @@ class SmartCore::Initializer::Attribute::Definer
     @lock = SmartCore::Engine::Lock.new
   end
 
+  # @param block [Proc]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def add_init_extention(block)
+
+  end
+
   # @param name [String, Symbol]
   # @param type [String, Symbol, SmartCore::Types::Primitive]
   # @param privacy [String, Symbol]

@@ -63,6 +63,10 @@ module SmartCore::Initializer::DSL
       @__options__
     end
 
+    # @return [?? SmartCore::Initializer::Extentions::Init::List ??]
+    def __init_extentions__
+    end
+
     # @return [SmartCore::Initializer::Attribute::Definer]
     #
     # @api private
@@ -146,7 +150,8 @@ module SmartCore::Initializer::DSL
     #
     # @api public
     # @since 0.1.0
-    def init_ext(&block)
+    def ext_init(&block)
+      __definer__.add_init_extention(block)
     end
   end
 end
