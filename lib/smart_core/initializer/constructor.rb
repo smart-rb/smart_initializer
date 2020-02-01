@@ -13,8 +13,8 @@ class SmartCore::Initializer::Constructor
   def initialize(klass, arguments, block)
     @klass = klass
     @arguments = arguments
-    @passed_parameters, @passed_options = extract_attributes(arguments)
-    @passed_block = block
+    @parameters, @options = extract_attributes(arguments)
+    @block = block
   end
 
   # @return [Any]
@@ -26,6 +26,7 @@ class SmartCore::Initializer::Constructor
       prevent_attribute_insufficiency
       initialize_parameters(instance)
       initialize_options(instance)
+      process_original_initializer(instance)
     end
   end
 
@@ -47,19 +48,19 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  attr_reader :passed_parameters
+  attr_reader :parameters
 
   # @return [Hash<Symbol,Any>]
   #
   # @api private
   # @since 0.1.0
-  attr_reader :passed_options
+  attr_reader :options
 
   # @return [Proc, NilClass]
   #
   # @api private
   # @since 0.1.0
-  attr_reader :passed_block
+  attr_reader :block
 
   # @return [void]
   #
@@ -75,10 +76,10 @@ class SmartCore::Initializer::Constructor
     raise(
       SmartCore::Initializer::ParameterArgumentError,
       "Wrong number of parameters " \
-      "(given #{passed_parameters.size}, expected #{required_parameter_count})"
-    ) unless passed_parameters.size == required_parameter_count
+      "(given #{parameters.size}, expected #{required_parameter_count})"
+    ) unless parameters.size == required_parameter_count
 
-    missing_options = required_options.reject { |option| passed_options.key?(option) }
+    missing_options = required_options.reject { |option| options.key?(option) }
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
@@ -100,7 +101,7 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   def initialize_parameters(instance)
-    parameter_definitions = Hash[klass.__params__.zip(passed_parameters)]
+    parameter_definitions = Hash[klass.__params__.zip(parameters)]
 
     parameter_definitions.each_pair do |attribute, parameter_value|
       parameter_value = attribute.type.cast(parameter_value) if attribute.cast?
@@ -121,7 +122,7 @@ class SmartCore::Initializer::Constructor
   # @since 0.1.0
   def initialize_options(instance)
     klass.__options__.each do |attribute|
-      option_value = passed_options.fetch(attribute.name) { attribute.default }
+      option_value = options.fetch(attribute.name) { attribute.default }
       option_value = attribute.type.cast(option_value) if attribute.cast?
 
       # TODO: fail with SmartCore::Initializer::ArgumentError
@@ -133,26 +134,35 @@ class SmartCore::Initializer::Constructor
     end
   end
 
+  # @param instance [Any]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def process_original_initializer(instance)
+    instance.send(:initialize, *arguments, &block)
+  end
+
   # @param arguments [Array<Any>]
   # @return [Array<Array<Any>,Hash<Symbol,Any>>]
   #
   # @api private
   # @since 0.1.0
   def extract_attributes(arguments)
-    parameters = []
-    options = {}
+    extracted_parameters = []
+    extracted_options = {}
 
     if (
       klass.__options__.size >= 1 &&
       arguments.last.is_a?(Hash) &&
       arguments.last.keys.all? { |key| key.is_a?(Symbol) }
     )
-      parameters = arguments[0..-2]
-      options = arguments.last
+      extracted_parameters = arguments[0..-2]
+      extracted_options = arguments.last
     else
-      parameters = arguments
+      extracted_parameters = arguments
     end
 
-    [parameters, options]
+    [extracted_parameters, extracted_options]
   end
 end

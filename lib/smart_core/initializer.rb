@@ -28,6 +28,12 @@ module SmartCore::Initializer
     end
   end
 
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def initialize(*); end
+
   type_alias(:nil,     SmartCore::Types::Value::Nil)
   type_alias(:string,  SmartCore::Types::Value::String)
   type_alias(:symbol,  SmartCore::Types::Value::Symbol)
