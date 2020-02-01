@@ -78,6 +78,8 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 
 ## Type aliasing
 
+- Usage:
+
 ```ruby
 # define your own type alias
 SmartCore::Initializer.type_alias(:hash, SmartCore::Types::Value::Hash)
@@ -88,6 +90,44 @@ class User
   param :data, :hash # use your new defined type alias
   option :metadata, :hash # use your new defined type alias
 end
+```
+
+- Predefined aliases:
+  - `:nil` => `SmartCore::Types::Value::Nil`
+  - `:string` => `SmartCore::Types::Value::String`
+  - `:symbol` => `SmartCore::Types::Value::Symbol`
+  - `:text` => `SmartCore::Types::Value::Text`
+  - `:integer` => `SmartCore::Types::Value::Integer`
+  - `:float` => `SmartCore::Types::Value::Float`
+  - `:numeric` => `SmartCore::Types::Value::Numeric`
+  - `:boolean` => `SmartCore::Types::Value::Boolean`
+  - `:array` => `SmartCore::Types::Value::Array`
+  - `:hash` => `SmartCore::Types::Value::Hash`
+  - `:proc` => `SmartCore::Types::Value::Proc`
+  - `:class` => `SmartCore::Types::Value::Class`
+  - `:module` => `SmartCore::Types::Value::Module`
+  - `:any` => `SmartCore::Types::Value::Any`
+
+---
+
+## Initialization flow extension
+
+```ruby
+class User
+  include SmartCore::Initializer
+
+  option :name, :name
+  option :age, :integer
+
+  ext_init { |value| value.define_singleton_method(:extra) { :ext1 } }
+  ext_init { |value| value.define_singleton_method(:extra2) { :ext2 } }
+end
+
+user = User.new(name: 'keka', age: 123)
+user.name # => 'keka'
+user.age # => 123
+user.extra # => :ext1
+user.extra2 # => :ext2
 ```
 
 ---

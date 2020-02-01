@@ -140,5 +140,13 @@ module SmartCore::Initializer::DSL
     def options(*names)
       __definer__.define_options(*names)
     end
+
+    # @param block [Block]
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def init_ext(&block)
+    end
   end
 end
