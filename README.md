@@ -28,11 +28,13 @@ require 'smart_core/types'
   - `cast` - type-cast received value if value has invalid type;
   - `privacy` - reader incapsulation level;
   - `finalize` - value post-processing (receives method name or proc);
+  - (limitation) param has no `:default` option;
 - `option` - defined kwarg-like attribute:
   - `cast` - type-cast received value if value has invalid type;
   - `privacy` - reader incapsulation level;
   - `finalize` - value post-processing (receives method name or proc);
   - `default` - defalut value (if an attribute is not provided);
+- last `Hash` argument will be treated as `kwarg`s;
 
 `param` signautre:
 
@@ -55,10 +57,8 @@ option <attribute_name>,
        default: 123 # no default value by default
 ```
 
-**Limitations**:
+Example:
 
-- `param` has no :default option (at all);
-- last `Hash` argument will be treated as `kwarg`s;
 
 ```ruby
 class User
