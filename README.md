@@ -20,7 +20,45 @@ require 'smart_core/types'
 
 ---
 
-## Synopsis (DEMO)
+## Synopsis
+
+**Constructor definition**:
+
+- `param` - defines name-like attribute:
+  - `cast` - type-cast received value if value has invalid type;
+  - `privacy` - reader incapsulation level;
+  - `finalize` - value post-processing (receives method name or proc);
+- `option` - defined kwarg-like attribute:
+  - `cast` - type-cast received value if value has invalid type;
+  - `privacy` - reader incapsulation level;
+  - `finalize` - value post-processing (receives method name or proc);
+  - `default` - defalut value (if an attribute is not provided);
+
+`param` signautre:
+
+```ruby
+param <attribute_name>,
+      <type=SmartCore::Types::Value::Any>, # Any by default
+      cast: false, # false by default
+      privacy: :public, # :public by default
+      finalize: proc { |value| value } # no finalization by default
+```
+
+`option` signature:
+
+```ruby
+option <attribute_name>,
+       <type=SmartCore::Types::Value::Any>, # Any by default
+       cast: false, # false by default
+       privacy: :public, # :public by default
+       finalize: proc { |value| value }, # no finalization by default
+       default: 123 # no default value by default
+```
+
+**Limitations**:
+
+- `param` has no :default option (at all);
+- last `Hash` argument will be treated as `kwarg`s;
 
 ```ruby
 class User
@@ -36,21 +74,19 @@ end
 User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 ```
 
-**Limitations**:
+---
 
-- `param` has no :default option (at all);
-- last hash argument will be treated as `kwarg`s;
-
-**Type aliasing**:
+## Type aliasing
 
 ```ruby
+# define your own type alias
 SmartCore::Initializer.type_alias(:hash, SmartCore::Types::Value::Hash)
 
 class User
   include SmartCore::Initializer
 
-  param :data, :hash
-  option :metadata, :hash
+  param :data, :hash # use your new defined type alias
+  option :metadata, :hash # use your new defined type alias
 end
 ```
 
