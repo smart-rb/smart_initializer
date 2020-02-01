@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Smoke Test' do
-  specify do
+  specify 'full definition' do
     class User
       include SmartCore::Initializer
       # include SmartCore::Types::System(:T)
@@ -32,8 +32,18 @@ RSpec.describe 'Smoke Test' do
     expect(user.keka).to eq('123')
   end
 
-  specify 'WARNS' do
-    SmartCore::Initializer.type_alias(:string, SmartCore::Types::Value::String)
+  specify 'type alias shadowing warn' do
+    expect do
+      SmartCore::Initializer.type_alias(:string, SmartCore::Types::Value::String)
+    end.to output(
+      '[SmartCore::Initializer] Shadowing of already existing "string" type alias.'
+    ).to_stderr
+
+    expect do
+      SmartCore::Initializer.type_alias(:integer, SmartCore::Types::Value::Integer)
+    end.to output(
+      '[SmartCore::Initializer] Shadowing of already existing "integer" type alias.'
+    ).to_stderr
   end
 
   specify 'inheritance' do
