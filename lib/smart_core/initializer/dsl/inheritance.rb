@@ -13,6 +13,7 @@ module SmartCore::Initializer::DSL::Inheritance
     def inherit(base:, child:)
       child.__params__.concat(base.__params__)
       child.__options__.concat(base.__options__)
+      child.__init_extensions__.concat(base.__init_extensions__)
     end
   end
 end

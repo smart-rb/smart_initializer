@@ -6,7 +6,6 @@ class SmartCore::Initializer::Attribute
   require_relative 'attribute/parameters'
   require_relative 'attribute/list'
   require_relative 'attribute/finalizer'
-  require_relative 'attribute/definer'
   require_relative 'attribute/factory'
 
   # @since 0.1.0

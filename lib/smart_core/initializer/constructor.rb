@@ -3,6 +3,8 @@
 # @api private
 # @since 0.1.0
 class SmartCore::Initializer::Constructor
+  require_relative 'constructor/definer'
+
   # @param klass [Class<SmartCore::Initializer>]
   # @param arguments [Array<Any>]
   # @param block [Proc, NilClass]
@@ -27,6 +29,7 @@ class SmartCore::Initializer::Constructor
       initialize_parameters(instance)
       initialize_options(instance)
       process_original_initializer(instance)
+      process_init_extensions(instance)
     end
   end
 
@@ -141,6 +144,17 @@ class SmartCore::Initializer::Constructor
   # @since 0.1.0
   def process_original_initializer(instance)
     instance.send(:initialize, *arguments, &block)
+  end
+
+  # @param instance [Any]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def process_init_extensions(instance)
+    klass.__init_extensions__.each do |extension|
+      extension.call(instance)
+    end
   end
 
   # @param arguments [Array<Any>]

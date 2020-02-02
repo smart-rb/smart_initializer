@@ -8,7 +8,7 @@ RSpec.describe 'Smoke Test' do
       # param :test, T::Value::Integer
 
       param :user_id, SmartCore::Types::Value::Integer, cast: true, default: 'test', privacy: :private
-      option :password, SmartCore::Types::Value::Integer, cast: true, default: 'test', privacy: :private
+      option :password, :integer, cast: true, default: 'test', privacy: :private
       option :keka, finalize: (-> (value) { value.to_s })
 
       params :creds, :nickname
@@ -41,7 +41,8 @@ RSpec.describe 'Smoke Test' do
     expect(user.keka).to eq('123')
 
     expect(user.attrs).to eq(
-      [1, {:admin=>true}, "0exp", {:password=>"kek", :metadata=>{}, :datameta=>{}, :keka=>123}]
+      [1, { admin: true }, '0exp',
+       { password: 'kek', metadata: {}, datameta: {}, keka: 123 }]
     )
 
     expect(user.block).to be_a(Proc)
@@ -116,5 +117,18 @@ RSpec.describe 'Smoke Test' do
         param :user_id
       end
     end.to raise_error(SmartCore::Initializer::OptionOverlapError)
+  end
+
+  specify 'initializer behavior extension' do
+    instance = Class.new { include SmartCore::Initializer }
+    expect(instance).not_to respond_to(:kek)
+
+    instance = Class.new do
+      include SmartCore::Initializer
+      ext_init { |object| object.define_singleton_method(:kek) { 'pek' } }
+    end.new
+
+    expect(instance).to respond_to(:kek)
+    expect(instance.kek).to eq('pek')
   end
 end

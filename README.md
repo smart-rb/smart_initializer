@@ -20,7 +20,21 @@ require 'smart_core/types'
 
 ---
 
+## Table of contents
+
+- [Synopsis](#synopsis)
+- [Type Aliasing](#type-aliasing)
+- [Initialization extension](#initialization-extension)
+
+---
+
 ## Synopsis
+
+**Initialization flow**:
+
+1. Parameter + Option definitioning;
+2. Original #initialize invokation;
+3. Initialization extensions invokation;
 
 **Constructor definition**:
 
@@ -110,7 +124,11 @@ end
 
 ---
 
-## Initialization flow extension
+## Initialization extension
+
+- `ext_init(&block)`:
+  - you can define as many extensions as you want;
+  - extensions are invoked in the order they are defined;
 
 ```ruby
 class User
@@ -119,8 +137,8 @@ class User
   option :name, :name
   option :age, :integer
 
-  ext_init { |value| value.define_singleton_method(:extra) { :ext1 } }
-  ext_init { |value| value.define_singleton_method(:extra2) { :ext2 } }
+  ext_init { |instance| instance.define_singleton_method(:extra) { :ext1 } }
+  ext_init { |instance| instance.define_singleton_method(:extra2) { :ext2 } }
 end
 
 user = User.new(name: 'keka', age: 123)

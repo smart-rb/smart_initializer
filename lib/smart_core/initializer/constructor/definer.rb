@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-class SmartCore::Initializer::Attribute::Definer
+class SmartCore::Initializer::Constructor::Definer
   # @param klass [Class]
   # @return [void]
   #
@@ -18,8 +18,10 @@ class SmartCore::Initializer::Attribute::Definer
   #
   # @api private
   # @since 0.1.0
-  def add_init_extention(block)
-
+  def define_init_extension(block)
+    thread_safe do
+      add_init_extension(build_init_extension(block))
+    end
   end
 
   # @param name [String, Symbol]
@@ -130,6 +132,15 @@ class SmartCore::Initializer::Attribute::Definer
     )
   end
 
+  # @param block [Proc]
+  # @return [SmartCore::Initializer::Extensions::ExtInit]
+  #
+  # @api private
+  # @since 0.1.0
+  def build_init_extension(block)
+    SmartCore::Initializer::Extensions::ExtInit.new(block)
+  end
+
   # @param parameter [SmartCore::Initializer::Attribute]
   # @return [void]
   #
@@ -150,6 +161,15 @@ class SmartCore::Initializer::Attribute::Definer
     klass.__options__ << option
     klass.send(:attr_reader, option.name)
     klass.send(option.privacy, option.name)
+  end
+
+  # @param extension [SmartCore::Initializer::Extensions::ExtInit]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def add_init_extension(extension)
+    klass.__init_extensions__ << extension
   end
 
   # @param parameter [SmartCore::Initializer::Attribute]

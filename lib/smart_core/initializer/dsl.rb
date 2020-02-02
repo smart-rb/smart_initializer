@@ -13,9 +13,10 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     def extended(base_klass)
       base_klass.instance_eval do
-        instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
+        instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
-        instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
+        instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
+        instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
       end
       base_klass.extend(ClassMethods)
@@ -33,9 +34,10 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     def inherited(child_klass)
       child_klass.instance_eval do
-        instance_variable_set(:@__params__,  SmartCore::Initializer::Attribute::List.new)
+        instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
-        instance_variable_set(:@__definer__, SmartCore::Initializer::Attribute::Definer.new(self))
+        instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
+        instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
       end
       child_klass.extend(ClassMethods)
@@ -63,8 +65,12 @@ module SmartCore::Initializer::DSL
       @__options__
     end
 
-    # @return [?? SmartCore::Initializer::Extentions::Init::List ??]
-    def __init_extentions__
+    # @return [SmartCore::Initializer::Extentions::List]
+    #
+    # @api private
+    # @since 0.1.0
+    def __init_extensions__
+      @__init_extensions__
     end
 
     # @return [SmartCore::Initializer::Attribute::Definer]
@@ -151,7 +157,7 @@ module SmartCore::Initializer::DSL
     # @api public
     # @since 0.1.0
     def ext_init(&block)
-      __definer__.add_init_extention(block)
+      __definer__.define_init_extension(block)
     end
   end
 end
