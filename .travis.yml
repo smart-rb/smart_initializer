@@ -2,7 +2,8 @@
 language: ruby
 cache: bundler
 os: linux
-before_install: gem install bundler -v 2.1.2
+dist: xenial
+before_install: gem install bundler
 script:
 - bundle exec rake rubocop
 - bundle exec rake rspec
