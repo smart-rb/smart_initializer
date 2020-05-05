@@ -32,4 +32,16 @@ module SmartCore::Initializer
   # @api public
   # @since 0.1.0
   NoTypeAliasError = Class.new(Error)
+
+  # @api public
+  # @since 0.1.0
+  PluginError = Class.new(Error)
+
+  # @api public
+  # @since 0.1.0
+  AlreadyRegisteredPluginError = Class.new(PluginError)
+
+  # @api public
+  # @since 0.1.0
+  UnregisteredPluginError = Class.new(PluginError)
 end

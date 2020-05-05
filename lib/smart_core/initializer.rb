@@ -14,6 +14,11 @@ module SmartCore::Initializer
   require_relative 'initializer/constructor'
   require_relative 'initializer/dsl'
   require_relative 'initializer/type_aliasing'
+  require_relative 'initializer/plugins'
+
+  # @api public
+  # @since 0.1.0
+  extend Plugins::AccessMixin
 
   # @since 0.1.0
   extend SmartCore::Initializer::TypeAliasing
