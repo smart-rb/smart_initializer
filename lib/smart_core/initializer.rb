@@ -9,12 +9,13 @@ require 'forwardable'
 module SmartCore::Initializer
   require_relative 'initializer/version'
   require_relative 'initializer/errors'
+  require_relative 'initializer/plugins'
+  require_relative 'initializer/type_system'
   require_relative 'initializer/attribute'
   require_relative 'initializer/extensions'
   require_relative 'initializer/constructor'
   require_relative 'initializer/dsl'
   require_relative 'initializer/type_aliasing'
-  require_relative 'initializer/plugins'
 
   # @api public
   # @since 0.1.0
