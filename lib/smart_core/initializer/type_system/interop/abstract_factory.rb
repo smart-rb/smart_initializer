@@ -11,6 +11,8 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     # @api private
     # @since 0.1.0
     def create(type)
+      prevent_incompatible_type!(type)
+
       valid_op = build_valid_operation(type)
       validate_op = build_validate_operation(type)
       cast_op = build_cast_operation(type)
@@ -19,6 +21,15 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     end
 
     private
+
+    # @param type [Any]
+    # @return [void]
+    #
+    # @raise [SmartCore::Initializer::IncorrectTypeObjectError]
+    #
+    # @api private
+    # @since 0.1.0
+    def prevent_incompatible_type!(type); end
 
     # @param type [Any]
     # @return [SmartCore::Initializer::TypeSystem::Interop::Operation]
