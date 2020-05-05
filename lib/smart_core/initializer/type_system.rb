@@ -50,6 +50,18 @@ module SmartCore::Initializer::TypeSystem
       thread_safe { registry.interops }
     end
 
+    # @param block [Block]
+    # @yield [system_name, system_interop]
+    #   @yieldparam system_name [String]
+    #   @yieldparam system_interop [Class<SmartCore::Initializer::TypeSystem::Interop>]
+    # @return [Enumerable]
+    #
+    # @api public
+    # @since 0.1.0
+    def each(&block)
+      thread_safe { registry.each(&block) }
+    end
+
     private
 
     # @return [SmartCore::Initializer::TypeSystem::Registry]
