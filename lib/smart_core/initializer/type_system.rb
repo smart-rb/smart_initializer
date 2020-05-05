@@ -14,6 +14,16 @@ module SmartCore::Initializer::TypeSystem
   @access_lock = SmartCore::Engine::Lock.new
 
   class << self
+    # @option system_identifier [String, Symbol]
+    # @option type [Any]
+    # @return [SmartCore::Initializer::TypeSystem::Interop]
+    #
+    # @api private
+    # @since 0.1.0
+    def build_interop(system: system_identifier, type: type_object)
+      thread_safe { registry.resolve(system_identifier).create(type_object) }
+    end
+
     # @param identifier [String, Symbol]
     # @param interop_klass [Class<SmartCore::Initializer::TypeSystem::Interop>]
     # @return [void]

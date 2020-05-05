@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 
+# @abstract
 # @api private
 # @since 0.1.0
 class SmartCore::Initializer::TypeSystem::Interop
   require_relative 'interop/operation'
   require_relative 'interop/abstract_factory'
+
+  class << self
+    # @param type_object [Any]
+    # @return [SmartCore::Initializer::TypeSystem::Interop]
+    #
+    # @api private
+    # @since 0.1.0
+    def create(type_object)
+      self::AbstractFactory.create(type_object)
+    end
+  end
 
   # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
   # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]

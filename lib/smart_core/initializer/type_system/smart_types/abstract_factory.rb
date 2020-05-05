@@ -16,8 +16,8 @@ module SmartCore::Initializer::TypeSystem
         unless type.is_a?(SmartCore::Types::Primitive)
           raise(
             SmartCore::Initializer::IncorrectTypeObjectError,
-            "Incorrect SmartCore::Types primitive " \
-            "(type object should be a type of SmartCore::Types::Primitive)"
+            'Incorrect SmartCore::Types primitive ' \
+            '(type object should be a type of SmartCore::Types::Primitive)'
           )
         end
       end
