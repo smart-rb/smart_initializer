@@ -6,6 +6,10 @@
 class SmartCore::Initializer::TypeSystem::Interop
   require_relative 'interop/operation'
   require_relative 'interop/abstract_factory'
+  require_relative 'interop/aliasing'
+
+  # @since 0.1.0
+  include SmartCore::Initializer::TypeSystem::Interop::Aliasing
 
   class << self
     # @param type_object [Any]
@@ -15,6 +19,17 @@ class SmartCore::Initializer::TypeSystem::Interop
     # @since 0.1.0
     def create(type_object)
       self::AbstractFactory.create(type_object)
+    end
+
+    # @param type_object [Any]
+    # @return [void]
+    #
+    # @raise [SmartCore::Initializer::IncorrectTypeObjectError]
+    #
+    # @api private
+    # @since 0.1.0
+    def prevent_incompatible_type!(type_object)
+      self::AbstractFactory.prevent_incompatible_type!(type_object)
     end
   end
 

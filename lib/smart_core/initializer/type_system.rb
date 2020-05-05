@@ -28,7 +28,7 @@ module SmartCore::Initializer::TypeSystem
     # @param interop_klass [Class<SmartCore::Initializer::TypeSystem::Interop>]
     # @return [void]
     #
-    # @api public
+    # @api private
     # @since 0.1.0
     def register(identifier, interop_klass)
       thread_safe { registry.register(identifier, interop_klass) }

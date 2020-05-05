@@ -113,28 +113,20 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @param system_identifier [String, Symbol]
   # @return [Class<SmartCore::Initializer::TypeSystem::Interop>]
   #
+  # @raise [SmartCore::Initializer::UnsupportedTypeSystemError]
+  #
   # @api private
   # @since 0.1.0
   def fetch(system_identifier)
     identifier = indifferently_accessible_identifier(system_identifier)
 
-    unless registered?(identifier)
+    begin
+      systems.fetch(system_identifier)
+    rescue ::KeyError
       raise(SmartCore::Initializer::UnsupportedTypeSystemError, <<~ERROR_MESSAGE)
         "#{identifier}" type system is not supported.
       ERROR_MESSAGE
     end
-
-    systems.fetch(system_identifier)
-  end
-
-  # @param system_identifier [String, Symbol]
-  # @return [Boolean]
-  #
-  # @api private
-  # @since 0.1.0
-  def registered?(system_identifier)
-    identifier = indifferently_accessible_identifier(system_identifier)
-    systems.key?(identifier)
   end
 
   # @param interop_klass [Class<SMartCore::Initializer::TypeSystem::Interop>]

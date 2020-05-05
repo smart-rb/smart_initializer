@@ -20,8 +20,6 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
       build_interop(valid_op, validate_op, cast_op)
     end
 
-    private
-
     # @param type [Any]
     # @return [void]
     #
@@ -30,6 +28,8 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     # @api private
     # @since 0.1.0
     def prevent_incompatible_type!(type); end
+
+    private
 
     # @param type [Any]
     # @return [SmartCore::Initializer::TypeSystem::Interop::Operation]
