@@ -46,5 +46,3 @@ class SmartCore::Initializer::TypeSystem::SmartTypes < SmartCore::Initializer::T
   type_alias(:date,        SmartCore::Types::Value::Date)
   type_alias(:time_based,  SmartCore::Types::Value::TimeBased)
 end
-
-

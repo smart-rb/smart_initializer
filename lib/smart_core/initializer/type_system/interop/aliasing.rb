@@ -42,6 +42,14 @@ module SmartCore::Initializer::TypeSystem::Interop::Aliasing
       @__type_aliases__
     end
 
+    # @return [Array<String>]
+    #
+    # @api public
+    # @since 0.1.0
+    def registered_aliases
+      __type_aliases__.keys
+    end
+
     # @param alias_name [String, Symbol]
     # @param type [Any]
     # @return [void]

@@ -62,6 +62,15 @@ class SmartCore::Initializer::TypeSystem::Registry
     thread_safe { iterate(&block) }
   end
 
+  # @return [Hash<String,Class<SmartCore::Initializer::TypeSystem::Interop>]
+  #
+  # @api private
+  # @since 0.1.0
+  def to_h
+    thread_safe { systems.dup }
+  end
+  alias_method :to_hash, :to_h
+
   private
 
   # @return [Hash<String,Class<SmartCore::Initializer::TypeSystem::Interop>]

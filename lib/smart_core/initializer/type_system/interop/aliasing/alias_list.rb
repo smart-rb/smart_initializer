@@ -15,6 +15,23 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
     @lock = SmartCore::Engine::Lock.new
   end
 
+  # @return [Array<String>]
+  #
+  # @api private
+  # @since 0.1.0
+  def keys
+    thread_safe { registered_aliases }
+  end
+
+  # @return [Hash<String,Any>]
+  #
+  # @api private
+  # @since 0.1.0
+  def to_h
+    thread_safe { transform_to_hash }
+  end
+  alias_method :to_hash, :to_h
+
   # @param alias_name [String, Symbol]
   # @param type [Any]
   # @return [void]
@@ -103,5 +120,21 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
     ) unless alias_name.is_a?(String) || alias_name.is_a?(Symbol)
 
     alias_name.to_s
+  end
+
+  # @return [Hash<String,Any>]
+  #
+  # @api private
+  # @since 0.1.0
+  def transform_to_hash
+    list.to_h
+  end
+
+  # @return [Array<String>]
+  #
+  # @api private
+  # @since 0.1.0
+  def registered_aliases
+    list.keys
   end
 end

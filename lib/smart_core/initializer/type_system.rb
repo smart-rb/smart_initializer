@@ -57,7 +57,7 @@ module SmartCore::Initializer::TypeSystem
     # @api public
     # @since 0.1.0
     def systems
-      thread_safe { registry.interops }
+      thread_safe { registry.to_h }
     end
 
     # @param block [Block]
