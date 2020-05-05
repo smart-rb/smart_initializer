@@ -46,7 +46,7 @@ module SmartCore::Initializer::TypeSystem::Interop::Aliasing
     #
     # @api public
     # @since 0.1.0
-    def registered_aliases
+    def type_aliases
       __type_aliases__.keys
     end
 
