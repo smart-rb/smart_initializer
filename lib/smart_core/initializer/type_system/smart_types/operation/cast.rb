@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-class SmartCore::Initializer::TypeSystem::Interop
+module SmartCore::Initializer::TypeSystem::SmartTypes::Operation
   # @api private
   # @since 0.1.0
-  class SmartTypes::Validate < Operation
+  class Cast < Base
     # @param value [Any]
-    # @return [void]
+    # @return [Any]
     #
     # @api private
     # @since 0.1.0
     def call(value)
-      type.validate!(value)
+      type.cast(value)
     end
   end
 end

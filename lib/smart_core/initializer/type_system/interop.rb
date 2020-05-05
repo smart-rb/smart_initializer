@@ -5,7 +5,6 @@
 class SmartCore::Initializer::TypeSystem::Interop
   require_relative 'interop/operation'
   require_relative 'interop/abstract_factory'
-  require_relative 'interop/smart_types'
 
   # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
   # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]

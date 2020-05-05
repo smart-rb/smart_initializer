@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class SmartCore::Initializer::TypeSystem::Interop
+module SmartCore::Initializer::TypeSystem::SmartTypes::Operation
   # @api private
   # @since 0.1.0
-  class SmartTypes::Valid < Operation
+  class Valid < Base
     # @param value [Any]
     # @return [Boolean]
     #

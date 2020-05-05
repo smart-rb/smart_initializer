@@ -25,24 +25,21 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     #
     # @api private
     # @since 0.1.0
-    def build_valid_operation(type)
-    end
+    def build_valid_operation(type); end
 
     # @param type [Any]
     # @return [SmartCore::Initializer::TypeSystem::Interop::Operation]
     #
     # @api private
     # @since 0.1.0
-    def build_validate_operation(type)
-    end
+    def build_validate_operation(type); end
 
     # @param type [Any]
     # @return [SmartCore::Initializer::TypeSystem::Interop::Operation]
     #
     # @api private
     # @since 0.1.0
-    def build_cast_operation(type)
-    end
+    def build_cast_operation(type); end
 
     # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
     # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
@@ -51,7 +48,6 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     #
     # @api private
     # @since 0.1.0
-    def build_interop(valid_op, validate_op, cast_op)
-    end
+    def build_interop(valid_op, validate_op, cast_op); end
   end
 end
