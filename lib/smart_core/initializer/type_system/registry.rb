@@ -140,13 +140,16 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @param interop_klass [Class<SMartCore::Initializer::TypeSystem::Interop>]
   # @return [void]
   #
-  # @raise [SmartCore::Initializer::IncorrectTypeSystemError]
+  # @raise [SmartCore::Initializer::IncorretTypeSystemInteropError]
   #
   # @api private
   # @since 0.1.0
   def prevent_incorrect_system_interop!(interop_klass)
     unless interop_klass.is_a?(Class) && interop_klass < SmartCore::Initializer::TypeSystem::Interop
-      raise(SmartCore::Initializer::IncorrectTypeSystemError, 'Incorrect type system class.')
+      raise(
+        SmartCore::Initializer::IncorretTypeSystemInteropError,
+        'Incorrect type system interop class.'
+      )
     end
   end
 

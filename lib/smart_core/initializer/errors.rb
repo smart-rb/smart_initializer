@@ -51,7 +51,7 @@ module SmartCore::Initializer
 
   # @api public
   # @since 0.1.0
-  IncorrectTypeSystemError = Class.new(TypeSystemError)
+  IncorretTypeSystemInteropError = Class.new(TypeSystemError)
 
   # @api public
   # @since 0.1.0
