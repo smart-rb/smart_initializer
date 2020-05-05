@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# @abstract
 # @api private
 # @since 0.1.0
 class SmartCore::Initializer::TypeSystem::Interop::Operation
