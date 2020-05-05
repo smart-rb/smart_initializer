@@ -96,5 +96,6 @@ module SmartCore::Initializer::TypeSystem
     end
   end
 
+  # @since 0.1.0
   register(:smart_types, SmartCore::Initializer::TypeSystem::SmartTypes)
 end
