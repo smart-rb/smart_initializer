@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# rubocop:disable Metrics/ClassLength
 class SmartCore::Initializer::Constructor::Definer
   # @param klass [Class]
   # @return [void]
@@ -25,7 +26,8 @@ class SmartCore::Initializer::Constructor::Definer
   end
 
   # @param name [String, Symbol]
-  # @param type [String, Symbol, SmartCore::Types::Primitive]
+  # @param type [String, Symbol, Any]
+  # @param type_system [String, Symbol]
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
@@ -34,9 +36,17 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  def define_parameter(name, type, privacy, finalize, cast, dynamic_options)
+  def define_parameter(name, type, type_system, privacy, finalize, cast, dynamic_options)
     thread_safe do
-      attribute = build_attribute(name, type, privacy, finalize, cast, dynamic_options)
+      attribute = build_attribute(
+        name,
+        type,
+        type_system,
+        privacy,
+        finalize,
+        cast,
+        dynamic_options
+      )
       prevent_option_overlap(attribute)
       add_parameter(attribute)
     end
@@ -52,7 +62,8 @@ class SmartCore::Initializer::Constructor::Definer
       names.map do |name|
         build_attribute(
           name,
-          SmartCore::Types::Value::Any,
+          klass.__initializer_settings__.generic_type_object,
+          klass.__initializer_settings__.type_system,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
@@ -67,7 +78,8 @@ class SmartCore::Initializer::Constructor::Definer
   end
 
   # @param name [String, Symbol]
-  # @param type [String, Symbol, SmartCore::Types::Primitive]
+  # @param type [String, Symbol, Any]
+  # @param type_system [String, Symbol]
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
@@ -76,9 +88,17 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  def define_option(name, type, privacy, finalize, cast, dynamic_options)
+  def define_option(name, type, type_system, privacy, finalize, cast, dynamic_options)
     thread_safe do
-      attribute = build_attribute(name, type, privacy, finalize, cast, dynamic_options)
+      attribute = build_attribute(
+        name,
+        type,
+        type_system,
+        privacy,
+        finalize,
+        cast,
+        dynamic_options
+      )
       prevent_parameter_overlap(attribute)
       add_option(attribute)
     end
@@ -94,7 +114,8 @@ class SmartCore::Initializer::Constructor::Definer
       names.map do |name|
         build_attribute(
           name,
-          SmartCore::Types::Value::Any,
+          klass.__initializer_settings__.generic_type_object,
+          klass.__initializer_settings__.type_system,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
@@ -117,7 +138,8 @@ class SmartCore::Initializer::Constructor::Definer
   attr_reader :klass
 
   # @param name [String, Symbol]
-  # @param type [String, Symbol, SmartCore::Types::Primitive]
+  # @param type [String, Symbol, Any]
+  # @param type_system [String, Symbol]
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
@@ -126,9 +148,9 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  def build_attribute(name, type, privacy, finalize, cast, dynamic_options)
+  def build_attribute(name, type, type_system, privacy, finalize, cast, dynamic_options)
     SmartCore::Initializer::Attribute::Factory.create(
-      name, type, privacy, finalize, cast, dynamic_options
+      name, type, type_system, privacy, finalize, cast, dynamic_options
     )
   end
 
@@ -207,3 +229,4 @@ class SmartCore::Initializer::Constructor::Definer
     @lock.synchronize(&block)
   end
 end
+# rubocop:enable Metrics/ClassLength

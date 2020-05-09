@@ -17,11 +17,17 @@ class SmartCore::Initializer::Attribute
   # @since 0.1.0
   def_delegator :parameters, :name
 
-  # @return [SmartCore::Types::Primitive]
+  # @return [SmartCore::Initializer::TypeSystem::Interop]
   #
   # @pai private
   # @since 0.1.0
   def_delegator :parameters, :type
+
+  # @return [Class<SmartCore::Initializer::TypeSystem::Interop>]
+  #
+  # @api private
+  # @since 0.1.0
+  def_delegator :parameters, :type_system
 
   # @return [Symbol]
   #
@@ -54,7 +60,8 @@ class SmartCore::Initializer::Attribute
   def_delegator :parameters, :has_default?
 
   # @param name [Symbol]
-  # @param type [SmartCore::Types::Primitive]
+  # @param type [SmartCore::Initializer::TypeSystem::Interop]
+  # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
@@ -63,9 +70,9 @@ class SmartCore::Initializer::Attribute
   #
   # @api private
   # @since 0.1.0
-  def initialize(name, type, privacy, finalizer, cast, dynamic_options)
+  def initialize(name, type, type_system, privacy, finalizer, cast, dynamic_options)
     @parameters = SmartCore::Initializer::Attribute::Parameters.new(
-      name, type, privacy, finalizer, cast, dynamic_options
+      name, type, type_system, privacy, finalizer, cast, dynamic_options
     )
   end
 
@@ -77,6 +84,7 @@ class SmartCore::Initializer::Attribute
     self.class.new(
       parameters.name.dup,
       parameters.type,
+      parameters.type_system,
       parameters.privacy,
       parameters.finalizer.dup,
       parameters.cast,

@@ -6,75 +6,54 @@ require 'forwardable'
 
 # @api public
 # @since 0.1.0
-module SmartCore::Initializer
-  require_relative 'initializer/version'
-  require_relative 'initializer/errors'
-  require_relative 'initializer/attribute'
-  require_relative 'initializer/extensions'
-  require_relative 'initializer/constructor'
-  require_relative 'initializer/dsl'
-  require_relative 'initializer/type_aliasing'
-  require_relative 'initializer/plugins'
-
+module SmartCore
   # @api public
   # @since 0.1.0
-  extend Plugins::AccessMixin
+  module Initializer
+    require_relative 'initializer/version'
+    require_relative 'initializer/errors'
+    require_relative 'initializer/plugins'
+    require_relative 'initializer/settings'
+    require_relative 'initializer/configurable_module'
+    require_relative 'initializer/configuration'
+    require_relative 'initializer/type_system'
+    require_relative 'initializer/attribute'
+    require_relative 'initializer/extensions'
+    require_relative 'initializer/constructor'
+    require_relative 'initializer/dsl'
 
-  # @since 0.1.0
-  extend SmartCore::Initializer::TypeAliasing
+    # @api public
+    # @since 0.1.0
+    extend Plugins::AccessMixin
 
-  class << self
-    # @param base_klass [Class]
+    class << self
+      # @param base_klass [Class]
+      # @return [void]
+      #
+      # @api private
+      # @since 0.1.0
+      def included(base_klass)
+        base_klass.extend(SmartCore::Initializer::DSL)
+      end
+    end
+
     # @return [void]
     #
     # @api private
     # @since 0.1.0
-    def included(base_klass)
-      base_klass.extend(SmartCore::Initializer::DSL)
-    end
+    def initialize(*); end
   end
 
-  # @return [void]
-  #
-  # @api private
-  # @since 0.1.0
-  def initialize(*); end
-
-  type_alias(:nil,     SmartCore::Types::Value::Nil)
-  type_alias(:string,  SmartCore::Types::Value::String)
-  type_alias(:symbol,  SmartCore::Types::Value::Symbol)
-  type_alias(:text,    SmartCore::Types::Value::Text)
-  type_alias(:integer, SmartCore::Types::Value::Integer)
-  type_alias(:float,   SmartCore::Types::Value::Float)
-  type_alias(:numeric, SmartCore::Types::Value::Numeric)
-  type_alias(:boolean, SmartCore::Types::Value::Boolean)
-  type_alias(:array,   SmartCore::Types::Value::Array)
-  type_alias(:hash,    SmartCore::Types::Value::Hash)
-  type_alias(:proc,    SmartCore::Types::Value::Proc)
-  type_alias(:class,   SmartCore::Types::Value::Class)
-  type_alias(:module,  SmartCore::Types::Value::Module)
-  type_alias(:any,     SmartCore::Types::Value::Any)
-end
-
-__END__
-
-include SmartCore::Initializer(type_system: :dry_types)
-
-SmartCore::Operation.configure do |config|
-  config.initializer.default_type_system = :smart_types
-end
-
-SmartCore::Initializer.configure(:initializer) do |config|
-  config.default_type_system = :smart_types
-end
-
-SmartCore::Initializer.plugin(:smart_types)
-SmartCore::Initializer.plugin(:thy)
-SmartCore::Initializer.plugin(:dry_types)
-
-SmartCore::Initializer.configure(:smart_types) do |config|
-  config.type_alias(:nil, SmartCore::Types::Value::Nil)
-end
-
-SmartCore::Initializer.configure(:thy) do |config|
+  class << self
+    # @option type_system [String, Symbol, NilSymbol]
+    # @return [Module]
+    #
+    # @api public
+    # @since 0.1.0
+    # rubocop:disable Naming/MethodName
+    def Initializer(type_system: SmartCore::Initializer::ConfigurableModule::INITIAL_TYPE_SYSTEM)
+      SmartCore::Initializer::ConfigurableModule.build(type_system: type_system)
+    end
+    # rubocop:enable Naming/MethodName
+  end
 end

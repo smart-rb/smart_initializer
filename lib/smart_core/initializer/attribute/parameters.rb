@@ -43,11 +43,17 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   attr_reader :name
 
-  # @return [SmartCore::Types::Primitive]
+  # @return [SmartCore::Initializer::TypeSystem::Interop]
   #
   # @api private
   # @since 0.1.0
   attr_reader :type
+
+  # @return [Class<SmartCore::Initilizer::TypeSystem::Interop>]
+  #
+  # @api private
+  # @since 0.1.0
+  attr_reader :type_system
 
   # @return [Symbol]
   #
@@ -76,7 +82,8 @@ class SmartCore::Initializer::Attribute::Parameters
   attr_reader :dynamic_options
 
   # @param name [Symbol]
-  # @param type [SmartCore::Types::Primitive]
+  # @param type [SmartCore::Initializer::TypeSystem::Interop]
+  # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
@@ -86,9 +93,10 @@ class SmartCore::Initializer::Attribute::Parameters
   #
   # @api private
   # @since 0.1.0
-  def initialize(name, type, privacy, finalizer, cast, dynamic_options)
+  def initialize(name, type, type_system, privacy, finalizer, cast, dynamic_options)
     @name = name
     @type = type
+    @type_system = type_system
     @privacy = privacy
     @finalizer = finalizer
     @cast = cast

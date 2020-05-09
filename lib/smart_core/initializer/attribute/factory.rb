@@ -5,7 +5,8 @@
 class SmartCore::Initializer::Attribute::Factory
   class << self
     # @param name [String, Symbol]
-    # @param type [String, Symbol, SmartCore::Types::Primitive]
+    # @param type [String, Symbol, Any]
+    # @param type_system [String, Symbol]
     # @param privacy [String, Symbol]
     # @param finalize [String, Symbol, Proc]
     # @param cast [Boolean]
@@ -14,15 +15,24 @@ class SmartCore::Initializer::Attribute::Factory
     #
     # @api private
     # @since 0.1.0
-    def create(name, type, privacy, finalize, cast, dynamic_options)
-      name            = prepare_name_param(name)
-      type            = prepare_type_param(type)
-      privacy         = prepare_privacy_param(privacy)
-      finalize        = prepare_finalize_param(finalize)
-      cast            = prepare_cast_param(cast)
-      dynamic_options = prepare_dynamic_options_param(dynamic_options)
+    def create(name, type, type_system, privacy, finalize, cast, dynamic_options)
+      prepared_name            = prepare_name_param(name)
+      prepared_privacy         = prepare_privacy_param(privacy)
+      prepared_finalize        = prepare_finalize_param(finalize)
+      prepared_cast            = prepare_cast_param(cast)
+      prepared_type_system     = prepare_type_system_param(type_system)
+      prepared_type            = prepare_type_param(type, prepared_type_system)
+      prepared_dynamic_options = prepare_dynamic_options_param(dynamic_options)
 
-      create_attribute(name, type, privacy, finalize, cast, dynamic_options)
+      create_attribute(
+        prepared_name,
+        prepared_type,
+        prepared_type_system,
+        prepared_privacy,
+        prepared_finalize,
+        prepared_cast,
+        prepared_dynamic_options
+      )
     end
 
     private
@@ -42,23 +52,21 @@ class SmartCore::Initializer::Attribute::Factory
       name.to_sym
     end
 
-    # @param type [String, Symbol, SmartCore::Types::Primitive]
-    # @return [SmartCore::Types::Primitive]
+    # @param type [String, Symbol, Any]
+    # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
+    # @return [SmartCore::Initializer::TypeSystem::Interop]
     #
     # @api private
     # @since 0.1.0
-    def prepare_type_param(type)
-      unless type.is_a?(String) || type.is_a?(Symbol) || type.is_a?(SmartCore::Types::Primitive)
-        raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
-          Attribute type should be a type of String, Symbol or SmartCore::Types::Primitive
-        ERROR_MESSAGE
-      end
+    def prepare_type_param(type, type_system)
+      type_primitive =
+        if type.is_a?(String) || type.is_a?(Symbol)
+          type_system.type_from_alias(type)
+        else
+          type
+        end
 
-      if type.is_a?(String) || type.is_a?(Symbol)
-        SmartCore::Initializer.type_from_alias(type)
-      else
-        type
-      end
+      type_system.create(type_primitive)
     end
 
     # @param cast [Boolean]
@@ -127,8 +135,18 @@ class SmartCore::Initializer::Attribute::Factory
       dynamic_options
     end
 
+    # @param type_system [String, Symbol]
+    # @return [Class<SmartCore::Initializer::TypeSystem::Interop>]
+    #
+    # @api private
+    # @since 0.1.0
+    def prepare_type_system_param(type_system)
+      SmartCore::Initializer::TypeSystem.resolve(type_system)
+    end
+
     # @param name [String]
-    # @param type [SmartCore::Types::Primitive]
+    # @param type [SmartCore::Initializer::TypeSystem::Interop]
+    # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
     # @param privacy [Symbol]
     # @param finalize [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
     # @param cast [Boolean]
@@ -137,8 +155,10 @@ class SmartCore::Initializer::Attribute::Factory
     #
     # @api private
     # @since 0.1.0
-    def create_attribute(name, type, privacy, finalize, cast, dynamic_options)
-      SmartCore::Initializer::Attribute.new(name, type, privacy, finalize, cast, dynamic_options)
+    def create_attribute(name, type, type_system, privacy, finalize, cast, dynamic_options)
+      SmartCore::Initializer::Attribute.new(
+        name, type, type_system, privacy, finalize, cast, dynamic_options
+      )
     end
   end
 end

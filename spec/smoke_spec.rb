@@ -51,15 +51,21 @@ RSpec.describe 'Smoke Test' do
 
   specify 'type alias shadowing warn' do
     expect do
-      SmartCore::Initializer.type_alias(:string, SmartCore::Types::Value::String)
+      SmartCore::Initializer::TypeSystem::SmartTypes.type_alias(
+        :string, SmartCore::Types::Value::String
+      )
     end.to output(
-      '[SmartCore::Initializer] Shadowing of already existing "string" type alias.'
+      '[SmartCore::Initializer::TypeSystem::SmartTypes] ' \
+      'Shadowing of the already existing "string" type alias.'
     ).to_stderr
 
     expect do
-      SmartCore::Initializer.type_alias(:integer, SmartCore::Types::Value::Integer)
+      SmartCore::Initializer::TypeSystem::SmartTypes.type_alias(
+        :integer, SmartCore::Types::Value::Integer
+      )
     end.to output(
-      '[SmartCore::Initializer] Shadowing of already existing "integer" type alias.'
+      '[SmartCore::Initializer::TypeSystem::SmartTypes] ' \
+      'Shadowing of the already existing "integer" type alias.'
     ).to_stderr
   end
 
