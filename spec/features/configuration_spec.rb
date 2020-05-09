@@ -7,11 +7,19 @@ RSpec.describe 'Initializer configuration' do
     end
 
     specify 'unsupported type system - fail' do
-      expect(
-        SmartCore::Initializer::Configuration.config.valid_with?({
-          default_type_system: :kek_pek
-        })
-      ).to eq(false)
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        default_type_system: :kek_pek
+      })).to eq(false)
+    end
+
+    specify 'you can choose any supported type system' do
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        default_type_system: :smart_types
+      })).to eq(true)
+
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        default_type_system: :thy
+      })).to eq(false)
     end
   end
 end

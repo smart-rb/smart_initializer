@@ -13,8 +13,6 @@ module SmartCore::Initializer::Plugins::AccessMixin
   def plugin(plugin_name)
     SmartCore::Initializer::Plugins.load(plugin_name)
   end
-  alias_method :enable, :plugin
-  alias_method :load, :plugin
 
   # @return [Array<String>]
   #

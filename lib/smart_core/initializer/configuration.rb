@@ -8,6 +8,10 @@ module SmartCore::Initializer::Configuration
   # @since 0.1.0
   include Qonfig::Configurable
 
+  # @api public
+  # @since 0.1.0
+  extend SmartCore::Initializer::Plugins::AccessMixin
+
   class << self
     # @param setting_key [String, Symbol]
     # @return [Qonfig::Settings, Any]
