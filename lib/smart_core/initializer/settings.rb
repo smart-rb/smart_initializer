@@ -14,6 +14,14 @@ class SmartCore::Initializer::Settings
     @type_system = TypeSystem.new
   end
 
+  # @return [Any]
+  #
+  # @api private
+  # @since 0.1.0
+  def generic_type_object
+    @type_system.generic_type_object
+  end
+
   # @return [Symbol]
   #
   # @api private

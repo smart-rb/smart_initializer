@@ -84,7 +84,9 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
     alias_name = normalized_alias(alias_name)
 
     if list.key?(alias_name)
-      ::Warning.warn("Shadowing of already existing \"#{alias_name}\" type alias.")
+      ::Warning.warn(
+        "[#{interop_klass.name}] Shadowing of the already existing \"#{alias_name}\" type alias."
+      )
     end
 
     list[alias_name] = type

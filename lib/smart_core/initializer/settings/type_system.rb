@@ -12,6 +12,16 @@ class SmartCore::Initializer::Settings::TypeSystem
     @lock = SmartCore::Engine::Lock.new
   end
 
+  # @return [Any]
+  #
+  # @api private
+  # @since 0.1.0
+  def generic_type_object
+    thread_safe do
+      SmartCore::Initializer::TypeSystem.resolve(resolve).generic_type_object
+    end
+  end
+
   # @return [Symbol]
   #
   # @api private

@@ -21,6 +21,14 @@ class SmartCore::Initializer::TypeSystem::Interop
       self::AbstractFactory.create(type_object)
     end
 
+    # @return [SmartCore::Initialiezr::TypeSystem::Interop]
+    #
+    # @api private
+    # @since 0.1.0
+    def generic_type_object
+      self::AbstractFactory.generic_type_object
+    end
+
     # @param type_object [Any]
     # @return [void]
     #
@@ -41,9 +49,9 @@ class SmartCore::Initializer::TypeSystem::Interop
   # @api private
   # @since 0.1.0
   def initialize(valid_op, validate_op, cast_op)
-    @valid = valid_op
-    @validate = validate_op
-    @cast = cast_op
+    @valid_op = valid_op
+    @validate_op = validate_op
+    @cast_op = cast_op
   end
 
   # @param value [Any]
@@ -61,7 +69,7 @@ class SmartCore::Initializer::TypeSystem::Interop
   # @api private
   # @since 0.1.0
   def validate!(value)
-    validat_op.call(value)
+    validate_op.call(value)
   end
 
   # @param value [Any]

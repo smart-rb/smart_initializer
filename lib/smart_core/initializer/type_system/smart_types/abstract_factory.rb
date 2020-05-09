@@ -31,6 +31,14 @@ module SmartCore::Initializer::TypeSystem
         SmartTypes::Operation::Valid.new(type)
       end
 
+      # @return [SmartCore::Types::Value::Any]
+      #
+      # @api private
+      # @since 0.1.0
+      def generic_type_object
+        SmartCore::Types::Value::Any
+      end
+
       # @param type [SmartCore::Types::Primitive]
       # @return [SmartCore::Initializer::TypeSystem::SmartTypes::Operation::Validate]
       #

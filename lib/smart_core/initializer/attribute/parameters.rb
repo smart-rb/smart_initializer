@@ -49,6 +49,12 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   attr_reader :type
 
+  # @return [String]
+  #
+  # @api private
+  # @since 0.1.0
+  attr_reader :type_system
+
   # @return [Symbol]
   #
   # @api private
@@ -80,15 +86,17 @@ class SmartCore::Initializer::Attribute::Parameters
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
+  # @param type_system [String]
   # @param dynamic_options [Hash<Symbol,Any>]
   #   - :default - default value (Proc value will be called)
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def initialize(name, type, privacy, finalizer, cast, dynamic_options)
+  def initialize(name, type, type_system, privacy, finalizer, cast, dynamic_options)
     @name = name
     @type = type
+    @type_system = type_system
     @privacy = privacy
     @finalizer = finalizer
     @cast = cast

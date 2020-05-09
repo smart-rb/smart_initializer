@@ -20,6 +20,12 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
       build_interop(valid_op, validate_op, cast_op)
     end
 
+    # @return [Any]
+    #
+    # @api private
+    # @since 0.1.0
+    def generic_type_object; end
+
     # @param type [Any]
     # @return [void]
     #
