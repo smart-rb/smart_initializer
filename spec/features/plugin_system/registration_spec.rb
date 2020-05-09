@@ -13,14 +13,18 @@ RSpec.describe 'SmartCore::Initializer::Plugins' do
     expect(SmartCore::Initializer::Plugins.names).not_to include('a_reg_test', 'b_reg_test')
     expect(SmartCore::Initializer::Configuration.plugins).not_to include('a_reg_test', 'b_reg_test')
 
-    SmartCore::Initializer::Configuration.register_plugin(:a_reg_test, SmartCore::Initializer::Plugins::ARegTest)
+    SmartCore::Initializer::Configuration.register_plugin(
+      :a_reg_test, SmartCore::Initializer::Plugins::ARegTest
+    )
 
     expect(SmartCore::Initializer::Plugins.names).to include('a_reg_test')
     expect(SmartCore::Initializer::Configuration.plugins).to include('a_reg_test')
     expect(SmartCore::Initializer::Plugins.names).not_to include('b_reg_test')
     expect(SmartCore::Initializer::Configuration.plugins).not_to include('b_reg_test')
 
-    SmartCore::Initializer::Configuration.register_plugin(:b_reg_test, SmartCore::Initializer::Plugins::BRegTest)
+    SmartCore::Initializer::Configuration.register_plugin(
+      :b_reg_test, SmartCore::Initializer::Plugins::BRegTest
+    )
 
     expect(SmartCore::Initializer::Plugins.names).to include('a_reg_test', 'b_reg_test')
     expect(SmartCore::Initializer::Configuration.plugins).to include('a_reg_test', 'b_reg_test')
