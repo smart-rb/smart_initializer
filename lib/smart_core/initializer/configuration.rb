@@ -23,5 +23,8 @@ module SmartCore::Initializer::Configuration
   configuration do
     # @since 0.1.0
     setting :default_type_system, :smart_types
+    validate :default_type_system do |value|
+      SmartCore::Initializer::TypeSystem.resolve(value) rescue false
+    end
   end
 end
