@@ -18,7 +18,7 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
-        instance_variable_set(:@__initializer_config__, SmartCore::Initializer::Config.new)
+        instance_variable_set(:@__initializer_settings__, SmartCore::Initializer::Settings.new)
       end
       base_klass.extend(ClassMethods)
       base_klass.singleton_class.prepend(ClassInheritance)
@@ -40,7 +40,7 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
-        instance_variable_set(:@__initializer_config, __initializer_config__.dup)
+        instance_variable_set(:@__initializer_settings__, __initializer_settings__.dup)
       end
       child_klass.extend(ClassMethods)
       SmartCore::Initializer::DSL::Inheritance.inherit(base: self, child: child_klass)
@@ -83,12 +83,12 @@ module SmartCore::Initializer::DSL
       @__definer__
     end
 
-    # @return [SmartCore::Initializer::Config]
+    # @return [SmartCore::Initializer::Settings]
     #
     # @api private
     # @since 0.1.0
-    def __initializer_config__
-      @__initializer_config__
+    def __initializer_settings__
+      @__initializer_settings__
     end
 
     # @param arguments [Array]

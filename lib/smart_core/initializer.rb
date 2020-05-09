@@ -7,16 +7,15 @@ require 'forwardable'
 # @api public
 # @since 0.1.0
 module SmartCore
-  class << self
-    def Initializer()
-
-    end
-  end
-
+  # @api public
+  # @since 0.1.0
   module Initializer
     require_relative 'initializer/version'
     require_relative 'initializer/errors'
     require_relative 'initializer/plugins'
+    require_relative 'initializer/settings'
+    require_relative 'initializer/configurable_module'
+    require_relative 'initializer/configuration'
     require_relative 'initializer/type_system'
     require_relative 'initializer/attribute'
     require_relative 'initializer/extensions'
@@ -62,5 +61,18 @@ module SmartCore
     type_alias(:class,   SmartCore::Types::Value::Class)
     type_alias(:module,  SmartCore::Types::Value::Module)
     type_alias(:any,     SmartCore::Types::Value::Any)
+  end
+
+  class << self
+    # @option type_system [String, Symbol, NilSymbol]
+    # @return [Module]
+    #
+    # @api public
+    # @since 0.1.0
+    # rubocop:disable Naming/MethodName
+    def Initializer(type_system: SmartCore::Initializer::ConfigurableModule::INITIAL_TYPE_SYSTEM)
+      SmartCore::Initializer::ConfigurableModule.build(type_system: type_system)
+    end
+    # rubocop:enable Naming/MethodName
   end
 end

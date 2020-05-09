@@ -130,7 +130,7 @@ class SmartCore::Initializer::TypeSystem::Registry
     identifier = indifferently_accessible_identifier(system_identifier)
 
     begin
-      systems.fetch(system_identifier)
+      systems.fetch(identifier)
     rescue ::KeyError
       raise(SmartCore::Initializer::UnsupportedTypeSystemError, <<~ERROR_MESSAGE)
         "#{identifier}" type system is not supported.
