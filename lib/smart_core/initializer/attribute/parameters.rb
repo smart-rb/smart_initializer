@@ -43,13 +43,13 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   attr_reader :name
 
-  # @return [SmartCore::Types::Primitive]
+  # @return [SmartCore::Initializer::TypeSystem::Interop]
   #
   # @api private
   # @since 0.1.0
   attr_reader :type
 
-  # @return [String]
+  # @return [Class<SmartCore::Initilizer::TypeSystem::Interop>]
   #
   # @api private
   # @since 0.1.0
@@ -82,11 +82,11 @@ class SmartCore::Initializer::Attribute::Parameters
   attr_reader :dynamic_options
 
   # @param name [Symbol]
-  # @param type [SmartCore::Types::Primitive]
+  # @param type [SmartCore::Initializer::TypeSystem::Interop]
+  # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
-  # @param type_system [String]
   # @param dynamic_options [Hash<Symbol,Any>]
   #   - :default - default value (Proc value will be called)
   # @return [void]

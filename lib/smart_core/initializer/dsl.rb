@@ -135,10 +135,11 @@ module SmartCore::Initializer::DSL
     end
 
     # @param name [String, Symbol]
-    # @param type [String, Symbol, SmartCore::Types::Primitive]
+    # @param type [String, Symbol, Any]
     # @option cast [Boolean]
     # @option privacy [String, Symbol]
     # @option finalize [String, Symbol, Proc]
+    # @option type_system [String, Symbol]
     # @param dynamic_options [Hash<Symbol,Any>]
     # @return [void]
     #
