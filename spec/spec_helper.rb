@@ -12,6 +12,9 @@ end
 require 'bundler/setup'
 require 'smart_core/initializer'
 
+require_relative 'support/spec_support'
+require_relative 'support/meta_scopes'
+
 RSpec.configure do |config|
   Kernel.srand config.seed
   config.disable_monkey_patching!

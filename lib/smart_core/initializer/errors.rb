@@ -68,4 +68,8 @@ module SmartCore::Initializer
   # @api public
   # @since 0.1.0
   UnsupportedTypeSystemError = Class.new(TypeSystemError)
+
+  # @api public
+  # @since 0.1.0
+  UnsupportedTypeOperationError = Class.new(TypeSystemError)
 end
