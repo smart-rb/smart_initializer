@@ -4,8 +4,14 @@ module SmartCore::Initializer::TypeSystem
   # @api private
   # @since 0.1.0
   class ThyTypes::AbstractFactory < Interop::AbstractFactory
+    # @return [Thy::Type]
+    #
+    # @api private
+    # @since 0.1.0
+    GENERIC_TYPE = ::Thy::Type.new { true }
+
     class << self
-      # @param type [Thy::Type]
+      # @param type [Thy::Type, #check]
       # @return [void]
       #
       # @raise [SmartCore::Initializer::IncorrectTypeObjectError]
@@ -13,16 +19,16 @@ module SmartCore::Initializer::TypeSystem
       # @api private
       # @since 0.1.0
       def prevent_incompatible_type!(type)
-        unless type.is_a?(::Thy::Type)
+        unless type.respond_to?(:check) || type.is_a?(::Thy::Type)
           raise(
             SmartCore::Initializer::IncorrectTypeObjectError,
             'Incorrect Thy::Type primitive ' \
-            '(type object should be a type of Thy::Type)'
+            '(type object should respond to :check method)'
           )
         end
       end
 
-      # @param type [Thy::Type]
+      # @param type [Thy::Type, #check]
       # @return [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Valid]
       #
       # @api private
@@ -31,15 +37,15 @@ module SmartCore::Initializer::TypeSystem
         ThyTypes::Operation::Valid.new(type)
       end
 
-      # @return [SmartCore::Types::Value::Any]
+      # @return [Thy::Type, #check]
       #
       # @api private
       # @since 0.1.0
       def generic_type_object
-        SmartCore::Types::Value::Any
+        GENERIC_TYPE
       end
 
-      # @param type [Thy::Type]
+      # @param type [Thy::Type, #check]
       # @return [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Validate]
       #
       # @api private
@@ -48,7 +54,7 @@ module SmartCore::Initializer::TypeSystem
         ThyTypes::Operation::Validate.new(type)
       end
 
-      # @param type [Thy::Type]
+      # @param type [Thy::Type, #check]
       # @return [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Cast]
       #
       # @api private
