@@ -223,7 +223,7 @@ gem 'thy'
 bundle install
 ```
 
-- enable `thy-types` plugin
+- enable `thy_types` plugin:
 
 ```ruby
 require 'thy'
