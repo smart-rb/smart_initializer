@@ -150,18 +150,18 @@ SmartCore::Initializer::Configuration.config.settings.default_type_system
 
 ```ruby
 # for smart_types:
-SmartCore::Initializer::TypeSystem::SmartTypes.type_alias(:hash, SmartCore::Types::Value::Hash)
+SmartCore::Initializer::TypeSystem::SmartTypes.type_alias('hsh', SmartCore::Types::Value::Hash)
 
 # for thy:
-SmartCore::Initializer::TypeSystem::ThyTypes.type_alias(:integer, Thy::Tyhes::Integer)
+SmartCore::Initializer::TypeSystem::ThyTypes.type_alias('int', Thy::Tyhes::Integer)
 
 class User
   include SmartCore::Initializer
 
-  param :data, :hash # use your new defined type alias
-  option :metadata, :hash # use your new defined type alias
+  param :data, 'hsh' # use your new defined type alias
+  option :metadata, :hsh # use your new defined type alias
 
-  param :age, :integer, type_system: :thy_types
+  param :age, 'int', type_system: :thy_types
 end
 ```
 
