@@ -125,7 +125,6 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 
 - based on `Qonfig` gem;
 - you can read config values via `[]` or `.config.settings` or `.config[key]`;
-
 - setitngs:
   - `default_type_system` - default type system (`smart_types` by default);
 
