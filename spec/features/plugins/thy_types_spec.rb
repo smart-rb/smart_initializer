@@ -60,17 +60,43 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
     )
   end
 
-  specify 'thy-types usage' do
-    data_klass = Class.new do
-      include SmartCore::Initializer(type_system: :thy_types)
+  describe 'thy-types usage' do
+    specify 'initializer with thy-types' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
 
-      param :login, Thy::Types::String
-      param :password, 'string'
+        param :login, Thy::Types::String
+        param :password, 'string'
 
-      option :age, 'numeric'
-      option :as_admin, Thy::Types::Boolean
+        option :age, 'numeric'
+        option :as_admin, Thy::Types::Boolean
+      end
+
+      instance = data_klass.new('vasia', 'pupkin', { age: 23, as_admin: true })
+
+      expect(instance.login).to eq('vasia')
+      expect(instance.password).to eq('pupkin')
+      expect(instance.age).to eq(23)
+      expect(instance.as_admin).to eq(true)
     end
 
-    data_klass.new('vasia', 'pupkin', age: 23, as_admin: true)
+    specify 'mixin thy-types with smart-types' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
+
+        param :nickname, SmartCore::Types::Value::String, type_system: :smart_types
+        param :password, Thy::Types::String
+
+        option :balance, 'value.float', type_system: :smart_types
+        option :version, 'float' # thy-types
+      end
+
+      instance = data_klass.new('over', 'watch', { balance: 12.34, version: 15.707 })
+
+      expect(instance.nickname).to eq('over')
+      expect(instance.password).to eq('watch')
+      expect(instance.balance).to eq(12.34)
+      expect(instance.version).to eq(15.707)
+    end
   end
 end
