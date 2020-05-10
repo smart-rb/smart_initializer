@@ -55,7 +55,29 @@ require 'smart_core/types'
   - `type_system` - differently chosen type system for the current attribute;
 - last `Hash` argument will be treated as `kwarg`s;
 
-`param` signautre:
+#### initializer integration
+
+```ruby
+# with pre-configured type system (:smart_types, see Configuration doc)
+
+class MyStructure
+  include SmartCore::Initializer
+end
+```
+
+```ruby
+# with manually chosen type system
+
+class MyStructure
+  include SmartCore::Initializer(type_system: :smart_types)
+end
+
+class AnotherStructure
+  include SmartCore::Initializer(type_system: :thy_types)
+end
+```
+
+#### `param` signautre:
 
 ```ruby
 param <attribute_name>,
@@ -66,7 +88,7 @@ param <attribute_name>,
       type_system: :smart_types # used by default
 ```
 
-`option` signature:
+### `option` signature:
 
 ```ruby
 option <attribute_name>,
@@ -110,7 +132,7 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 ```ruby
 # configure:
 SmartCore::Initializer::Configuration.configure do |config|
-  config.default_type_system = :smart_types # by defult
+  config.default_type_system = :smart_types # default setting value
 end
 ```
 
