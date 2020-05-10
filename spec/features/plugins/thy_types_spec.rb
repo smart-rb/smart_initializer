@@ -6,7 +6,7 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
     SmartCore::Initializer::Configuration.plugin(:thy_types)
   end
 
-  specify 'type alias list' do
+  specify 'aliases' do
     expect(SmartCore::Initializer::TypeSystem::ThyTypes.type_aliases).to contain_exactly(
       'any',
       'nil',
@@ -60,7 +60,7 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
     )
   end
 
-  describe 'thy-types usage' do
+  describe 'usage' do
     specify 'initializer with thy-types' do
       data_klass = Class.new do
         include SmartCore::Initializer(type_system: :thy_types)
@@ -80,7 +80,7 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
       expect(instance.as_admin).to eq(true)
     end
 
-    specify 'mixin thy-types with smart-types' do
+    specify 'mixing thy-types with smart-types' do
       data_klass = Class.new do
         include SmartCore::Initializer(type_system: :thy_types)
 

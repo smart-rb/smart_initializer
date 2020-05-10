@@ -11,7 +11,7 @@ class SmartCore::Initializer::Plugins::ThyTypes < SmartCore::Initializer::Plugin
     def install!
       raise(
         SmartCore::Initializer::UnresolvedPluginDependencyError,
-        '::Thy does not exist or "thy" gme is not loaded'
+        '::Thy does not exist or "thy" gem is not loaded'
       ) unless const_defined?('::Thy')
 
       # NOTE: require necessary dependencies
