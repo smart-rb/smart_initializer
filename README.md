@@ -26,7 +26,7 @@ require 'smart_core/types'
 - [Type Aliasing](#type-aliasing)
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
-  - [thy-types](#thy-types)
+  - [thy-types](#plugin-thy-types)
 - [How to run tests](#how-to-run-tests)
 
 ---
@@ -205,11 +205,11 @@ user.extra2 # => :ext2
 
 ## Plugins
 
-- [thy-types](#thy-types)
+- [thy-types](#plugin-thy-types)
 
 ---
 
-## thy-types
+## Plugin: thy-types
 
 Additional `Thy::Types` type system ([project](https://github.com/akxcv/thy))
 
