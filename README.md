@@ -211,7 +211,7 @@ user.extra2 # => :ext2
 
 ## Plugin: thy-types
 
-Additional `Thy::Types` type system ([project](https://github.com/akxcv/thy))
+Support for `Thy::Types` type system ([gem](https://github.com/akxcv/thy))
 
 - install `thy` types (`gem install thy`):
 
