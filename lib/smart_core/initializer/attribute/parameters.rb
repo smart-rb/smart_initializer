@@ -124,6 +124,6 @@ class SmartCore::Initializer::Attribute::Parameters
       ERROR_MESSAGE
     end
 
-    defalut_value.is_a?(Proc) ? default_value.call : default_value
+    default_value.is_a?(Proc) ? default_value.call : default_value
   end
 end

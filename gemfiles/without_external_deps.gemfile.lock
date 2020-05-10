@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ..
   specs:
     smart_initializer (0.1.0.alpha4)
       qonfig (~> 0.24)

@@ -39,6 +39,10 @@ module SmartCore::Initializer
 
   # @api public
   # @since 0.1.0
+  UnresolvedPluginDependencyError = Class.new(PluginError)
+
+  # @api public
+  # @since 0.1.0
   AlreadyRegisteredPluginError = Class.new(PluginError)
 
   # @api public
@@ -64,4 +68,12 @@ module SmartCore::Initializer
   # @api public
   # @since 0.1.0
   UnsupportedTypeSystemError = Class.new(TypeSystemError)
+
+  # @api public
+  # @since 0.1.0
+  UnsupportedTypeOperationError = Class.new(TypeSystemError)
+
+  # @api public
+  # @since 0.1.0
+  TypeCastingUnsupportedError = Class.new(UnsupportedTypeOperationError)
 end

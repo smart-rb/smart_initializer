@@ -3,7 +3,7 @@
 require 'simplecov'
 
 SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
-SimpleCov.minimum_coverage(100)
+SimpleCov.minimum_coverage(100) if !!ENV['FULL_TEST_COVERAGE_CHECK']
 SimpleCov.start do
   enable_coverage :branch
   add_filter 'spec'
@@ -11,6 +11,9 @@ end
 
 require 'bundler/setup'
 require 'smart_core/initializer'
+
+require_relative 'support/spec_support'
+require_relative 'support/meta_scopes'
 
 RSpec.configure do |config|
   Kernel.srand config.seed
