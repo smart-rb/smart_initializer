@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'pathname'
+require 'optparse'
+
+module SmartCoreInitializerRSpecRunner
+  expand_gemfile_path = lambda do |gemfile|
+    File.expand_path(File.join('..', 'gemfiles', gemfile), __dir__)
+  end
+
+  GEMFILES = {
+    with_external_deps: expand_gemfile_path.call('with_external_deps.gemfile'),
+    without_external_deps: expand_gemfile_path.call('without_external_deps.gemfile')
+  }.freeze
+
+  class << self
+    def run!
+      OptionParser.new do |opts|
+        opts.banner = 'Usage: bin/rspec [options]'
+
+        opts.on('-w', '--with-plugins', 'Run general tests and plugin tests') do
+          run_with_plugin_tests!
+        end
+
+        opts.on('-g', '--without-plugins', 'Run general tests (without plugin tests') do
+          run_without_plugin_tests!
+        end
+      end.parse!
+    end
+
+    private
+
+    def run_with_plugin_tests!
+      ENV['TEST_PLUGINS'] = 'true'
+      ENV['FULL_TEST_COVERAGE_CHECK'] = 'true'
+      ENV['BUNDLE_GEMFILE'] = GEMFILES[:with_external_deps]
+      run_tests!
+    end
+
+    def run_without_plugin_tests!
+      ENV['BUNDLE_GEMFILE'] = GEMFILES[:without_external_deps]
+      run_tests!
+    end
+
+    def run_tests!
+      require 'rubygems'
+      require 'bundler/setup'
+      load Gem.bin_path('rspec-core', 'rspec')
+    end
+  end
+end
+
+SmartCoreInitializerRSpecRunner.run!

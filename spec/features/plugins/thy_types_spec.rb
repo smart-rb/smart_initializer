@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# TODO: RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
-RSpec.describe 'Plugins: thy_types' do
+RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
   before do
     require 'thy'
     SmartCore::Initializer::Configuration.plugin(:thy_types)
@@ -59,5 +58,19 @@ RSpec.describe 'Plugins: thy_types' do
     expect(SmartCore::Initializer::TypeSystem::ThyTypes.type_from_alias('untyped_hash')).to eq(
       Thy::Types::UntypedHash
     )
+  end
+
+  specify 'thy-types usage' do
+    data_klass = Class.new do
+      include SmartCore::Initializer(type_system: :thy_types)
+
+      param :login, Thy::Types::String
+      param :password, 'string'
+
+      option :age, 'numeric'
+      option :as_admin, Thy::Types::Boolean
+    end
+
+    data_klass.new('vasia', 'pupkin', age: 23, as_admin: true)
   end
 end

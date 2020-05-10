@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email   = ['iamdaiver@gmail.com']
 
   spec.summary     = 'Initializer DSL'
-  spec.description = 'A simple and convenient way to declare complex constructors.'
+  spec.description = 'A simple and convenient way to declare complex constructors'
   spec.homepage    = 'https://github.com/smart-rb/smart_initializer'
   spec.license     = 'MIT'
 
@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'smart_engine', '~> 0.6'
   spec.add_dependency 'smart_types',  '~> 0.1.0'
   spec.add_dependency 'qonfig',       '~> 0.24'
-  spec.add_dependency 'thy',          '~> 0.1.4' # NOTE: temporary dependency
 
   spec.add_development_dependency 'bundler',          '~> 2.1'
   spec.add_development_dependency 'rake',             '~> 13.0'

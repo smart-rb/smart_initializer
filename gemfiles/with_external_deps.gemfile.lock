@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ..
   specs:
     smart_initializer (0.1.0.alpha4)
       qonfig (~> 0.24)
@@ -77,6 +77,7 @@ GEM
     smart_types (0.1.0)
       smart_engine (~> 0.6)
     thread_safe (0.3.6)
+    thy (0.1.4)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
@@ -92,6 +93,7 @@ DEPENDENCIES
   rspec (~> 3.9)
   simplecov (~> 0.18)
   smart_initializer!
+  thy (~> 0.1.4)
 
 BUNDLED WITH
    2.1.4

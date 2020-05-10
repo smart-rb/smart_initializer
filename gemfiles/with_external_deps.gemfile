@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'thy', '~> 0.1.4'
+
+gemspec path: '..'

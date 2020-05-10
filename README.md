@@ -25,6 +25,7 @@ require 'smart_core/types'
 - [Synopsis](#synopsis)
 - [Type Aliasing](#type-aliasing)
 - [Initialization extension](#initialization-extension)
+- [How to run tests](#how-to-run-tests)
 
 ---
 
@@ -146,6 +147,28 @@ user.name # => 'keka'
 user.age # => 123
 user.extra # => :ext1
 user.extra2 # => :ext2
+```
+
+---
+
+## How to run test
+
+- with plugin tests:
+
+```shell
+bin/rspec -w
+```
+
+- without plugin tests
+
+```shell
+bin/rspec -g
+```
+
+- help message
+
+```shell
+bin/rspec -h
 ```
 
 ---
