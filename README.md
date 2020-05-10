@@ -1,6 +1,7 @@
 # SmartCore::Initializer &middot; [![Gem Version](https://badge.fury.io/rb/smart_initializer.svg)](https://badge.fury.io/rb/smart_initializer) [![Build Status](https://travis-ci.org/smart-rb/smart_initializer.svg?branch=master)](https://travis-ci.org/smart-rb/smart_initializer)
 
-A simple and convenient way to declare complex constructors (**in active development**).
+A simple and convenient way to declare complex constructors with a support for various commonly used type systems.
+ (**in active development**).
 
 ## Installation
 
