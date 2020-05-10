@@ -62,7 +62,8 @@ param <attribute_name>,
       <type=SmartCore::Types::Value::Any>, # Any by default
       cast: false, # false by default
       privacy: :public, # :public by default
-      finalize: proc { |value| value } # no finalization by default
+      finalize: proc { |value| value }, # no finalization by default
+      type_system: :smart_types # used by default
 ```
 
 `option` signature:
@@ -73,7 +74,8 @@ option <attribute_name>,
        cast: false, # false by default
        privacy: :public, # :public by default
        finalize: proc { |value| value }, # no finalization by default
-       default: 123 # no default value by default
+       default: 123, # no default value by default
+       type_system: :smart_types # used by default
 ```
 
 Example:
@@ -82,6 +84,8 @@ Example:
 ```ruby
 class User
   include SmartCore::Initializer
+  # --- or ---
+  include SmartCore::Initializer(type_system: :smart_types)
 
   param :user_id, SmartCore::Types::Value::Integer, cast: false, privacy: :public
   option :role, default: :user, finalize: -> { |value| Role.find(name: value) }
@@ -91,6 +95,20 @@ class User
 end
 
 User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
+```
+
+---
+
+## Configuration
+
+- based on `Qonfig` gem;
+- you can read config values via `[]` or `.config.settings` or `.config[key]`;
+
+```ruby
+# configure:
+SmartCore::Initializer::Configuration.configure do |config|
+  config.default_type_system = :smart_types # by defult
+end
 ```
 
 ---
