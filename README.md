@@ -105,7 +105,7 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 - you can read config values via `[]` or `.config.settings` or `.config[key]`;
 
 - setitngs:
-  - `default_type_system` - default type system which is used while you including `SmartCore::Initializer` module;
+  - `default_type_system` - default type system (`smart_types` by default);
 
 ```ruby
 # configure:
