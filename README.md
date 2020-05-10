@@ -162,12 +162,15 @@ user.extra2 # => :ext2
 
 ## thy-types
 
-Additional type system with a support for `Thy::Types` types ([repo](https://github.com/akxcv/thy))
+Additional `Thy::Types` type system ([project](https://github.com/akxcv/thy))
 
 - install `thy` types (`gem install thy`):
 
 ```ruby
 gem 'thy'
+```
+
+```shell
 bundle install
 ```
 
@@ -191,13 +194,16 @@ class User
 end
 
 # valid case:
-User.new('daiver', 'iamdaiver@gmail.com', { admin: true, age: 19 }) # => new user object
+User.new('daiver', 'iamdaiver@gmail.com', { admin: true, age: 19 })
+# => new user object
 
-# invalid case:
+# invalid case (invalid age)
 User.new('daiver', 'iamdaiver@gmail.com', { age: 17 })
-# (invalid age) => SmartCore::Initializer::ThyTypeValidationError
+# SmartCore::Initializer::ThyTypeValidationError
+
+# invaldi case (invalid nickname)
 User.new(123, 'test', { admin: true, age: 22 })
-# (invalid nickname) => SmartCore::Initializer::ThyTypeValidationError
+# => SmartCore::Initializer::ThyTypeValidationError
 ```
 
 ---
