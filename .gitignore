@@ -10,5 +10,3 @@
 /.idea
 .ruby-version
 *.gem
-/gemfiles/*.lock
-Gemfile.lock
