@@ -45,12 +45,14 @@ require 'smart_core/types'
   - `cast` - type-cast received value if value has invalid type;
   - `privacy` - reader incapsulation level;
   - `finalize` - value post-processing (receives method name or proc);
+  - `type_system` - differently chosen type system for the current attribute;
   - (limitation) param has no `:default` option;
 - `option` - defined kwarg-like attribute:
   - `cast` - type-cast received value if value has invalid type;
   - `privacy` - reader incapsulation level;
   - `finalize` - value post-processing (receives method name or proc);
   - `default` - defalut value (if an attribute is not provided);
+  - `type_system` - differently chosen type system for the current attribute;
 - last `Hash` argument will be treated as `kwarg`s;
 
 `param` signautre:
@@ -98,32 +100,31 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 - Usage:
 
 ```ruby
-# define your own type alias
-SmartCore::Initializer.type_alias(:hash, SmartCore::Types::Value::Hash)
+# for smart_types:
+SmartCore::Initializer::TypeSystem::SmartTypes.type_alias(:hash, SmartCore::Types::Value::Hash)
+
+# for thy:
+SmartCore::Initializer::TypeSystem::ThyTypes.type_alias(:integer, Thy::Tyhes::Integer)
 
 class User
   include SmartCore::Initializer
 
   param :data, :hash # use your new defined type alias
   option :metadata, :hash # use your new defined type alias
+
+  param :age, :integer, type_system: :thy_types
 end
 ```
 
 - Predefined aliases:
-  - `:nil` => `SmartCore::Types::Value::Nil`
-  - `:string` => `SmartCore::Types::Value::String`
-  - `:symbol` => `SmartCore::Types::Value::Symbol`
-  - `:text` => `SmartCore::Types::Value::Text`
-  - `:integer` => `SmartCore::Types::Value::Integer`
-  - `:float` => `SmartCore::Types::Value::Float`
-  - `:numeric` => `SmartCore::Types::Value::Numeric`
-  - `:boolean` => `SmartCore::Types::Value::Boolean`
-  - `:array` => `SmartCore::Types::Value::Array`
-  - `:hash` => `SmartCore::Types::Value::Hash`
-  - `:proc` => `SmartCore::Types::Value::Proc`
-  - `:class` => `SmartCore::Types::Value::Class`
-  - `:module` => `SmartCore::Types::Value::Module`
-  - `:any` => `SmartCore::Types::Value::Any`
+
+```ruby
+# for smart_types:
+SmartCore::Initializer::TypeSystem::SmartTypes.type_aliases
+
+# for thy_types:
+SmartCore::Initializer::TypeSystem::ThyTypes.type_aliases
+```
 
 ---
 
@@ -163,9 +164,17 @@ user.extra2 # => :ext2
 
 Additional type system with a support for `Thy::Types` types ([repo](https://github.com/akxcv/thy))
 
+- install `thy` types (`gem install thy`):
+
+```ruby
+gem 'thy'
+bundle install
+```
+
 - enable `thy-types` plugin
 
 ```ruby
+require 'thy'
 SmartCore::Initializer::Configuration.plugin(:thy_types)
 ```
 
