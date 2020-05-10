@@ -11,7 +11,7 @@ module SmartCore::Initializer::TypeSystem::ThyTypes::Operation
     # @since 0.1.0
     def call(value)
       raise(
-        SmartCore::Initializer::ThyTypesValidationError,
+        SmartCore::Initializer::ThyTypeValidationError,
         "Thy::Types validation error: (get #{value.inspect} for type #{type.inspect}"
       ) unless type.check(value).success?
     end

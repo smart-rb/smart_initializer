@@ -151,7 +151,7 @@ user.extra2 # => :ext2
 
 ---
 
-## How to run test
+## How to run tests
 
 - with plugin tests:
 
@@ -159,13 +159,13 @@ user.extra2 # => :ext2
 bin/rspec -w
 ```
 
-- without plugin tests
+- without plugin tests:
 
 ```shell
 bin/rspec -g
 ```
 
-- help message
+- help message:
 
 ```shell
 bin/rspec -h

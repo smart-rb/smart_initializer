@@ -98,5 +98,58 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
       expect(instance.balance).to eq(12.34)
       expect(instance.version).to eq(15.707)
     end
+
+    specify 'no support for type cast' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
+        param :nickname, 'string', cast: true
+      end
+
+      expect do
+        data_klass.new(123)
+      end.to raise_error(SmartCore::Initializer::TypeCastingUnsupportedError)
+
+      expect { data_klass.new('123') }.not_to raise_error
+    end
+
+    specify 'validation' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
+        param :nickname, 'string'
+        option :age, 'integer'
+      end
+
+      # NOTE: invalid
+      expect { data_klass.new('test', { age: '123' }) }.to raise_error(
+        SmartCore::Initializer::ThyTypeValidationError
+      )
+
+      # NOTE: invalid
+      expect { data_klass.new(123, { age: 123 }) }.to raise_error(
+        SmartCore::Initializer::ThyTypeValidationError
+      )
+
+      # NOTE: valid
+      expect { data_klass.new('123', { age: 123 }) }.not_to raise_error
+    end
+
+    specify 'validation check for smart-types mixed with thy-types' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
+
+        param :nickname, 'string', type_system: :smart_types
+        param :email, 'string'
+      end
+
+      expect { data_klass.new(123, 'iamdaiver@gmail.com') }.to raise_error(
+        SmartCore::Types::TypeError
+      )
+
+      expect { data_klass.new('123', :email) }.to raise_error(
+        SmartCore::Initializer::ThyTypeValidationError
+      )
+
+      expect { data_klass.new('123', 'iamdaiver@gmail.com') }.not_to raise_error
+    end
   end
 end

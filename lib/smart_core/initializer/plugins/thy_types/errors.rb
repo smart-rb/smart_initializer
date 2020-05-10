@@ -7,5 +7,5 @@ module SmartCore::Initializer
 
   # @api public
   # @since 0.1.0
-  ThyTypesValidationError = Class.new(ThyTypesError)
+  ThyTypeValidationError = Class.new(ThyTypesError)
 end
