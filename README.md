@@ -88,7 +88,7 @@ param <attribute_name>,
       type_system: :smart_types # used by default
 ```
 
-### `option` signature:
+#### `option` signature:
 
 ```ruby
 option <attribute_name>,
