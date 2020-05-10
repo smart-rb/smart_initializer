@@ -151,5 +151,22 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
 
       expect { data_klass.new('123', 'iamdaiver@gmail.com') }.not_to raise_error
     end
+
+    specify 'support for the common attribute definition functionality' do
+      data_klass = Class.new do
+        include SmartCore::Initializer(type_system: :thy_types)
+
+        option :email, 'string', default: 'no@email.com', finalize: -> (value) { "1#{value}" }
+        option :admin, 'boolean', default: false, finalize: -> (value) { true }
+      end
+
+      instance = data_klass.new
+      expect(instance.email).to eq('1no@email.com')
+      expect(instance.admin).to eq(true)
+
+      instance = data_klass.new(email: 'iamdaiver@gmail.com', admin: false)
+      expect(instance.email).to eq('1iamdaiver@gmail.com')
+      expect(instance.admin).to eq(true)
+    end
   end
 end

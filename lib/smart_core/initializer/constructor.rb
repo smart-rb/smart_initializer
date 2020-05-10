@@ -123,6 +123,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # rubocop:disable Metrics/AbcSize
   def initialize_options(instance)
     klass.__options__.each do |attribute|
       option_value = options.fetch(attribute.name) { attribute.default }
@@ -137,6 +138,7 @@ class SmartCore::Initializer::Constructor
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # @param instance [Any]
   # @return [void]

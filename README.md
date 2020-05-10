@@ -25,6 +25,8 @@ require 'smart_core/types'
 - [Synopsis](#synopsis)
 - [Type Aliasing](#type-aliasing)
 - [Initialization extension](#initialization-extension)
+- [Plugins](#plugins)
+  - [thy-types](#thy-types)
 - [How to run tests](#how-to-run-tests)
 
 ---
@@ -147,6 +149,46 @@ user.name # => 'keka'
 user.age # => 123
 user.extra # => :ext1
 user.extra2 # => :ext2
+```
+
+---
+
+## Plugins
+
+- [thy-types](#thy-types)
+
+---
+
+## thy-types
+
+Additional type system with a support for `Thy::Types` types ([repo](https://github.com/akxcv/thy))
+
+- enable `thy-types` plugin
+
+```ruby
+SmartCore::Initializer::Configuration.plugin(:thy_types)
+```
+
+- usage:
+
+```ruby
+class User
+  include SmartCore::Initializer(type_system: :thy_types)
+
+  param :nickname, 'string'
+  param :email, 'value.text', type_system: :smart_types # mixing with smart_types
+  option :admin, Thy::Types::Boolean, default: false
+  option :age, (Thy::Type.new { |value| value > 18 }) # custom thy type is supported too
+end
+
+# valid case:
+User.new('daiver', 'iamdaiver@gmail.com', { admin: true, age: 19 }) # => new user object
+
+# invalid case:
+User.new('daiver', 'iamdaiver@gmail.com', { age: 17 })
+# (invalid age) => SmartCore::Initializer::ThyTypeValidationError
+User.new(123, 'test', { admin: true, age: 22 })
+# (invalid nickname) => SmartCore::Initializer::ThyTypeValidationError
 ```
 
 ---
