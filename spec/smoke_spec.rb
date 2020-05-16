@@ -125,6 +125,26 @@ RSpec.describe 'Smoke Test' do
     end.to raise_error(SmartCore::Initializer::OptionOverlapError)
   end
 
+  it 'instantiation: fails on unknown options' do
+    klass = Class.new do
+      include SmartCore::Initializer
+      option :user_id
+      option :role_id, default: 123
+    end
+
+    expect do
+      klass.new(user_id: 7, lol_kek: 123)
+    end.to raise_error(SmartCore::Initializer::OptionArgumentError)
+
+    expect do
+      klass.new(user_id: 7, role_id: 55, lol_kek: 123)
+    end.to raise_error(SmartCore::Initializer::OptionArgumentError)
+
+    expect { klass.new(user_id: 7) }.not_to raise_error
+
+    expect { klass.new(user_id: 7, role_id: 7) }.not_to raise_error
+  end
+
   specify 'initializer behavior extension' do
     instance = Class.new { include SmartCore::Initializer }
     expect(instance).not_to respond_to(:kek)

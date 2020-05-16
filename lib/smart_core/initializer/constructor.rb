@@ -73,7 +73,6 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   def prevent_attribute_insufficiency
-    required_options = klass.__options__.reject(&:has_default?).map(&:name)
     required_parameter_count = klass.__params__.size
 
     raise(
@@ -82,12 +81,21 @@ class SmartCore::Initializer::Constructor
       "(given #{parameters.size}, expected #{required_parameter_count})"
     ) unless parameters.size == required_parameter_count
 
-    missing_options = required_options.reject { |option| options.key?(option) }
+    required_options = klass.__options__.reject(&:has_default?).map(&:name)
+    missing_options  = required_options.reject { |option| options.key?(option) }
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
       "Missing options: #{missing_options.join(', ')}"
     ) if missing_options.any?
+
+    possible_options = klass.__options__.map(&:name)
+    unknown_options  = options.keys - possible_options
+
+    raise(
+      SmartCore::Initializer::OptionArgumentError,
+      "Unknown options: #{unknown_options.join(', ')}"
+    ) if unknown_options.any?
   end
 
   # @return [Any]
