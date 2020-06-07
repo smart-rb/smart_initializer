@@ -269,7 +269,7 @@ bin/rspec -w
 - without plugin tests:
 
 ```shell
-bin/rspec -g
+bin/rspec -n
 ```
 
 - help message:

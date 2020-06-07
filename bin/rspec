@@ -23,7 +23,7 @@ module SmartCoreInitializerRSpecRunner
           run_with_plugin_tests!
         end
 
-        opts.on('-g', '--without-plugins', 'Run general tests (without plugin tests') do
+        opts.on('-n', '--without-plugins', 'Run general tests (without plugin tests') do
           run_without_plugin_tests!
         end
       end.parse!

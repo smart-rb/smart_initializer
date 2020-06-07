@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-module SmartCore::Initializer::ConfigurableModule
+module SmartCore::Initializer::ConfigurableInjector
   # @return [NilClass]
   #
   # @api private
