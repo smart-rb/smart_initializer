@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `extend_initialization_flow` alias method for `SmartCore::Initializer.ext_init`;
+
 ## [0.2.0] - 2020-05-16
 ### Changed
 - **Constructor**: disallow unknown option attributes;

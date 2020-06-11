@@ -176,5 +176,6 @@ module SmartCore::Initializer::DSL
     def ext_init(&block)
       __definer__.define_init_extension(block)
     end
+    alias_method :extend_initialization_flow, :ext_init
   end
 end

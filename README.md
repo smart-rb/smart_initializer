@@ -183,6 +183,7 @@ SmartCore::Initializer::TypeSystem::ThyTypes.type_aliases
 - `ext_init(&block)`:
   - you can define as many extensions as you want;
   - extensions are invoked in the order they are defined;
+  - alias method: `extend_initialization_flow`;
 
 ```ruby
 class User
