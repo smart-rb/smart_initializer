@@ -12,11 +12,11 @@ gem 'smart_initializer'
 ```shell
 bundle install
 # --- or ---
-gem install smart_types
+gem install smart_initializer
 ```
 
 ```ruby
-require 'smart_core/types'
+require 'smart_core/initializer'
 ```
 
 ---
