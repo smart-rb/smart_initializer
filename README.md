@@ -24,7 +24,9 @@ require 'smart_core/initializer'
 ## Table of contents
 
 - [Synopsis](#synopsis)
-- [Type Aliasing](#type-aliasing)
+- [Access to the instance attributes](#access-to-the-instance-attributes)
+- [Configuration]
+- [Type aliasing](#type-aliasing)
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
@@ -122,10 +124,10 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 
 ---
 
-## Access to the instance attribute lists
+## Access to the instance attributes
 
-- `#__params__` - returns a list of params;
-- `#__options__` - returns a list of options;
+- `#__params__` - returns a list of initialized params;
+- `#__options__` - returns a list of initialized options;
 - `#__attributes__` - returns a list of merged params and options;
 
 ```ruby
