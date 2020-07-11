@@ -122,6 +122,31 @@ User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
 
 ---
 
+## Access to the instance attribute lists
+
+- `#__params__` - returns a list of params;
+- `#__options__` - returns a list of options;
+- `#__attributes__` - returns a list of merged params and options;
+
+```ruby
+class User
+  include SmartCore::Initializer
+
+  param :first_name, 'string'
+  param :second_name, 'string'
+  option :age, 'numeric'
+  option :is_admin, 'boolean', default: true
+end
+
+user = User.new('Rustam', 'Ibragimov', age: 28)
+
+user.__params__ # => { first_name: 'Rustam', second_name: 'Ibragimov' }
+user.__options__ # => { age: 28, is_admin: true }
+user.__attributes__ # => { first_name: 'Rustam', second_name: 'Ibragimov', age: 28, is_admin: true }
+```
+
+---
+
 ## Configuration
 
 - based on `Qonfig` gem;

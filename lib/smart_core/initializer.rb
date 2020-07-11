@@ -15,12 +15,16 @@ module SmartCore
     require_relative 'initializer/plugins'
     require_relative 'initializer/settings'
     require_relative 'initializer/configuration'
-    require_relative 'initializer/configurable_injector'
     require_relative 'initializer/type_system'
     require_relative 'initializer/attribute'
     require_relative 'initializer/extensions'
     require_relative 'initializer/constructor'
     require_relative 'initializer/dsl'
+    require_relative 'initializer/instance_attribute_accessing'
+    require_relative 'initializer/functionality'
+
+    # @since 0.3.0
+    include SmartCore::Initializer::InstanceAttributeAccessing
 
     class << self
       # @param base_klass [Class]
@@ -28,8 +32,9 @@ module SmartCore
       #
       # @api private
       # @since 0.1.0
+      # @version 0.3.0
       def included(base_klass)
-        base_klass.extend(SmartCore::Initializer::DSL)
+        ::SmartCore::Initializer::Functionality.seed_to(base_klass)
       end
     end
 
@@ -46,9 +51,10 @@ module SmartCore
     #
     # @api public
     # @since 0.1.0
+    # @version 0.3.0
     # rubocop:disable Naming/MethodName
-    def Initializer(type_system: SmartCore::Initializer::ConfigurableInjector::INITIAL_TYPE_SYSTEM)
-      SmartCore::Initializer::ConfigurableInjector.build(type_system: type_system)
+    def Initializer(type_system: SmartCore::Initializer::Functionality::INITIAL_TYPE_SYSTEM)
+      SmartCore::Initializer::Functionality.includable_module(type_system: type_system)
     end
     # rubocop:enable Naming/MethodName
   end
