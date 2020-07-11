@@ -25,7 +25,7 @@ require 'smart_core/initializer'
 
 - [Synopsis](#synopsis)
 - [Access to the instance attributes](#access-to-the-instance-attributes)
-- [Configuration]
+- [Configuration](#configuration)
 - [Type aliasing](#type-aliasing)
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
