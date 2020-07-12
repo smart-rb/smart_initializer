@@ -33,7 +33,7 @@ module SmartCore::Initializer::DSL
     #
     # @api private
     # @since 0.1.0
-    # @version 0.3.1
+    # @version 0.3.2
     def inherited(child_klass)
       child_klass.instance_exec(__initializer_settings__) do |init_settings|
         instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
