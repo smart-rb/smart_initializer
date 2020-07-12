@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2020-07-12
+### Fixed
+- Deeply inherited entities lose class attribute definers;
+
 ## [0.3.0] - 2020-07-11
 ### Added
 - `extend_initialization_flow` alias method for `SmartCore::Initializer.ext_init`;

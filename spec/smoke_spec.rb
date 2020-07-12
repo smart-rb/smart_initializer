@@ -81,15 +81,16 @@ RSpec.describe 'Smoke Test' do
     end
 
     Concrete = Class.new(NanoBase)
-    concrete = Concrete.new(1, 2, 3, 4, b: 6, f: 7, g: 8)
+    SubConcrete = Class.new(Concrete)
+    sub_concrete = SubConcrete.new(1, 2, 3, 4, b: 6, f: 7, g: 8)
 
-    expect(concrete.a).to eq(1)
-    expect(concrete.b).to eq(6)
-    expect(concrete.c).to eq(2)
-    expect(concrete.d).to eq(3)
-    expect(concrete.e).to eq(4)
-    expect(concrete.f).to eq(7)
-    expect(concrete.g).to eq(8)
+    expect(sub_concrete.a).to eq(1)
+    expect(sub_concrete.b).to eq(6)
+    expect(sub_concrete.c).to eq(2)
+    expect(sub_concrete.d).to eq(3)
+    expect(sub_concrete.e).to eq(4)
+    expect(sub_concrete.f).to eq(7)
+    expect(sub_concrete.g).to eq(8)
   end
 
   specify 'type aliases' do

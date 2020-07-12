@@ -33,6 +33,7 @@ module SmartCore::Initializer::DSL
     #
     # @api private
     # @since 0.1.0
+    # @version 0.3.1
     def inherited(child_klass)
       child_klass.instance_eval do
         instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
@@ -44,6 +45,7 @@ module SmartCore::Initializer::DSL
       end
       child_klass.extend(ClassMethods)
       SmartCore::Initializer::DSL::Inheritance.inherit(base: self, child: child_klass)
+      child_klass.singleton_class.prepend(ClassInheritance)
       super
     end
   end
