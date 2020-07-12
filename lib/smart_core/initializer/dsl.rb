@@ -35,13 +35,13 @@ module SmartCore::Initializer::DSL
     # @since 0.1.0
     # @version 0.3.1
     def inherited(child_klass)
-      child_klass.instance_eval do
+      child_klass.instance_exec(__initializer_settings__) do |init_settings|
         instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
         instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
-        instance_variable_set(:@__initializer_settings__, __initializer_settings__.dup)
+        instance_variable_set(:@__initializer_settings__, init_settings.dup)
       end
       child_klass.extend(ClassMethods)
       SmartCore::Initializer::DSL::Inheritance.inherit(base: self, child: child_klass)

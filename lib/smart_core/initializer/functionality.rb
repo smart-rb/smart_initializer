@@ -31,6 +31,7 @@ module SmartCore::Initializer::Functionality
     # @since 0.3.0
     def seed_to(base_klass)
       base_klass.extend(SmartCore::Initializer::DSL)
+      base_klass.include(SmartCore::Initializer::InstanceAttributeAccessing)
     end
   end
 end

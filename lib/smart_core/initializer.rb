@@ -23,9 +23,6 @@ module SmartCore
     require_relative 'initializer/instance_attribute_accessing'
     require_relative 'initializer/functionality'
 
-    # @since 0.3.0
-    include SmartCore::Initializer::InstanceAttributeAccessing
-
     class << self
       # @param base_klass [Class]
       # @return [void]
