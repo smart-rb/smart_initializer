@@ -37,6 +37,18 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   DEFAULT_DYNAMIC_OPTIONS = {}.freeze
 
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.4.0
+  DEFAULT_READ_ONLY = true
+
+  # @return [NilClass]
+  #
+  # @api private
+  # @since 0.4.0
+  DEFAULT_AS = nil
+
   # @return [Symbol]
   #
   # @api private
@@ -81,25 +93,42 @@ class SmartCore::Initializer::Attribute::Parameters
   # @since 0.1.0
   attr_reader :dynamic_options
 
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.4.0
+  attr_reader :read_only
+
+  # @return [String, Symbol, NilClass]
+  #
+  # @api private
+  # @since 0.4.0
+  attr_reader :as
+
   # @param name [Symbol]
   # @param type [SmartCore::Initializer::TypeSystem::Interop]
   # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
+  # @param read_only [Boolean]
+  # @param as [NilClass, Symbol, String]
   # @param dynamic_options [Hash<Symbol,Any>]
   #   - :default - default value (Proc value will be called)
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def initialize(name, type, type_system, privacy, finalizer, cast, dynamic_options)
+  # @version 0.4.0
+  def initialize(name, type, type_system, privacy, finalizer, cast, read_only, as, dynamic_options)
     @name = name
     @type = type
     @type_system = type_system
     @privacy = privacy
     @finalizer = finalizer
     @cast = cast
+    @read_only = read_only
+    @as = as
     @dynamic_options = dynamic_options
   end
 

@@ -59,20 +59,34 @@ class SmartCore::Initializer::Attribute
   # @since 0.1.0
   def_delegator :parameters, :has_default?
 
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.4.0
+  def_delegator :parameters, :read_only
+
+  # @return [String, Symbol, NilClass]
+  #
+  # @api private
+  # @since 0.4.0
+  def_delegator :parameters, :as
+
   # @param name [Symbol]
   # @param type [SmartCore::Initializer::TypeSystem::Interop]
   # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @param privacy [Symbol]
   # @param finalizer [SmartCore::Initializer::Attribute::Finalizer::AnonymousBlock/InstanceMethod]
   # @param cast [Boolean]
+  # @param read_only [Boolean]
+  # @param as [String, Symbol, NilClass]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def initialize(name, type, type_system, privacy, finalizer, cast, dynamic_options)
+  def initialize(name, type, type_system, privacy, finalizer, cast, read_only, as, dynamic_options)
     @parameters = SmartCore::Initializer::Attribute::Parameters.new(
-      name, type, type_system, privacy, finalizer, cast, dynamic_options
+      name, type, type_system, privacy, finalizer, cast, read_only, as, dynamic_options
     )
   end
 
@@ -88,6 +102,8 @@ class SmartCore::Initializer::Attribute
       parameters.privacy,
       parameters.finalizer.dup,
       parameters.cast,
+      parameters.read_only,
+      parameters.as,
       parameters.dynamic_options.dup
     )
   end

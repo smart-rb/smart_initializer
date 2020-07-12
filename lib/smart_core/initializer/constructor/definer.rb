@@ -31,12 +31,24 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
+  # @param read_only [Boolean]
+  # @param as [String, Symbol, NilClass]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_parameter(name, type, type_system, privacy, finalize, cast, dynamic_options)
+  def define_parameter(
+    name,
+    type,
+    type_system,
+    privacy,
+    finalize,
+    cast,
+    read_only,
+    as,
+    dynamic_options
+  )
     thread_safe do
       attribute = build_attribute(
         name,
@@ -45,6 +57,8 @@ class SmartCore::Initializer::Constructor::Definer
         privacy,
         finalize,
         cast,
+        read_only,
+        as,
         dynamic_options
       )
       prevent_option_overlap(attribute)
@@ -67,6 +81,8 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
+          SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
+          SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_DYNAMIC_OPTIONS.dup
         ).tap do |attribute|
           prevent_option_overlap(attribute)
@@ -83,12 +99,24 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
+  # @param read_only [Boolean]
+  # @param as [String, Symbol, NilClass]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_option(name, type, type_system, privacy, finalize, cast, dynamic_options)
+  def define_option(
+    name,
+    type,
+    type_system,
+    privacy,
+    finalize,
+    cast,
+    read_only,
+    as,
+    dynamic_options
+  )
     thread_safe do
       attribute = build_attribute(
         name,
@@ -97,6 +125,8 @@ class SmartCore::Initializer::Constructor::Definer
         privacy,
         finalize,
         cast,
+        read_only,
+        as,
         dynamic_options
       )
       prevent_parameter_overlap(attribute)
@@ -119,6 +149,8 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
+          SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
+          SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
           SmartCore::Initializer::Attribute::Parameters::DEFAULT_DYNAMIC_OPTIONS.dup
         ).tap do |attribute|
           prevent_parameter_overlap(attribute)
@@ -143,14 +175,26 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
+  # @param read_only [Boolean]
+  # @param as [String, Symbol, NilClass]
   # @param dynamic_options [Hash<Symbol,Any>]
   # @return [SmartCore::Initializer::Attribute]
   #
   # @api private
   # @since 0.1.0
-  def build_attribute(name, type, type_system, privacy, finalize, cast, dynamic_options)
+  def build_attribute(
+    name,
+    type,
+    type_system,
+    privacy,
+    finalize,
+    cast,
+    read_only,
+    as,
+    dynamic_options
+  )
     SmartCore::Initializer::Attribute::Factory.create(
-      name, type, type_system, privacy, finalize, cast, dynamic_options
+      name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
     )
   end
 

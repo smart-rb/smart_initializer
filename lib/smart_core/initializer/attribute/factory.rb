@@ -10,18 +10,22 @@ class SmartCore::Initializer::Attribute::Factory
     # @param privacy [String, Symbol]
     # @param finalize [String, Symbol, Proc]
     # @param cast [Boolean]
+    # @param read_only [Boolean]
+    # @param as [String, Symbol, NilClass]
     # @param dynamic_options [Hash<Symbol,Any>]
     # @return [SmartCore::Initializer::Attribute]
     #
     # @api private
     # @since 0.1.0
-    def create(name, type, type_system, privacy, finalize, cast, dynamic_options)
+    def create(name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options)
       prepared_name            = prepare_name_param(name)
       prepared_privacy         = prepare_privacy_param(privacy)
       prepared_finalize        = prepare_finalize_param(finalize)
       prepared_cast            = prepare_cast_param(cast)
       prepared_type_system     = prepare_type_system_param(type_system)
       prepared_type            = prepare_type_param(type, prepared_type_system)
+      prepared_read_only       = prepare_read_only_param(read_only)
+      prepared_as              = preapre_as_param(as)
       prepared_dynamic_options = prepare_dynamic_options_param(dynamic_options)
 
       create_attribute(
@@ -31,6 +35,8 @@ class SmartCore::Initializer::Attribute::Factory
         prepared_privacy,
         prepared_finalize,
         prepared_cast,
+        prepared_read_only,
+        prepared_as,
         prepared_dynamic_options
       )
     end
@@ -118,6 +124,36 @@ class SmartCore::Initializer::Attribute::Factory
       SmartCore::Initializer::Attribute::Finalizer.create(finalize)
     end
 
+    # @param read_only [Boolean]
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.4.0
+    def prepare_read_only_param(read_only)
+      unless read_only.is_a?(FalseClass) || read_only.is_a?(TrueClass)
+        raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
+          :read_only attribute should be a type of boolean
+        ERROR_MESSAGE
+      end
+
+      read_only
+    end
+
+    # @param [String, Symbol, NilClass]
+    # @return [String, Symbol, NilClass]
+    #
+    # @api private
+    # @since 0.4.0
+    def preapre_as_param(as)
+      unless as.is_a?(NilClass) || as.is_a?(String) || as.is_a?(Symbol)
+        raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
+          Attribute alias should be a type of String or Symbol
+        ERROR_MESSAGE
+      end
+
+      as
+    end
+
     # @param dynamic_options [Hash<Symbol,Any>]
     # @return [Hash<Symbol,Any>]
     #
@@ -155,10 +191,12 @@ class SmartCore::Initializer::Attribute::Factory
     #
     # @api private
     # @since 0.1.0
-    def create_attribute(name, type, type_system, privacy, finalize, cast, dynamic_options)
+    # rubocop:disable Metrics/LineLength
+    def create_attribute(name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options)
       SmartCore::Initializer::Attribute.new(
-        name, type, type_system, privacy, finalize, cast, dynamic_options
+        name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
       )
     end
+    # rubocop:enable Metrics/LineLength
   end
 end

@@ -108,11 +108,14 @@ module SmartCore::Initializer::DSL
     # @option cast [Boolean]
     # @option privacy [String, Symbol]
     # @option finalize [String, Symbol, Proc]
+    # @option read_only [Boolean]
+    # @option as [NilClass, String, Symbol]
     # @param dynamic_options [Hash<Symbol,Any>]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
+    # @version 0.4.0
     def param(
       name,
       type = __initializer_settings__.generic_type_object,
@@ -120,10 +123,12 @@ module SmartCore::Initializer::DSL
       finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
       cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
       type_system: __initializer_settings__.type_system,
+      read_only: SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
+      as: SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
       **dynamic_options
     )
       __definer__.define_parameter(
-        name, type, type_system, privacy, finalize, cast, dynamic_options
+        name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
       )
     end
 
@@ -142,11 +147,14 @@ module SmartCore::Initializer::DSL
     # @option privacy [String, Symbol]
     # @option finalize [String, Symbol, Proc]
     # @option type_system [String, Symbol]
+    # @option read_only [Boolean]
+    # @option as [NilClass, String, Symbol]
     # @param dynamic_options [Hash<Symbol,Any>]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
+    # @version 0.4.0
     def option(
       name,
       type = __initializer_settings__.generic_type_object,
@@ -154,10 +162,12 @@ module SmartCore::Initializer::DSL
       finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
       cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
       type_system: __initializer_settings__.type_system,
+      read_only: SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
+      as: SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
       **dynamic_options
     )
       __definer__.define_option(
-        name, type, type_system, privacy, finalize, cast, dynamic_options
+        name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
       )
     end
 
