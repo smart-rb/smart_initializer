@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [0.4.0] - 2020-07-12
 ### Added
 - Attribue Definition DSL
-  - Support for attribute interface control (`read_only` parameter);
+  - Support for specifying the attribute accessor type (`read_only` parameter);
   - Support for attribute aliasing (`as` parameter);
 
 ## [0.3.2] - 2020-07-12
