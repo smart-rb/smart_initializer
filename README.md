@@ -30,6 +30,7 @@ require 'smart_core/initializer'
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
+- [Roadmap](#roadmap)
 - [How to run tests](#how-to-run-tests)
 
 ---
@@ -286,7 +287,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ---
 
-### Roadmap
+## Roadmap
 
 - Attribue Definition DSL
   - Support for specifying the attribute accessor type (`read_only` parameter);
