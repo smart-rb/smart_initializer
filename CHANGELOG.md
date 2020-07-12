@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.1] - 2020-07-12
 ### Fixed
-- Deeply inherited entities lose class attribute definers;
+- Deeply inherited entities lose their class attribute definers;
 
 ## [0.3.0] - 2020-07-11
 ### Added
