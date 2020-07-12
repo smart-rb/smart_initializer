@@ -77,7 +77,7 @@ module SmartCore::Initializer::DSL
       @__init_extensions__
     end
 
-    # @return [SmartCore::Initializer::Attribute::Definer]
+    # @return [SmartCore::Initializer::Constructor::Definer]
     #
     # @api private
     # @since 0.1.0
