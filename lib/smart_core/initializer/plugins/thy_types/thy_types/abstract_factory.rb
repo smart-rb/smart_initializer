@@ -66,12 +66,13 @@ module SmartCore::Initializer::TypeSystem
       # @param valid_op [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Valid]
       # @param valid_op [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Validate]
       # @param valid_op [SmartCore::Initializer::TypeSystem::ThyTypes::Operation::Cast]
+      # @param force_cast [Boolean]
       # @return [SmartCore::Initializer::TypeSystem::ThyTypes]
       #
       # @api private
       # @since 0.1.0
-      def build_interop(valid_op, validate_op, cast_op)
-        ThyTypes.new(valid_op, validate_op, cast_op)
+      def build_interop(valid_op, validate_op, cast_op, force_cast)
+        ThyTypes.new(valid_op, validate_op, cast_op, force_cast)
       end
     end
   end
