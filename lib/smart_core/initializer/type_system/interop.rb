@@ -48,10 +48,11 @@ class SmartCore::Initializer::TypeSystem::Interop
   #
   # @api private
   # @since 0.1.0
-  def initialize(valid_op, validate_op, cast_op)
+  def initialize(valid_op, validate_op, cast_op, force_cast)
     @valid_op = valid_op
     @validate_op = validate_op
     @cast_op = cast_op
+    @force_cast = force_cast
   end
 
   # @param value [Any]
@@ -79,6 +80,14 @@ class SmartCore::Initializer::TypeSystem::Interop
   # @since 0.1.0
   def cast(value)
     cast_op.call(value)
+  end
+
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.4.1
+  def force_cast?
+    @force_cast
   end
 
   private

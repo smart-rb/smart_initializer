@@ -30,6 +30,7 @@ require 'smart_core/initializer'
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
+  - [dry-types](#plugin-dry-types)
 - [Roadmap](#roadmap)
 - [How to run tests](#how-to-run-tests)
 
@@ -280,9 +281,53 @@ User.new('daiver', 'iamdaiver@gmail.com', { admin: true, age: 19 })
 User.new('daiver', 'iamdaiver@gmail.com', { age: 17 })
 # SmartCore::Initializer::ThyTypeValidationError
 
-# invaldi case (invalid nickname)
+# invalid case (invalid nickname)
 User.new(123, 'test', { admin: true, age: 22 })
 # => SmartCore::Initializer::ThyTypeValidationError
+```
+
+---
+
+## Plugin: dry-types
+
+Support for `Dry::Types` type system ([gem](https://dry-rb.org/gems/dry-types))
+
+- install `dry` types (`gem install dry-types`):
+
+```ruby
+gem 'dry-types'
+```
+
+```shell
+bundle install
+```
+
+- enable `dry_types` plugin:
+
+```ruby
+require 'dry-types'
+SmartCore::Initializer::Configuration.plugin(:dry_types)
+```
+
+- usage:
+
+```ruby
+class User
+  include SmartCore::Initializer(type_system: :dry_types)
+
+  param :nickname, 'string'
+  param :email, 'value.text', type_system: :smart_types # mixing with smart_types
+  option :admin, Dry::Types['bool'], default: false
+  option :age, Dry::Types['integer']
+end
+
+# valid case:
+User.new('daiver', 'iamdaiver@gmail.com', { admin: true, age: 19 })
+# => new user object
+
+# invalid case (invalid nickname)
+User.new(123, 'test', { admin: true, age: 22 })
+# => SmartCore::Initializer::DryTypeValidationError
 ```
 
 ---

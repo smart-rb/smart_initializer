@@ -17,7 +17,9 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
       validate_op = build_validate_operation(type)
       cast_op = build_cast_operation(type)
 
-      build_interop(valid_op, validate_op, cast_op)
+      force_cast = force_cast_for?(type)
+
+      build_interop(valid_op, validate_op, cast_op, force_cast)
     end
 
     # @return [Any]
@@ -58,13 +60,23 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     # @since 0.1.0
     def build_cast_operation(type); end
 
+    # @param type [Any]
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.4.1
+    def force_cast_for?(type)
+      false
+    end
+
     # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
     # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
     # @param cast_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
+    # @param force_cast [Boolean]
     # @return [SmartCore::Initializer::TypeSystem::Interop]
     #
     # @api private
     # @since 0.1.0
-    def build_interop(valid_op, validate_op, cast_op); end
+    def build_interop(valid_op, validate_op, cast_op, force_cast); end
   end
 end

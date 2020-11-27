@@ -117,7 +117,7 @@ class SmartCore::Initializer::Constructor
     parameter_definitions = Hash[klass.__params__.zip(parameters)]
 
     parameter_definitions.each_pair do |attribute, parameter_value|
-      if !attribute.type.valid?(parameter_value) && attribute.cast?
+      if attribute.type.force_cast? || (!attribute.type.valid?(parameter_value) && attribute.cast?)
         parameter_value = attribute.type.cast(parameter_value)
       end
 
@@ -138,7 +138,7 @@ class SmartCore::Initializer::Constructor
     klass.__options__.each do |attribute|
       option_value = options.fetch(attribute.name) { attribute.default }
 
-      if !attribute.type.valid?(option_value) && attribute.cast?
+      if attribute.type.force_cast? || (!attribute.type.valid?(option_value) && attribute.cast?)
         option_value = attribute.type.cast(option_value)
       end
 

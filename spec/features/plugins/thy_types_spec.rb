@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
-  before do
-    require 'thy'
-    SmartCore::Initializer::Configuration.plugin(:thy_types)
-  end
-
   specify 'aliases' do
     expect(SmartCore::Initializer::TypeSystem::ThyTypes.type_aliases).to contain_exactly(
       'any',
