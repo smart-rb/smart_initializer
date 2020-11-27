@@ -3,7 +3,7 @@
 module SmartCore::Initializer::TypeSystem
   # @abstract
   # @api private
-  # @since 0.3.4
+  # @since 0.4.1
   class DryTypes::Operation::Base < Interop::Operation
   end
 end

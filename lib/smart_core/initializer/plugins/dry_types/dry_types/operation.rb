@@ -2,7 +2,7 @@
 
 module SmartCore::Initializer::TypeSystem
   # @api private
-  # @since 0.3.4
+  # @since 0.4.1
   module DryTypes::Operation
     require_relative 'operation/base'
     require_relative 'operation/valid'

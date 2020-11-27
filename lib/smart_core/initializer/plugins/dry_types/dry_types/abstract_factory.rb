@@ -2,12 +2,12 @@
 
 module SmartCore::Initializer::TypeSystem
   # @api private
-  # @since 0.3.4
+  # @since 0.4.1
   class DryTypes::AbstractFactory < Interop::AbstractFactory
     # @return [Dry::Types::AnyClass]
     #
     # @api private
-    # @since 0.3.4
+    # @since 0.4.1
     GENERIC_TYPE = ::Dry::Types["any"]
 
     class << self
@@ -17,7 +17,7 @@ module SmartCore::Initializer::TypeSystem
       # @raise [SmartCore::Initializer::IncorrectTypeObjectError]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def prevent_incompatible_type!(type)
         unless type.respond_to?(:valid?) || type.respond_to?(:call)
           raise(
@@ -32,7 +32,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [SmartCore::Initializer::TypeSystem::DryTypes::Operation::Valid]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def build_valid_operation(type)
         DryTypes::Operation::Valid.new(type)
       end
@@ -40,7 +40,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [#valid?, #call]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def generic_type_object
         GENERIC_TYPE
       end
@@ -49,7 +49,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [SmartCore::Initializer::TypeSystem::DryTypes::Operation::Validate]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def build_validate_operation(type)
         DryTypes::Operation::Validate.new(type)
       end
@@ -58,7 +58,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [SmartCore::Initializer::TypeSystem::DryTypes::Operation::Cast]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def build_cast_operation(type)
         DryTypes::Operation::Cast.new(type)
       end
@@ -67,7 +67,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [Boolean]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def force_cast_for?(type)
         type.is_a?(Dry::Types::Constructor)
       end
@@ -79,7 +79,7 @@ module SmartCore::Initializer::TypeSystem
       # @return [SmartCore::Initializer::TypeSystem::DryTypes]
       #
       # @api private
-      # @since 0.3.4
+      # @since 0.4.1
       def build_interop(valid_op, validate_op, cast_op, force_cast)
         DryTypes.new(valid_op, validate_op, cast_op, force_cast)
       end

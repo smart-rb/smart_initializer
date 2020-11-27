@@ -85,7 +85,7 @@ class SmartCore::Initializer::TypeSystem::Interop
   # @return [Boolean]
   #
   # @api private
-  # @since 0.3.4
+  # @since 0.4.1
   def force_cast?
     @force_cast
   end

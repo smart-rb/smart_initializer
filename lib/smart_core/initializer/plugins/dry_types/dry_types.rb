@@ -2,7 +2,7 @@
 
 module SmartCore::Initializer::TypeSystem
   # @api public
-  # @since 0.3.4
+  # @since 0.4.1
   class DryTypes < Interop
     require_relative 'dry_types/abstract_factory'
     require_relative 'dry_types/operation'

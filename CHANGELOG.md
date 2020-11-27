@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2020-07-12
+### Added
+- Plugin for gem `dry-types`
+
 ## [0.4.0] - 2020-07-12
 ### Added
 - Attribue Definition DSL

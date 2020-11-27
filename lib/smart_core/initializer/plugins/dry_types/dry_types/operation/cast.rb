@@ -2,13 +2,13 @@
 
 module SmartCore::Initializer::TypeSystem::DryTypes::Operation
   # @api private
-  # @since 0.3.4
+  # @since 0.4.1
   class Cast < Base
     # @param value [Any]
     # @return [Any]
     #
     # @api private
-    # @since 0.3.4
+    # @since 0.4.1
     def call(value)
       type[value]
     rescue Dry::Types::CoercionError

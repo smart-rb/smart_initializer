@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # @api private
-# @since 0.3.4
+# @since 0.4.1
 class SmartCore::Initializer::Plugins::DryTypes < SmartCore::Initializer::Plugins::Abstract
   class << self
     # @return [void]
     #
     # @api private
-    # @since 0.3.4
+    # @since 0.4.1
     def install!
       raise(
         SmartCore::Initializer::UnresolvedPluginDependencyError,
