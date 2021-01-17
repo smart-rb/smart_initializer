@@ -1,20 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2021-01-17
+## [0.4.0] - 2020-01-18
 ### Added
+- Attribue Definition DSL
+  - Support for specifying the attribute accessor type (`read_only` parameter);
+  - Support for attribute aliasing (`as` parameter);
 - Support for **Ruby 3**;
 
 ### Changed
 - Moved from `TravisCI` to nothing (todo: migrate to `GitHub Actions`).
   Temporary: we must run test cases locally.
 - Updated development dependencies;
-
-## [0.4.0] - 2020-07-12
-### Added
-- Attribue Definition DSL
-  - Support for specifying the attribute accessor type (`read_only` parameter);
-  - Support for attribute aliasing (`as` parameter);
 
 ## [0.3.2] - 2020-07-12
 ### Fixed
