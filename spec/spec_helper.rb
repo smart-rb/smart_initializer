@@ -12,6 +12,7 @@ SimpleCov.start
 
 require 'bundler/setup'
 require 'smart_core/initializer'
+require 'pry'
 
 require_relative 'support/spec_support'
 require_relative 'support/meta_scopes'
