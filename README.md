@@ -289,7 +289,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ## Roadmap
 
-- Attribue Definition DSL
+- (in development) Attribue Definition DSL
   - Support for specifying the attribute accessor type (`read_only` parameter);
   - Support for attribute aliasing (`as` parameter);
 - Migrate from `TravisCI` to `GitHub Actions`;

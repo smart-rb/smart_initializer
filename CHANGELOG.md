@@ -3,9 +3,6 @@ All notable changes to this project will be documented in this file.
 
 ## [0.4.0] - 2020-01-18
 ### Added
-- Attribue Definition DSL
-  - Support for specifying the attribute accessor type (`read_only` parameter);
-  - Support for attribute aliasing (`as` parameter);
 - Support for **Ruby 3**;
 
 ### Changed
