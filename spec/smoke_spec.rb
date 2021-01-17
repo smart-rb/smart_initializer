@@ -7,7 +7,8 @@ RSpec.describe 'Smoke Test' do
       # include SmartCore::Types::System(:T)
       # param :test, T::Value::Integer
 
-      param :user_id, SmartCore::Types::Value::Integer, cast: true, default: 'test', privacy: :private
+      param :user_id, SmartCore::Types::Value::Integer,
+            cast: true, default: 'test', privacy: :private
       option :password, :integer, cast: true, default: 'test', privacy: :private
       option :keka, finalize: (-> (value) { value.to_s })
 

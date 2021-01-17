@@ -94,6 +94,7 @@ class SmartCore::Initializer::Attribute
   #
   # @api private
   # @since 0.1.0
+  # rubocop:disable Metrics/AbcSize
   def dup
     self.class.new(
       parameters.name.dup,
@@ -107,6 +108,7 @@ class SmartCore::Initializer::Attribute
       parameters.dynamic_options.dup
     )
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

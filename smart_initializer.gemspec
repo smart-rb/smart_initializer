@@ -31,12 +31,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'smart_engine', '~> 0.7'
-  spec.add_dependency 'smart_types',  '~> 0.1.0'
+  spec.add_dependency 'smart_types',  '~> 0.1'
   spec.add_dependency 'qonfig',       '~> 0.24'
 
-  spec.add_development_dependency 'bundler',          '~> 2.1'
+  spec.add_development_dependency 'bundler',          '~> 2.2'
   spec.add_development_dependency 'rake',             '~> 13.0'
-  spec.add_development_dependency 'rspec',            '~> 3.9'
-  spec.add_development_dependency 'armitage-rubocop', '~> 0.87'
-  spec.add_development_dependency 'simplecov',        '~> 0.18'
+  spec.add_development_dependency 'rspec',            '~> 3.10'
+  spec.add_development_dependency 'armitage-rubocop', '~> 1.7'
+  spec.add_development_dependency 'simplecov',        '~> 0.21'
 end

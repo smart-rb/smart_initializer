@@ -1,4 +1,4 @@
-# SmartCore::Initializer &middot; [![Gem Version](https://badge.fury.io/rb/smart_initializer.svg)](https://badge.fury.io/rb/smart_initializer) [![Build Status](https://travis-ci.org/smart-rb/smart_initializer.svg?branch=master)](https://travis-ci.org/smart-rb/smart_initializer)
+# SmartCore::Initializer &middot; [![Gem Version](https://badge.fury.io/rb/smart_initializer.svg)](https://badge.fury.io/rb/smart_initializer)
 
 A simple and convenient way to declare complex constructors with a support for various commonly used type systems.
  (**in active development**).
@@ -31,7 +31,7 @@ require 'smart_core/initializer'
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
 - [Roadmap](#roadmap)
-- [How to run tests](#how-to-run-tests)
+- [Build](#build)
 
 ---
 
@@ -296,7 +296,9 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ---
 
-## How to run tests
+## Build
+
+### Tests Running
 
 - with plugin tests:
 
@@ -314,6 +316,20 @@ bin/rspec -n
 
 ```shell
 bin/rspec -h
+```
+
+### Code Style Checking
+
+- without auto-correction:
+
+```shell
+bundle exec rake rubocop
+```
+
+- with auto-correction:
+
+```shell
+bundle exec rake rubocop -A
 ```
 
 ---

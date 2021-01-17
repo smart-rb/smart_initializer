@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# rubocop:disable Metrics/ClassLength
 class SmartCore::Initializer::Attribute::Factory
   class << self
     # @param name [String, Symbol]
@@ -191,12 +192,13 @@ class SmartCore::Initializer::Attribute::Factory
     #
     # @api private
     # @since 0.1.0
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
     def create_attribute(name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options)
       SmartCore::Initializer::Attribute.new(
         name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
       )
     end
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
   end
 end
+# rubocop:enable Metrics/ClassLength

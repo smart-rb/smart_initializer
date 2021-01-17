@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2021-01-17
+### Added
+- Support for **Ruby 3**;
+
+### Changed
+- Moved from `TravisCI` to nothing (todo: migrate to `GitHub Actions`).
+  Temporary: we must run test cases locally.
+- Updated development dependencies;
+
 ## [0.4.0] - 2020-07-12
 ### Added
 - Attribue Definition DSL

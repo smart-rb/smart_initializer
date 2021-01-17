@@ -5,7 +5,7 @@
 module SmartCore::Initializer::Plugins
   require_relative 'plugins/abstract'
   require_relative 'plugins/registry'
-  require_relative 'plugins/registry_interface.rb'
+  require_relative 'plugins/registry_interface'
   require_relative 'plugins/access_mixin'
   require_relative 'plugins/thy_types'
 
