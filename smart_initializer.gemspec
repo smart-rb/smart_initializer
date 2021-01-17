@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'smart_engine', '~> 0.7'
+  spec.add_dependency 'smart_engine', '~> 0.11'
   spec.add_dependency 'smart_types',  '~> 0.1'
   spec.add_dependency 'qonfig',       '~> 0.24'
 
