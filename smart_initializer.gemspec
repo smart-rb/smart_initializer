@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'smart_engine', '~> 0.11'
-  spec.add_dependency 'smart_types',  '~> 0.1'
+  spec.add_dependency 'smart_types',  '~> 0.4'
   spec.add_dependency 'qonfig',       '~> 0.24'
 
   spec.add_development_dependency 'bundler',          '~> 2.2'
