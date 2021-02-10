@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [0.5.0] - 2021-01-18
 ## Changed
 - Updated `smart_types` dependency (`~> 0.4.0`) to guarantee **Ruby@3** compatibility;
+- Updated development dependencies;
 
 ## [0.4.0] - 2021-01-18
 ### Added
