@@ -293,6 +293,7 @@ User.new(123, 'test', { admin: true, age: 22 })
   - Support for specifying the attribute accessor type (`read_only` parameter);
   - Support for attribute aliasing (`as` parameter);
 - Migrate from `TravisCI` to `GitHub Actions`;
+- Extract `Type Interop` system to `smart_type-system`;
 
 ---
 
