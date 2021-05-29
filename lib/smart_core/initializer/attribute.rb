@@ -99,7 +99,8 @@ class SmartCore::Initializer::Attribute
     type.validate!(value)
   rescue => error
     raise SmartCore::Initializer::IncorrectTypeError,
-          "Validation of attribute '#{name}' (#{type.identifier}) failed: #{error.message}"
+          "Validation of attribute '#{name}' (#{type.identifier}, got #{value.class}) failed: " \
+          "#{error.message}"
   end
 
   # @return [SmartCore::Initializer::Attribute]

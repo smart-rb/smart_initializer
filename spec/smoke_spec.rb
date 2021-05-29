@@ -171,7 +171,7 @@ RSpec.describe 'Smoke Test' do
 
     expect { klass.new('1') }.to raise_error(
       SmartCore::Initializer::IncorrectTypeError,
-      "Validation of attribute 'user_id' (Integer) failed: Invalid type"
+      "Validation of attribute 'user_id' (Integer, got String) failed: Invalid type"
     )
   end
 end
