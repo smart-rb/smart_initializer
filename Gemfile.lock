@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.5.0)
+    smart_initializer (0.5.1)
       qonfig (~> 0.24)
       smart_engine (~> 0.11)
       smart_types (~> 0.4)
