@@ -121,7 +121,7 @@ class SmartCore::Initializer::Constructor
         parameter_value = attribute.type.cast(parameter_value)
       end
 
-      attribute.type.validate!(parameter_value)
+      attribute.validate!(parameter_value)
 
       final_value = attribute.finalizer.call(parameter_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)
@@ -142,7 +142,7 @@ class SmartCore::Initializer::Constructor
         option_value = attribute.type.cast(option_value)
       end
 
-      attribute.type.validate!(option_value)
+      attribute.validate!(option_value)
 
       final_value = attribute.finalizer.call(option_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)

@@ -102,8 +102,10 @@ RSpec.describe 'Smoke Test' do
       option :age, :integer
     end
 
-    expect { Animal.new(123, age: 123) }.to raise_error(SmartCore::Types::TypeError)
-    expect { Animal.new('test', age: 'test') }.to raise_error(SmartCore::Types::TypeError)
+    expect { Animal.new(123, age: 123) }
+      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
+    expect { Animal.new('test', age: 'test') }
+      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
     expect { Animal.new('test', age: 123) }.not_to raise_error
   end
 
@@ -158,5 +160,18 @@ RSpec.describe 'Smoke Test' do
 
     expect(instance).to respond_to(:kek)
     expect(instance.kek).to eq('pek')
+  end
+
+  specify 'validation exception' do
+    klass = Class.new do
+      include SmartCore::Initializer
+
+      param :user_id, SmartCore::Types::Value::Integer
+    end
+
+    expect { klass.new("1") }.to raise_error(
+      SmartCore::Initializer::IncorrectTypeError,
+      "Validation of attribute 'user_id' (Integer) failed: Invalid type"
+    )
   end
 end

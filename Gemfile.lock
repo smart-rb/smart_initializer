@@ -94,16 +94,17 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  x86_64-darwin-19
   x86_64-darwin-20
 
 DEPENDENCIES
   armitage-rubocop (~> 1.7)
   bundler (~> 2.2)
-  pry (~> 0.13)
+  pry (~> 0.14)
   rake (~> 13.0)
   rspec (~> 3.10)
   simplecov (~> 0.21)
   smart_initializer!
 
 BUNDLED WITH
-   2.2.3
+   2.2.11

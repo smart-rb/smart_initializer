@@ -90,6 +90,19 @@ class SmartCore::Initializer::Attribute
     )
   end
 
+  # @param value [Any]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.5.1
+  def validate!(value)
+    type.validate!(value)
+  rescue => e
+    raise SmartCore::Initializer::IncorrectTypeError.new(
+      "Validation of attribute '#{name}' (#{type.identifier}) failed: #{e.message}"
+    )
+  end
+
   # @return [SmartCore::Initializer::Attribute]
   #
   # @api private
