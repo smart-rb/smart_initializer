@@ -13,11 +13,12 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     def create(type)
       prevent_incompatible_type!(type)
 
+      identifier = build_identifier(type)
       valid_op = build_valid_operation(type)
       validate_op = build_validate_operation(type)
       cast_op = build_cast_operation(type)
 
-      build_interop(valid_op, validate_op, cast_op)
+      build_interop(identifier, valid_op, validate_op, cast_op)
     end
 
     # @return [Any]
@@ -25,6 +26,13 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     # @api private
     # @since 0.1.0
     def generic_type_object; end
+
+    # @param type [Any]
+    # @return [String]
+    #
+    # @api private
+    # @since 0.5.1
+    def build_identifier(type); end
 
     # @param type [Any]
     # @return [void]
@@ -58,6 +66,7 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     # @since 0.1.0
     def build_cast_operation(type); end
 
+    # @param identifier [String]
     # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
     # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
     # @param cast_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
@@ -65,6 +74,7 @@ class SmartCore::Initializer::TypeSystem::Interop::AbstractFactory
     #
     # @api private
     # @since 0.1.0
-    def build_interop(valid_op, validate_op, cast_op); end
+    # @version 0.5.1
+    def build_interop(identifier, valid_op, validate_op, cast_op); end
   end
 end

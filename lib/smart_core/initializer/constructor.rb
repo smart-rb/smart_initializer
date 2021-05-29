@@ -113,15 +113,16 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.5.1
   def initialize_parameters(instance)
-    parameter_definitions = Hash[klass.__params__.zip(parameters)]
+    parameter_definitions = klass.__params__.zip(parameters).to_h
 
     parameter_definitions.each_pair do |attribute, parameter_value|
       if !attribute.type.valid?(parameter_value) && attribute.cast?
         parameter_value = attribute.type.cast(parameter_value)
       end
 
-      attribute.type.validate!(parameter_value)
+      attribute.validate!(parameter_value)
 
       final_value = attribute.finalizer.call(parameter_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)
@@ -133,7 +134,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # rubocop:disable Metrics/AbcSize
+  # @version 0.5.1
   def initialize_options(instance)
     klass.__options__.each do |attribute|
       option_value = options.fetch(attribute.name) { attribute.default }
@@ -142,13 +143,12 @@ class SmartCore::Initializer::Constructor
         option_value = attribute.type.cast(option_value)
       end
 
-      attribute.type.validate!(option_value)
+      attribute.validate!(option_value)
 
       final_value = attribute.finalizer.call(option_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   # @param instance [Any]
   # @return [void]

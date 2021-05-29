@@ -22,6 +22,15 @@ module SmartCore::Initializer::TypeSystem
         end
       end
 
+      # @param type [Any]
+      # @return [String]
+      #
+      # @api private
+      # @since 0.5.1
+      def build_identifier(type)
+        type.name
+      end
+
       # @param type [SmartCore::Types::Primitive]
       # @return [SmartCore::Initializer::TypeSystem::SmartTypes::Operation::Valid]
       #
@@ -57,6 +66,7 @@ module SmartCore::Initializer::TypeSystem
         SmartTypes::Operation::Cast.new(type)
       end
 
+      # @param identifier [String]
       # @param valid_op [SmartCore::Initializer::TypeSystem::SmartTypes::Operation::Valid]
       # @param valid_op [SmartCore::Initializer::TypeSystem::SmartTypes::Operation::Validate]
       # @param valid_op [SmartCore::Initializer::TypeSystem::SmartTypes::Operation::Cast]
@@ -64,8 +74,9 @@ module SmartCore::Initializer::TypeSystem
       #
       # @api private
       # @since 0.1.0
-      def build_interop(valid_op, validate_op, cast_op)
-        SmartTypes.new(valid_op, validate_op, cast_op)
+      # @version 0.5.1
+      def build_interop(identifier, valid_op, validate_op, cast_op)
+        SmartTypes.new(identifier, valid_op, validate_op, cast_op)
       end
     end
   end

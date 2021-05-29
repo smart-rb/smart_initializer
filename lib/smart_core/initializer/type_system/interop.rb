@@ -41,6 +41,13 @@ class SmartCore::Initializer::TypeSystem::Interop
     end
   end
 
+  # @return [String]
+  #
+  # @api private
+  # @since 0.5.1
+  attr_reader :identifier
+
+  # @param identifier [String]
   # @param valid_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
   # @param validate_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
   # @param cast_op [SmartCore::Initializer::TypeSystem::Interop::Operation]
@@ -48,7 +55,9 @@ class SmartCore::Initializer::TypeSystem::Interop
   #
   # @api private
   # @since 0.1.0
-  def initialize(valid_op, validate_op, cast_op)
+  # @version 0.5.1
+  def initialize(identifier, valid_op, validate_op, cast_op)
+    @identifier = identifier
     @valid_op = valid_op
     @validate_op = validate_op
     @cast_op = cast_op
