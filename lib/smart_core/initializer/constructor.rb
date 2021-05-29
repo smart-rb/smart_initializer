@@ -113,6 +113,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.5.1
   def initialize_parameters(instance)
     parameter_definitions = klass.__params__.zip(parameters).to_h
 
@@ -133,6 +134,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.5.1
   def initialize_options(instance)
     klass.__options__.each do |attribute|
       option_value = options.fetch(attribute.name) { attribute.default }

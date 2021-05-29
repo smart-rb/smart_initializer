@@ -55,6 +55,7 @@ class SmartCore::Initializer::TypeSystem::Interop
   #
   # @api private
   # @since 0.1.0
+  # @version 0.5.1
   def initialize(identifier, valid_op, validate_op, cast_op)
     @identifier = identifier
     @valid_op = valid_op

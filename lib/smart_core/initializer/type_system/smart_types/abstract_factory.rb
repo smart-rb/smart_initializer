@@ -74,6 +74,7 @@ module SmartCore::Initializer::TypeSystem
       #
       # @api private
       # @since 0.1.0
+      # @version 0.5.1
       def build_interop(identifier, valid_op, validate_op, cast_op)
         SmartTypes.new(identifier, valid_op, validate_op, cast_op)
       end
