@@ -72,6 +72,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.5.2
   # rubocop:disable Metrics/AbcSize
   def prevent_attribute_insufficiency
     required_parameter_count = klass.__params__.size
@@ -96,7 +97,7 @@ class SmartCore::Initializer::Constructor
     raise(
       SmartCore::Initializer::OptionArgumentError,
       "Unknown options: #{unknown_options.join(', ')}"
-    ) if unknown_options.any?
+    ) if unknown_options.any? && SmartCore::Initializer::Configuration[:strict_options_count]
   end
   # rubocop:enable Metrics/AbcSize
 
