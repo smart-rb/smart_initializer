@@ -156,7 +156,7 @@ user.__attributes__ # => { first_name: 'Rustam', second_name: 'Ibragimov', age: 
 - you can read config values via `[]` or `.config.settings` or `.config[key]`;
 - setitngs:
   - `default_type_system` - default type system (`smart_types` by default);
-  - `strict_options_count` - raise an error when got unknown options (`true` by default);
+  - `strict_options_count` - raise an error when got unknown options if true (`true` by default);
 
 ```ruby
 # configure:

@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.6.1] - 2021-06-23
 ## Added
-- `strict_options_count` config option;
+- `strict_options_count` config option for non-strict checking of passed options;
 
 ## [0.6.0] - 2021-06-23
 ## Added
