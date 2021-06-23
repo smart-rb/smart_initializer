@@ -31,8 +31,8 @@ module SmartCore::Initializer::Configuration
       SmartCore::Initializer::TypeSystem.resolve(value) rescue false
     end
 
-    setting :strict_options_count, true
-    validate :strict_options_count do |value|
+    setting :strict_kwargs, true
+    validate :strict_kwargs do |value|
       !!value == value # check if it's a boolean value
     end
   end

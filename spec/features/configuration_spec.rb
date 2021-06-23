@@ -19,14 +19,14 @@ RSpec.describe 'Initializer configuration' do
     end
   end
 
-  describe 'strict_options_count' do
+  describe 'strict_kwargs' do
     specify 'default value' do
-      expect(SmartCore::Initializer::Configuration[:strict_options_count]).to be_truthy
+      expect(SmartCore::Initializer::Configuration[:strict_kwargs]).to be_truthy
     end
 
     specify 'unsupported value - fails' do
       expect(SmartCore::Initializer::Configuration.config.valid_with?({
-        strict_options_count: :kek_pek
+        strict_kwargs: :kek_pek
       })).to eq(false)
     end
   end

@@ -138,17 +138,17 @@ RSpec.describe 'Smoke Test' do
       end
     end
 
-    describe 'strict_options_count option' do
+    describe 'strict_kwargs option' do
       before do
-        SmartCore::Initializer::Configuration.config[:strict_options_count] = strict_options_count
+        SmartCore::Initializer::Configuration.config[:strict_kwargs] = strict_kwargs
       end
 
       after do
-        SmartCore::Initializer::Configuration.config[:strict_options_count] = true
+        SmartCore::Initializer::Configuration.config[:strict_kwargs] = true
       end
 
       context "when it's true" do
-        let(:strict_options_count) { true }
+        let(:strict_kwargs) { true }
 
         specify 'fails on unknown options' do
           expect do
@@ -166,7 +166,7 @@ RSpec.describe 'Smoke Test' do
       end
 
       context "when it's false" do
-        let(:strict_options_count) { false }
+        let(:strict_kwargs) { false }
 
         specify 'skips unknown options' do
           expect { klass.new(user_id: 7, lol_kek: 123) }.not_to raise_error
