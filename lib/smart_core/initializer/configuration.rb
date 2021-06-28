@@ -24,7 +24,6 @@ module SmartCore::Initializer::Configuration
   end
 
   # @since 0.1.0
-  # @version 0.6.1
   configuration do
     setting :default_type_system, :smart_types
     validate :default_type_system do |value|
