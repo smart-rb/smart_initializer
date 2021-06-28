@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [0.6.1] - 2021-06-23
+## [0.7.0] - 2021-06-23
 ## Added
 - `strict_options` config option for non-strict checking of passed options;
 
