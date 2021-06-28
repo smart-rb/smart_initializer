@@ -18,4 +18,16 @@ RSpec.describe 'Initializer configuration' do
       })).to eq(true)
     end
   end
+
+  describe 'strict_options' do
+    specify 'default value' do
+      expect(SmartCore::Initializer::Configuration[:strict_options]).to be_truthy
+    end
+
+    specify 'unsupported value - fails' do
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        strict_options: :kek_pek
+      })).to eq(false)
+    end
+  end
 end
