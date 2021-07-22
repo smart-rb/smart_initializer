@@ -1,7 +1,17 @@
-# SmartCore::Initializer &middot; [![Gem Version](https://badge.fury.io/rb/smart_initializer.svg)](https://badge.fury.io/rb/smart_initializer)
+# SmartCore::Initializer &middot; [![Supporting](https://github.com/Cado-Labs/cado-labs-logos/blob/main/cado_labs_badge.png)](https://github.com/Cado-Labs/) &middot; [![Gem Version](https://badge.fury.io/rb/smart_initializer.svg)](https://badge.fury.io/rb/smart_initializer)
 
 A simple and convenient way to declare complex constructors with a support for various commonly used type systems.
  (**in active development**).
+
+---
+
+<p>
+  <a href="https://github.com/Cado-Labs">
+    <img src="https://github.com/Cado-Labs/cado-labs-logos/blob/main/cado_labs_supporting.svg" alt="Supported by Cado Labs" />
+  </a>
+</p>
+
+---
 
 ## Installation
 
@@ -348,6 +358,12 @@ bundle exec rake rubocop -A
 ## License
 
 Released under MIT License.
+
+## Supporting
+
+<a href="https://github.com/Cado-Labs">
+  <img src="https://github.com/Cado-Labs/cado-labs-logos/blob/main/cado_labs_logo.png" alt="Supported by Cado Labs" />
+</a>
 
 ## Authors
 
