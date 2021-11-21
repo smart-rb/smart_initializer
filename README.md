@@ -99,6 +99,7 @@ param <attribute_name>,
       cast: false, # false by default
       privacy: :public, # :public by default
       finalize: proc { |value| value }, # no finalization by default
+      finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
       type_system: :smart_types # used by default
 ```
 
@@ -110,6 +111,7 @@ option <attribute_name>,
        cast: false, # false by default
        privacy: :public, # :public by default
        finalize: proc { |value| value }, # no finalization by default
+       finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
        default: 123, # no default value by default
        type_system: :smart_types # used by default
 ```
@@ -125,6 +127,8 @@ class User
 
   param :user_id, SmartCore::Types::Value::Integer, cast: false, privacy: :public
   option :role, default: :user, finalize: -> { |value| Role.find(name: value) }
+
+  # NOTE: for method-based finalizetion use `your_method(value)` isntance method of your class
 
   params :name, :password
   options :metadata, :enabled
