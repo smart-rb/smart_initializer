@@ -7,8 +7,7 @@ RSpec.describe 'Smoke Test' do
       # include SmartCore::Types::System(:T)
       # param :test, T::Value::Integer
 
-      param :user_id, SmartCore::Types::Value::Integer,
-            cast: true, default: 'test', privacy: :private
+      param :user_id, SmartCore::Types::Value::Integer, cast: true, privacy: :private
       option :password, :integer, cast: true, default: 'test', privacy: :private
       option :keka, finalize: (-> (value) { value.to_s })
 
@@ -103,9 +102,9 @@ RSpec.describe 'Smoke Test' do
     end
 
     expect { Animal.new(123, age: 123) }
-      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
+      .to raise_error(SmartCore::Types::TypeError)
     expect { Animal.new('test', age: 'test') }
-      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
+      .to raise_error(SmartCore::Types::TypeError)
     expect { Animal.new('test', age: 123) }.not_to raise_error
   end
 
@@ -186,18 +185,5 @@ RSpec.describe 'Smoke Test' do
 
     expect(instance).to respond_to(:kek)
     expect(instance.kek).to eq('pek')
-  end
-
-  specify 'validation exception' do
-    klass = Class.new do
-      include SmartCore::Initializer
-
-      param :user_id, SmartCore::Types::Value::Integer
-    end
-
-    expect { klass.new('1') }.to raise_error(
-      SmartCore::Initializer::IncorrectTypeError,
-      "Validation of attribute 'user_id' (Integer, got String) failed: Invalid type"
-    )
   end
 end

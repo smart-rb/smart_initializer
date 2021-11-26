@@ -108,9 +108,8 @@ module SmartCore::Initializer::DSL
     # @option cast [Boolean]
     # @option privacy [String, Symbol]
     # @option finalize [String, Symbol, Proc]
-    # @option read_only [Boolean]
+    # @option mutable [Boolean]
     # @option as [NilClass, String, Symbol]
-    # @param dynamic_options [Hash<Symbol,Any>]
     # @return [void]
     #
     # @api public
@@ -119,16 +118,15 @@ module SmartCore::Initializer::DSL
     def param(
       name,
       type = __initializer_settings__.generic_type_object,
-      privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
-      finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
-      cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
+      privacy: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
+      finalize: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
+      cast: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_CAST_BEHAVIOUR,
       type_system: __initializer_settings__.type_system,
-      read_only: SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
-      as: SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
-      **dynamic_options
+      mutable: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE,
+      as: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_AS
     )
       __definer__.define_parameter(
-        name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
+        name, type, type_system, privacy, finalize, cast, mutable, as
       )
     end
 
@@ -147,27 +145,27 @@ module SmartCore::Initializer::DSL
     # @option privacy [String, Symbol]
     # @option finalize [String, Symbol, Proc]
     # @option type_system [String, Symbol]
-    # @option read_only [Boolean]
+    # @option mutable [Boolean]
     # @option as [NilClass, String, Symbol]
-    # @param dynamic_options [Hash<Symbol,Any>]
+    # @option default [Proc, Any]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    # @version 0.4.0
+    # @version 0.8.0
     def option(
       name,
       type = __initializer_settings__.generic_type_object,
-      privacy: SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
-      finalize: SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
-      cast: SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
+      privacy: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
+      finalize: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
+      cast: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
       type_system: __initializer_settings__.type_system,
-      read_only: SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
-      as: SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
-      **dynamic_options
+      mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
+      as: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
+      default: SmartCore::Initializer::Attribute::Value::Option::UNEDFINED_DEFAULT_OPTION
     )
       __definer__.define_option(
-        name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
+        name, type, type_system, privacy, finalize, cast, mutable, as, default
       )
     end
 

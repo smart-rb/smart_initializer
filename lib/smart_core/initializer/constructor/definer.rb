@@ -31,9 +31,8 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
-  # @param read_only [Boolean]
+  # @param mutable [Boolean]
   # @param as [String, Symbol, NilClass]
-  # @param dynamic_options [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
@@ -45,21 +44,19 @@ class SmartCore::Initializer::Constructor::Definer
     privacy,
     finalize,
     cast,
-    read_only,
-    as,
-    dynamic_options
+    mutable,
+    as
   )
     thread_safe do
-      attribute = build_attribute(
+      attribute = build_param_attribute(
         name,
         type,
         type_system,
         privacy,
         finalize,
         cast,
-        read_only,
-        as,
-        dynamic_options
+        mutable,
+        as
       )
       prevent_option_overlap(attribute)
       add_parameter(attribute)
@@ -74,16 +71,15 @@ class SmartCore::Initializer::Constructor::Definer
   def define_parameters(*names)
     thread_safe do
       names.map do |name|
-        build_attribute(
+        build_param_attribute(
           name,
           klass.__initializer_settings__.generic_type_object,
           klass.__initializer_settings__.type_system,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_DYNAMIC_OPTIONS.dup
+          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
+          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
+          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_CAST_BEHAVIOUR,
+          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE,
+          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_AS
         ).tap do |attribute|
           prevent_option_overlap(attribute)
         end
@@ -99,9 +95,9 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
-  # @param read_only [Boolean]
+  # @param mutable [Boolean]
   # @param as [String, Symbol, NilClass]
-  # @param dynamic_options [Hash<Symbol,Any>]
+  # @param default [Proc, Any]
   # @return [void]
   #
   # @api private
@@ -113,21 +109,21 @@ class SmartCore::Initializer::Constructor::Definer
     privacy,
     finalize,
     cast,
-    read_only,
+    mutable,
     as,
-    dynamic_options
+    default
   )
     thread_safe do
-      attribute = build_attribute(
+      attribute = build_option_attribute(
         name,
         type,
         type_system,
         privacy,
         finalize,
         cast,
-        read_only,
+        mutable,
         as,
-        dynamic_options
+        default
       )
       prevent_parameter_overlap(attribute)
       add_option(attribute)
@@ -142,16 +138,16 @@ class SmartCore::Initializer::Constructor::Definer
   def define_options(*names)
     thread_safe do
       names.map do |name|
-        build_attribute(
+        build_option_attribute(
           name,
           klass.__initializer_settings__.generic_type_object,
           klass.__initializer_settings__.type_system,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_PRIVACY_MODE,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_FINALIZER,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_CAST_BEHAVIOUR,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_READ_ONLY,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_AS,
-          SmartCore::Initializer::Attribute::Parameters::DEFAULT_DYNAMIC_OPTIONS.dup
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
+          SmartCore::Initializer::Attribute::Value::Option::UNEDFINED_DEFAULT_OPTION
         ).tap do |attribute|
           prevent_parameter_overlap(attribute)
         end
@@ -175,26 +171,55 @@ class SmartCore::Initializer::Constructor::Definer
   # @param privacy [String, Symbol]
   # @param finalize [String, Symbol, Proc]
   # @param cast [Boolean]
-  # @param read_only [Boolean]
+  # @param mutable [Boolean]
   # @param as [String, Symbol, NilClass]
-  # @param dynamic_options [Hash<Symbol,Any>]
-  # @return [SmartCore::Initializer::Attribute]
+  # @return [SmartCore::Initializer::Attribute::Value::Param]
   #
   # @api private
   # @since 0.1.0
-  def build_attribute(
+  # @version 0.8.0
+  def build_param_attribute(
     name,
     type,
     type_system,
     privacy,
     finalize,
     cast,
-    read_only,
-    as,
-    dynamic_options
+    mutable,
+    as
   )
-    SmartCore::Initializer::Attribute::Factory.create(
-      name, type, type_system, privacy, finalize, cast, read_only, as, dynamic_options
+    SmartCore::Initializer::Attribute::Factory::Param.create(
+      name, type, type_system, privacy, finalize, cast, mutable, as
+    )
+  end
+
+  # @param name [String, Symbol]
+  # @param type [String, Symbol, Any]
+  # @param type_system [String, Symbol]
+  # @param privacy [String, Symbol]
+  # @param finalize [String, Symbol, Proc]
+  # @param cast [Boolean]
+  # @param mutable [Boolean]
+  # @param as [String, Symbol, NilClass]
+  # @param default [Proc, Any]
+  # @return [SmartCore::Initializer::Attribute::Value::Option]
+  #
+  # @api private
+  # @since 0.1.0
+  # @version 0.8.0
+  def build_option_attribute(
+    name,
+    type,
+    type_system,
+    privacy,
+    finalize,
+    cast,
+    mutable,
+    as,
+    default
+  )
+    SmartCore::Initializer::Attribute::Factory::Option.create(
+      name, type, type_system, privacy, finalize, cast, mutable, as, default
     )
   end
 
@@ -207,7 +232,7 @@ class SmartCore::Initializer::Constructor::Definer
     SmartCore::Initializer::Extensions::ExtInit.new(block)
   end
 
-  # @param parameter [SmartCore::Initializer::Attribute]
+  # @param parameter [SmartCore::Initializer::Attribute::Value::Param]
   # @return [void]
   #
   # @api private
@@ -215,10 +240,11 @@ class SmartCore::Initializer::Constructor::Definer
   def add_parameter(parameter)
     klass.__params__ << parameter
     klass.send(:attr_reader, parameter.name)
+    klass.send(:attr_writer, parameter.name) if parameter.mutable?
     klass.send(parameter.privacy, parameter.name)
   end
 
-  # @param option [SmartCore::Initializer::Attribute]
+  # @param option [SmartCore::Initializer::Attribute::Value::Option]
   # @return [void]
   #
   # @api private
@@ -226,6 +252,7 @@ class SmartCore::Initializer::Constructor::Definer
   def add_option(option)
     klass.__options__ << option
     klass.send(:attr_reader, option.name)
+    klass.send(:attr_writer, option.name) if option.mutable?
     klass.send(option.privacy, option.name)
   end
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.6.1)
+    smart_initializer (0.7.0)
       qonfig (~> 0.24)
       smart_engine (~> 0.11)
       smart_types (~> 0.4)
@@ -36,7 +36,7 @@ GEM
     pry (0.14.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    qonfig (0.25.0)
+    qonfig (0.26.0)
     rack (2.2.3)
     rainbow (3.0.0)
     rake (13.0.3)
@@ -86,7 +86,7 @@ GEM
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.2)
     smart_engine (0.11.0)
-    smart_types (0.4.0)
+    smart_types (0.6.0)
       smart_engine (~> 0.11)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -96,6 +96,7 @@ GEM
 PLATFORMS
   x86_64-darwin-19
   x86_64-darwin-20
+  x86_64-darwin-21
 
 DEPENDENCIES
   armitage-rubocop (~> 1.7)
@@ -107,4 +108,4 @@ DEPENDENCIES
   smart_initializer!
 
 BUNDLED WITH
-   2.2.19
+   2.2.31
