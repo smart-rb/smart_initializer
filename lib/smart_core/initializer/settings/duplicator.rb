@@ -12,8 +12,10 @@ module SmartCore::Initializer::Settings::Duplicator
     def duplicate(settings)
       SmartCore::Initializer::Settings.new.tap do |new_instance|
         type_system = settings.instance_variable_get(:@type_system).dup
+        strict_options = settings.instance_variable_get(:@strict_options).dup
 
         new_instance.instance_variable_set(:@type_system, type_system)
+        new_instance.instance_variable_set(:@strict_options, strict_options)
       end
     end
   end

@@ -44,14 +44,21 @@ module SmartCore
 
   class << self
     # @option type_system [String, Symbol, NilSymbol]
+    # @option strict_options [Boolean]
     # @return [Module]
     #
     # @api public
     # @since 0.1.0
-    # @version 0.3.0
+    # @version 0.8.0
     # rubocop:disable Naming/MethodName
-    def Initializer(type_system: SmartCore::Initializer::Functionality::INITIAL_TYPE_SYSTEM)
-      SmartCore::Initializer::Functionality.includable_module(type_system: type_system)
+    def Initializer(
+      type_system: SmartCore::Initializer::Functionality::INITIAL_TYPE_SYSTEM,
+      strict_options: SmartCore::Initializer::Functionality::STRICT_OPTIONS
+    )
+      SmartCore::Initializer::Functionality.includable_module(
+        type_system: type_system,
+        strict_options: strict_options
+      )
     end
     # rubocop:enable Naming/MethodName
   end

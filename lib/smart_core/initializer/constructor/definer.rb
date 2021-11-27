@@ -147,7 +147,7 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
-          SmartCore::Initializer::Attribute::Value::Option::UNEDFINED_DEFAULT_OPTION
+          SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT
         ).tap do |attribute|
           prevent_parameter_overlap(attribute)
         end
@@ -241,6 +241,7 @@ class SmartCore::Initializer::Constructor::Definer
     klass.__params__ << parameter
     klass.send(:attr_reader, parameter.name)
     klass.send(:attr_writer, parameter.name) if parameter.mutable?
+    klass.send(:alias_method, parameter.name, parameter.as) if parameter.as
     klass.send(parameter.privacy, parameter.name)
   end
 
@@ -253,6 +254,7 @@ class SmartCore::Initializer::Constructor::Definer
     klass.__options__ << option
     klass.send(:attr_reader, option.name)
     klass.send(:attr_writer, option.name) if option.mutable?
+    klass.send(:alias_method, option.name, option.as) if option.as
     klass.send(option.privacy, option.name)
   end
 

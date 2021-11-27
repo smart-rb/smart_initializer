@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Приведена в порядок конфигурация "strict_options":
+  - поправлено наследование (ранее не наслоедовалась)
+  - поправлена возможность указания этой опции при инклуде модуля (ранее не давалась возможность)
+  - глобальное поведение изменено на локальное для каждого класса (ранее на все сразу распространялось)
+
 ## [0.7.0] - 2021-06-23
 ## Added
 - `strict_options` config option for non-strict checking of passed options;

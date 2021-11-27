@@ -97,7 +97,7 @@ class SmartCore::Initializer::Constructor
     raise(
       SmartCore::Initializer::OptionArgumentError,
       "Unknown options: #{unknown_options.join(', ')}"
-    ) if unknown_options.any? && SmartCore::Initializer::Configuration[:strict_options]
+    ) if klass.__initializer_settings__.strict_options && unknown_options.any?
   end
   # rubocop:enable Metrics/AbcSize
 

@@ -18,6 +18,10 @@ module SmartCore::Initializer
   OptionArgumentError = Class.new(ArgumentError)
 
   # @api public
+  # @since 0.8.0
+  SettingArgumentError = Class.new(ArgumentError)
+
+  # @api public
   # @since 0.1.0
   NoDefaultValueError = Class.new(Error)
 

@@ -162,7 +162,7 @@ module SmartCore::Initializer::DSL
       type_system: __initializer_settings__.type_system,
       mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
       as: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
-      default: SmartCore::Initializer::Attribute::Value::Option::UNEDFINED_DEFAULT_OPTION
+      default: SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT
     )
       __definer__.define_option(
         name, type, type_system, privacy, finalize, cast, mutable, as, default

@@ -8,7 +8,7 @@ module SmartCore::Initializer::Attribute::Value
     #
     # @api private
     # @since 0.8.0
-    UNEDFINED_DEFAULT_OPTION = ::Object.new.tap(&:freeze)
+    UNDEFINED_DEFAULT = ::Object.new.tap(&:freeze)
 
     # @param name [Symbol]
     # @param type [SmartCore::Initializer::TypeSystem::Interop]
@@ -33,7 +33,7 @@ module SmartCore::Initializer::Attribute::Value
     # @api private
     # @since 0.8.0
     def has_default?
-      !@default.equal?(UNEDFINED_DEFAULT_OPTION)
+      !@default.equal?(UNDEFINED_DEFAULT)
     end
 
     # @return [Any]
@@ -46,7 +46,7 @@ module SmartCore::Initializer::Attribute::Value
       raise(
         SmartCore::Initializer::NoDefaultValueError,
         "Attribute #{name} has no default value"
-      ) if @default.equal?(UNEDFINED_DEFAULT_OPTION)
+      ) if @default.equal?(UNDEFINED_DEFAULT)
 
       @default.is_a?(Proc) ? @default.call : @default.dup
     end
@@ -57,7 +57,7 @@ module SmartCore::Initializer::Attribute::Value
     # @since 0.8.0
     # rubocop:disable Metrics/AbcSize
     def dup
-      default = @default.equal?(UNEDFINED_DEFAULT_OPTION) ? @default : @default.dup
+      default = @default.equal?(UNDEFINED_DEFAULT) ? @default : @default.dup
 
       self.class.new(
         @name.dup,
