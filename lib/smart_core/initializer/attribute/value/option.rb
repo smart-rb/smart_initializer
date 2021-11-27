@@ -10,6 +10,19 @@ module SmartCore::Initializer::Attribute::Value
     # @since 0.8.0
     UNDEFINED_DEFAULT = ::Object.new.tap(&:freeze)
 
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.8.0
+    DEFAULT_OPTIONAL = false
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.8.0
+    attr_reader :optional
+    alias_method :optional?, :optional
+
     # @param name [Symbol]
     # @param type [SmartCore::Initializer::TypeSystem::Interop]
     # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
@@ -19,13 +32,26 @@ module SmartCore::Initializer::Attribute::Value
     # @param mutable [Boolean]
     # @param as [NilClass, Symbol, String]
     # @param default [Proc, Any]
+    # @param optional [Boolean]
     # @return [void]
     #
     # @api private
     # @since 0.8.0
-    def initialize(name, type, type_system, privacy, finalizer, cast, mutable, as, default)
+    def initialize(
+      name,
+      type,
+      type_system,
+      privacy,
+      finalizer,
+      cast,
+      mutable,
+      as,
+      default,
+      optional
+    )
       super(name, type, type_system, privacy, finalizer, cast, mutable, as)
       @default = default
+      @optional = optional
     end
 
     # @return [Boolean]
@@ -60,15 +86,16 @@ module SmartCore::Initializer::Attribute::Value
       default = @default.equal?(UNDEFINED_DEFAULT) ? @default : @default.dup
 
       self.class.new(
-        @name.dup,
-        @type,
-        @type_system,
-        @privacy,
-        @finalizer.dup,
-        @cast,
-        @mutable,
-        @as,
-        default
+        name.dup,
+        type,
+        type_system,
+        privacy,
+        finalizer.dup,
+        cast,
+        mutable,
+        as,
+        default,
+        optional,
       )
     end
     # rubocop:enable Metrics/AbcSize

@@ -98,6 +98,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @param mutable [Boolean]
   # @param as [String, Symbol, NilClass]
   # @param default [Proc, Any]
+  # @param optional [Boolean]
   # @return [void]
   #
   # @api private
@@ -111,7 +112,8 @@ class SmartCore::Initializer::Constructor::Definer
     cast,
     mutable,
     as,
-    default
+    default,
+    optional
   )
     thread_safe do
       attribute = build_option_attribute(
@@ -123,7 +125,8 @@ class SmartCore::Initializer::Constructor::Definer
         cast,
         mutable,
         as,
-        default
+        default,
+        optional
       )
       prevent_parameter_overlap(attribute)
       add_option(attribute)
@@ -147,7 +150,8 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
-          SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT
+          SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT,
+          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_OPTIONAL
         ).tap do |attribute|
           prevent_parameter_overlap(attribute)
         end
@@ -202,6 +206,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @param mutable [Boolean]
   # @param as [String, Symbol, NilClass]
   # @param default [Proc, Any]
+  # @param optional [Boolean]
   # @return [SmartCore::Initializer::Attribute::Value::Option]
   #
   # @api private
@@ -216,10 +221,11 @@ class SmartCore::Initializer::Constructor::Definer
     cast,
     mutable,
     as,
-    default
+    default,
+    optional
   )
     SmartCore::Initializer::Attribute::Factory::Option.create(
-      name, type, type_system, privacy, finalize, cast, mutable, as, default
+      name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
     )
   end
 

@@ -83,8 +83,8 @@ class SmartCore::Initializer::Constructor
       "(given #{parameters.size}, expected #{required_parameter_count})"
     ) unless parameters.size == required_parameter_count
 
-    required_options = klass.__options__.reject(&:has_default?).map(&:name)
-    missing_options  = required_options.reject { |option| options.key?(option) }
+    required_options = klass.__options__.reject(&:has_default?).reject(&:optional?).map(&:name)
+    missing_options  = required_options.reject { |option_name| options.key?(option_name) }
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
@@ -135,16 +135,28 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.5.1
+  # @version 0.8.0
   def initialize_options(instance)
     klass.__options__.each do |attribute|
-      option_value = options.fetch(attribute.name) { attribute.default }
-
-      if !attribute.type.valid?(option_value) && attribute.cast?
-        option_value = attribute.type.cast(option_value)
+      option_value = options.fetch(attribute.name) do
+        # NOTE: `nil` case is a case when an option is `optional`
+        attribute.has_default? ? attribute.default : nil
       end
 
-      attribute.validate!(option_value)
+      if options.key?(attribute.name) || attribute.has_default?
+        if !attribute.type.valid?(option_value) && attribute.cast?
+          option_value = attribute.type.cast(option_value)
+        end
+
+        attribute.validate!(option_value)
+      end
+      # NOTE: (if-block => what if `if` receives `false`):
+      #   For other case passed `attribute` is optional and
+      #   should not be type-checked/type-casted/etc.
+      #   But optional attributes with defined `default` setting should be
+      #   type-checked and type-casted.
+      #
+      #   TODO: it should be covered by tests
 
       final_value = attribute.finalizer.call(option_value, instance)
       instance.instance_variable_set("@#{attribute.name}", final_value)

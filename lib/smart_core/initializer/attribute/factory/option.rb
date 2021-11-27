@@ -14,11 +14,12 @@ module SmartCore::Initializer::Attribute::Factory
       # @param mutable [Boolean]
       # @param as [String, Symbol, NilClass]
       # @param default [Proc, Any]
+      # @optional [Boolean]
       # @return [SmartCore::Initializer::Attribute::Value::Option]
       #
       # @api private
       # @since 0.8.0
-      def create(name, type, type_system, privacy, finalize, cast, mutable, as, default)
+      def create(name, type, type_system, privacy, finalize, cast, mutable, as, default, optional)
         prepared_name        = prepare_name_param(name)
         prepared_privacy     = prepare_privacy_param(privacy)
         prepared_finalize    = prepare_finalize_param(finalize)
@@ -28,6 +29,7 @@ module SmartCore::Initializer::Attribute::Factory
         prepared_mutable     = prepare_mutable_param(mutable)
         prepared_as          = preapre_as_param(as)
         prepared_default     = prepare_default_param(default)
+        prepared_optional    = prepare_optional_param(optional)
 
         create_attribute(
           prepared_name,
@@ -39,6 +41,7 @@ module SmartCore::Initializer::Attribute::Factory
           prepared_mutable,
           prepared_as,
           prepared_default,
+          prepared_optional
         )
       end
 
@@ -57,9 +60,20 @@ module SmartCore::Initializer::Attribute::Factory
       #
       # @api private
       # @since 0.8.0
-      def create_attribute(name, type, type_system, privacy, finalize, cast, mutable, as, default)
+      def create_attribute(
+        name,
+        type,
+        type_system,
+        privacy,
+        finalize,
+        cast,
+        mutable,
+        as,
+        default,
+        optional
+      )
         SmartCore::Initializer::Attribute::Value::Option.new(
-          name, type, type_system, privacy, finalize, cast, mutable, as, default
+          name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
         )
       end
 
@@ -69,8 +83,23 @@ module SmartCore::Initializer::Attribute::Factory
       # @api private
       # @since 0.8.0
       def prepare_default_param(default)
-        # NOTE: this "strange" approach is used to comply the default approach in a basic factory
+        # NOTE: this "strange" approach is used to comply the default Factory methods approach here
         default
+      end
+
+      # @param optional [Boolean]
+      # @return [Boolean]
+      #
+      # @api private
+      # @since 0.8.0
+      def prepare_optional_param(optional)
+        unless optional.is_a?(::TrueClass) || optional.is_a?(::FalseClass)
+          raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
+            :optional attribute should be a type of boolean
+          ERROR_MESSAGE
+        end
+
+        optional
       end
     end
   end

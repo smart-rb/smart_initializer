@@ -11,14 +11,14 @@ module SmartCore::Initializer::Attribute::Value
     # rubocop:disable Metrics/AbcSize
     def dup
       self.class.new(
-        @name.dup,
-        @type,
-        @type_system,
-        @privacy,
-        @finalizer.dup,
-        @cast,
-        @mutable,
-        @as
+        name.dup,
+        type,
+        type_system,
+        privacy,
+        finalizer.dup,
+        cast,
+        mutable,
+        as
       )
     end
     # rubocop:enable Metrics/AbcSize

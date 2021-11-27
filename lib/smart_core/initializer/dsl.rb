@@ -148,6 +148,7 @@ module SmartCore::Initializer::DSL
     # @option mutable [Boolean]
     # @option as [NilClass, String, Symbol]
     # @option default [Proc, Any]
+    # @option optional [Boolean]
     # @return [void]
     #
     # @api public
@@ -162,10 +163,11 @@ module SmartCore::Initializer::DSL
       type_system: __initializer_settings__.type_system,
       mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
       as: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
-      default: SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT
+      default: SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT,
+      optional: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_OPTIONAL
     )
       __definer__.define_option(
-        name, type, type_system, privacy, finalize, cast, mutable, as, default
+        name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
       )
     end
 
