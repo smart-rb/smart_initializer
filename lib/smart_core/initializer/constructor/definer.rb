@@ -69,6 +69,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def define_parameters(*names, mutable:)
     thread_safe do
       names.map do |name|
@@ -140,6 +141,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def define_options(*names, mutable:)
     thread_safe do
       names.map do |name|
