@@ -3,29 +3,15 @@
 # @api private
 # @since 0.3.0
 module SmartCore::Initializer::Functionality
-  # @return [NilClass]
-  #
-  # @api private
-  # @since 0.3.0
-  INITIAL_TYPE_SYSTEM = nil
-
-  # @return [Boolean]
-  #
-  # @api private
-  # @since 0.8.0
-  STRICT_OPTIONS = true
-
   class << self
-    # @option type_system [String, Symbol, NilClass]
+    # @option type_system [String, Symbol]
+    # @option strict_option [Boolean]
     # @return [Module]
     #
     # @api private
     # @since 0.3.0
     # @version 0.8.0
-    def includable_module(
-      type_system: INITIAL_TYPE_SYSTEM,
-      strict_options: STRICT_OPTIONS
-    )
+    def includable_module(type_system:, strict_options:)
       Module.new.tap do |extension|
         extension.singleton_class.define_method(:included) do |base_klass|
           base_klass.include(::SmartCore::Initializer)

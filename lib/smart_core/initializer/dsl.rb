@@ -131,12 +131,14 @@ module SmartCore::Initializer::DSL
     end
 
     # @param names [Array<String, Symbol>]
+    # @option mutable [Boolean]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def params(*names)
-      __definer__.define_parameters(*names)
+    # @verison 0.8.0
+    def params(*names, mutable: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE)
+      __definer__.define_parameters(*names, mutable: mutable)
     end
 
     # @param name [String, Symbol]
@@ -172,12 +174,14 @@ module SmartCore::Initializer::DSL
     end
 
     # @param names [Array<String, Symbol>]
+    # @option mutable [Boolean]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def options(*names)
-      __definer__.define_options(*names)
+    # @version 0.8.0
+    def options(*names, mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE)
+      __definer__.define_options(*names, mutable: mutable)
     end
 
     # @param block [Block]

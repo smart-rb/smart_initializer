@@ -52,8 +52,8 @@ module SmartCore
     # @version 0.8.0
     # rubocop:disable Naming/MethodName
     def Initializer(
-      type_system: SmartCore::Initializer::Functionality::INITIAL_TYPE_SYSTEM,
-      strict_options: SmartCore::Initializer::Functionality::STRICT_OPTIONS
+      type_system: SmartCore::Initializer::Configuration[:default_type_system],
+      strict_options: SmartCore::Initializer::Configuration[:strict_options]
     )
       SmartCore::Initializer::Functionality.includable_module(
         type_system: type_system,

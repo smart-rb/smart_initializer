@@ -133,7 +133,7 @@ class SmartCore::Initializer::TypeSystem::Registry
       systems.fetch(identifier)
     rescue ::KeyError
       raise(SmartCore::Initializer::UnsupportedTypeSystemError, <<~ERROR_MESSAGE)
-        "#{identifier}" type system is not supported.
+        `#{identifier}` type system is not supported.
       ERROR_MESSAGE
     end
   end

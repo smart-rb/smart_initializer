@@ -64,11 +64,12 @@ class SmartCore::Initializer::Constructor::Definer
   end
 
   # @param names [Array<String, Symbol>]
+  # @option mutable [Boolean]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_parameters(*names)
+  def define_parameters(*names, mutable:)
     thread_safe do
       names.map do |name|
         build_param_attribute(
@@ -78,7 +79,7 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_CAST_BEHAVIOUR,
-          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE,
+          mutable,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_AS
         ).tap do |attribute|
           prevent_option_overlap(attribute)
@@ -134,11 +135,12 @@ class SmartCore::Initializer::Constructor::Definer
   end
 
   # @param names [Array<String, Symbol>]
+  # @option mutable [Boolean]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def define_options(*names)
+  def define_options(*names, mutable:)
     thread_safe do
       names.map do |name|
         build_option_attribute(
@@ -148,7 +150,7 @@ class SmartCore::Initializer::Constructor::Definer
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
-          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
+          mutable,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
           SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_OPTIONAL
@@ -243,11 +245,30 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def add_parameter(parameter)
     klass.__params__ << parameter
     klass.send(:attr_reader, parameter.name)
-    klass.send(:attr_writer, parameter.name) if parameter.mutable?
-    klass.send(:alias_method, parameter.name, parameter.as) if parameter.as
+
+    if parameter.mutable?
+      # NOTE:
+      #   code evaluation approach is used instead of `define_method` approach in order
+      #   to avoid the `clojure`-context binding inside the new method (this context can
+      #   access the current context or the current variable set and the way to avoid this by
+      #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
+      klass.class_eval <<~METHOD_CODE
+        def #{parameter.name}=(new_value)
+          self.class.__params__[:#{parameter.name}].validate!(new_value)
+          @#{parameter.name} = new_value
+        end
+      METHOD_CODE
+    end
+
+    if parameter.as
+      klass.send(:alias_method, parameter.as, parameter.name)
+      klass.send(:alias_method, "#{parameter.as}=", "#{parameter.name}=") if mutable?
+    end
+
     klass.send(parameter.privacy, parameter.name)
   end
 
@@ -256,11 +277,30 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def add_option(option)
     klass.__options__ << option
     klass.send(:attr_reader, option.name)
-    klass.send(:attr_writer, option.name) if option.mutable?
-    klass.send(:alias_method, option.name, option.as) if option.as
+
+    if option.mutable?
+      # NOTE:
+      #   code evaluation approach is used instead of `define_method` approach in order
+      #   to avoid the `clojure`-context binding inside the new method (this context can
+      #   access the current context or the current variable set and the way to avoid this by
+      #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
+      klass.class_eval <<~METHOD_CODE
+        def #{option.name}=(new_value)
+          self.class.__options__[:#{option.name}].validate!(new_value)
+          @#{option.name} = new_value
+        end
+      METHOD_CODE
+    end
+
+    if option.as
+      klass.send(:alias_method, option.as, option.name)
+      klass.send(:alias_method, "#{option.as}=", "#{option.name}=") if option.mutable?
+    end
+
     klass.send(option.privacy, option.name)
   end
 

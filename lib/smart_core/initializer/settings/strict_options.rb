@@ -17,9 +17,7 @@ class SmartCore::Initializer::Settings::StrictOptions
   # @api private
   # @since 0.8.0
   def resolve
-    thread_safe do
-      @strict_options || SmartCore::Initializer::Configuration.config[:strict_options]
-    end
+    thread_safe { @strict_options }
   end
 
   # @param value [Boolean]

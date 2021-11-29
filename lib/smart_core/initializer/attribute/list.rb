@@ -15,6 +15,26 @@ class SmartCore::Initializer::Attribute::List
     @lock = SmartCore::Engine::Lock.new
   end
 
+  # @return [SmartCore::Initializer::Atribute]
+  #
+  # @raise [SmartCore::Initializer::UndefinedAttributeError]
+  #
+  # @api private
+  # @since 0.8.0
+  def fetch(attribute_name)
+    thread_safe do
+      begin
+        attributes.fetch(attribute_name)
+      rescue ::KeyError
+        raise(::SmartCore::Initializer::UndefinedAttributeError, <<~ERROR_MESSAGE)
+          Attribute with `#{attribute_name}` name is not defined in your constructor.
+          Please, check your attribute definitions inside your class.
+        ERROR_MESSAGE
+      end
+    end
+  end
+  alias_method :[], :fetch
+
   # @param attribute [SmartCore::Initializer::Attribute]
   # @return [void]
   #

@@ -72,7 +72,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.7.0
+  # @version 0.8.0
   # rubocop:disable Metrics/AbcSize
   def prevent_attribute_insufficiency
     required_parameter_count = klass.__params__.size
@@ -150,7 +150,7 @@ class SmartCore::Initializer::Constructor
 
         attribute.validate!(option_value)
       end
-      # NOTE: (if-block => what if `if` receives `false`):
+      # NOTE: (if-block: what if `if` receives `false`?):
       #   For other case passed `attribute` is optional and
       #   should not be type-checked/type-casted/etc.
       #   But optional attributes with defined `default` setting should be
