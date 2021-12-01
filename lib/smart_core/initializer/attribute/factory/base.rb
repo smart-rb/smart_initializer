@@ -2,7 +2,6 @@
 
 # @api private
 # @since 0.8.0
-# rubocop:disable Metrics/ClassLength
 class SmartCore::Initializer::Attribute::Factory::Base
   class << self
     # @!method create(*params)
@@ -132,4 +131,3 @@ class SmartCore::Initializer::Attribute::Factory::Base
     end
   end
 end
-# rubocop:enable Metrics/ClassLength

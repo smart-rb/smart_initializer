@@ -18,7 +18,7 @@ class SmartCore::Initializer::Settings::AutoCast < SmartCore::Initializer::Setti
   # @since 0.8.0
   def resolve
     thread_safe do
-      @value.nil? ? SmartCore::Initializer::Configuration[:auto_cast] : @value
+      @value == nil ? SmartCore::Initializer::Configuration[:auto_cast] : @value
     end
   end
 

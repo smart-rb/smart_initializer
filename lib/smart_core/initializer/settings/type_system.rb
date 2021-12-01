@@ -28,7 +28,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   # @since 0.1.0
   def resolve
     thread_safe do
-      @value.nil? ? SmartCore::Initializer::Configuration[:default_type_system] : @value
+      @value == nil ? SmartCore::Initializer::Configuration[:default_type_system] : @value
     end
   end
 

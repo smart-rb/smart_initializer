@@ -248,6 +248,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @api private
   # @since 0.1.0
   # @version 0.8.0
+  # rubocop:disable Metrics/AbcSize
   def add_parameter(parameter)
     klass.__params__ << parameter
     klass.send(:attr_reader, parameter.name)
@@ -258,7 +259,7 @@ class SmartCore::Initializer::Constructor::Definer
       #   to avoid the `clojure`-context binding inside the new method (this context can
       #   access the current context or the current variable set and the way to avoid this by
       #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
-      klass.class_eval <<~METHOD_CODE
+      klass.class_eval(<<~METHOD_CODE, __FILE__, __LINE__ + 1)
         def #{parameter.name}=(new_value)
           self.class.__params__[:#{parameter.name}].validate!(new_value)
           @#{parameter.name} = new_value
@@ -273,6 +274,7 @@ class SmartCore::Initializer::Constructor::Definer
 
     klass.send(parameter.privacy, parameter.name)
   end
+  # rubocop:enable Metrics/AbcSize
 
   # @param option [SmartCore::Initializer::Attribute::Value::Option]
   # @return [void]
@@ -280,6 +282,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @api private
   # @since 0.1.0
   # @version 0.8.0
+  # rubocop:disable Metrics/AbcSize
   def add_option(option)
     klass.__options__ << option
     klass.send(:attr_reader, option.name)
@@ -290,7 +293,7 @@ class SmartCore::Initializer::Constructor::Definer
       #   to avoid the `clojure`-context binding inside the new method (this context can
       #   access the current context or the current variable set and the way to avoid this by
       #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
-      klass.class_eval <<~METHOD_CODE
+      klass.class_eval(<<~METHOD_CODE, __FILE__, __LINE__ + 1)
         def #{option.name}=(new_value)
           self.class.__options__[:#{option.name}].validate!(new_value)
           @#{option.name} = new_value
@@ -305,6 +308,7 @@ class SmartCore::Initializer::Constructor::Definer
 
     klass.send(option.privacy, option.name)
   end
+  # rubocop:enable Metrics/AbcSize
 
   # @param extension [SmartCore::Initializer::Extensions::ExtInit]
   # @return [void]

@@ -18,7 +18,7 @@ class SmartCore::Initializer::Settings::StrictOptions < SmartCore::Initializer::
   # @since 0.8.0
   def resolve
     thread_safe do
-      @value.nil? ? SmartCore::Initializer::Configuration[:strict_options] : @value
+      @value == nil ? SmartCore::Initializer::Configuration[:strict_options] : @value
     end
   end
 

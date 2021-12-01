@@ -81,7 +81,6 @@ module SmartCore::Initializer::Attribute::Value
     #
     # @api private
     # @since 0.8.0
-    # rubocop:disable Metrics/AbcSize
     def dup
       default = @default.equal?(UNDEFINED_DEFAULT) ? @default : @default.dup
 
@@ -95,9 +94,8 @@ module SmartCore::Initializer::Attribute::Value
         mutable,
         as,
         default,
-        optional,
+        optional
       )
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

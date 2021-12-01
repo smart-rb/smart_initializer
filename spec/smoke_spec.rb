@@ -184,6 +184,7 @@ RSpec.describe 'Smoke Test' do
   end
 
   describe 'mutable attributes' do
+    # rubocop:disable Naming/VariableNumber
     specify 'attribute definition' do
       klass = Class.new do
         include SmartCore::Initializer
@@ -292,5 +293,6 @@ RSpec.describe 'Smoke Test' do
         expect(instance.z6).to eq('z6')
       end
     end
+    # rubocop:enable Naming/VariableNumber
   end
 end

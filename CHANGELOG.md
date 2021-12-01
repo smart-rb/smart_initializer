@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Drop support of **Ruby@2.4**;
 
 ## [0.7.0] - 2021-06-23
 ## Added

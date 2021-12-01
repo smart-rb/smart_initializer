@@ -23,14 +23,12 @@ class SmartCore::Initializer::Attribute::List
   # @since 0.8.0
   def fetch(attribute_name)
     thread_safe do
-      begin
-        attributes.fetch(attribute_name)
-      rescue ::KeyError
-        raise(::SmartCore::Initializer::UndefinedAttributeError, <<~ERROR_MESSAGE)
-          Attribute with `#{attribute_name}` name is not defined in your constructor.
-          Please, check your attribute definitions inside your class.
-        ERROR_MESSAGE
-      end
+      attributes.fetch(attribute_name)
+    rescue ::KeyError
+      raise(::SmartCore::Initializer::UndefinedAttributeError, <<~ERROR_MESSAGE)
+        Attribute with `#{attribute_name}` name is not defined in your constructor.
+        Please, check your attribute definitions inside your class.
+      ERROR_MESSAGE
     end
   end
   alias_method :[], :fetch
