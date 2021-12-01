@@ -22,7 +22,7 @@ class SmartCore::Initializer::Settings::AutoCast < SmartCore::Initializer::Setti
     end
   end
 
-  # @param [Boolean, SmartCore::Initializer::Settings::UNDEFINED_VALUE]
+  # @param [Boolean]
   # @return [void]
   #
   # @api private
