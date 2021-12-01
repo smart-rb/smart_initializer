@@ -33,8 +33,10 @@ module SmartCore::Initializer::Configuration
 
     # @since 0.?.0
     setting :strict_options, true
-    validate :strict_options do |value|
-      !!value == value # check if it's a boolean value
-    end
+    validate :strict_options, :boolean
+
+    # @since 0.8.0
+    setting :auto_cast, false
+    validate :auto_cast, :boolean
   end
 end

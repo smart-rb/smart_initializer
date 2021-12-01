@@ -19,12 +19,6 @@ class SmartCore::Initializer::Attribute::Value::Base
   # @since 0.8.0
   DEFAULT_PRIVACY_MODE = PRIVACY_MODES[:public]
 
-  # @return [Boolean]
-  #
-  # @api private
-  # @since 0.8.0
-  DEFAULT_CAST_BEHAVIOUR = false
-
   # @return [Proc]
   #
   # @api private

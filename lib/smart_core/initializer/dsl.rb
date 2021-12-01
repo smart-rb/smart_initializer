@@ -120,7 +120,7 @@ module SmartCore::Initializer::DSL
       type = __initializer_settings__.generic_type_object,
       privacy: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
       finalize: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
-      cast: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_CAST_BEHAVIOUR,
+      cast: __initializer_settings__.auto_cast,
       type_system: __initializer_settings__.type_system,
       mutable: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE,
       as: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_AS
@@ -161,7 +161,7 @@ module SmartCore::Initializer::DSL
       type = __initializer_settings__.generic_type_object,
       privacy: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
       finalize: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
-      cast: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
+      cast: __initializer_settings__.auto_cast,
       type_system: __initializer_settings__.type_system,
       mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
       as: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,

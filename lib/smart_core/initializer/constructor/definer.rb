@@ -79,7 +79,7 @@ class SmartCore::Initializer::Constructor::Definer
           klass.__initializer_settings__.type_system,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
-          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_CAST_BEHAVIOUR,
+          klass.__initializer_settings__.auto_cast,
           mutable,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_AS
         ).tap do |attribute|
@@ -151,7 +151,7 @@ class SmartCore::Initializer::Constructor::Definer
           klass.__initializer_settings__.type_system,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
-          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_CAST_BEHAVIOUR,
+          klass.__initializer_settings__.auto_cast,
           mutable,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_AS,
           SmartCore::Initializer::Attribute::Value::Option::UNDEFINED_DEFAULT,

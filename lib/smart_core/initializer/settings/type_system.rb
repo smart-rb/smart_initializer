@@ -2,13 +2,13 @@
 
 # @api private
 # @since 0.1.0
-class SmartCore::Initializer::Settings::TypeSystem
+class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Settings::Base
   # @return [void]
   #
   # @api private
   # @since 0.1.0
   def initialize
-    @type_system = nil
+    @value = nil
     @lock = SmartCore::Engine::Lock.new
   end
 
@@ -28,7 +28,7 @@ class SmartCore::Initializer::Settings::TypeSystem
   # @since 0.1.0
   def resolve
     thread_safe do
-      @type_system || SmartCore::Initializer::Configuration.config[:default_type_system]
+      @value.nil? ? SmartCore::Initializer::Configuration[:default_type_system] : @value
     end
   end
 
@@ -39,31 +39,9 @@ class SmartCore::Initializer::Settings::TypeSystem
   # @since 0.1.0
   def assign(value)
     thread_safe do
-      SmartCore::Initializer::TypeSystem.resolve(value) # NOTE: type system existence validation
-      @type_system = value
+      # NOTE: type system existence validation
+      SmartCore::Initializer::TypeSystem.resolve(value)
+      @value = value
     end
-  end
-
-  # @return [SmartCore::Initializer::Settings::TypeSystem]
-  #
-  # @api private
-  # @since 0.1.0
-  def dup
-    thread_safe do
-      self.class.new.tap do |duplicate|
-        duplicate.instance_variable_set(:@type_system, @type_system)
-      end
-    end
-  end
-
-  private
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
   end
 end
