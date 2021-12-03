@@ -183,6 +183,19 @@ RSpec.describe 'Smoke Test' do
     expect(instance.kek).to eq('pek')
   end
 
+  describe 'attribute aliases (:as)' do
+    xspecify 'TODO'
+  end
+
+  describe 'optional `option` attributes' do
+    xspecify 'TODO'
+  end
+
+  describe ':default value' do
+    xspecify 'TODO: dynamic value initializetion (usage of a proc/lambda)'
+    xspecify 'TODO: duplicatable values (non-dynamic values should be duplicated during initialization'
+  end
+
   describe 'mutable attributes' do
     # rubocop:disable Naming/VariableNumber
     specify 'attribute definition' do
