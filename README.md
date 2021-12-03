@@ -382,8 +382,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ## Roadmap
 
-- (in development) Attribue Definition DSL
-  - Support for optional `option` attributes (`strict: true` / `strict: false` behaviour);
+- Support for `RSpec` doubles and instance_doubles inside the type system integration;
 - Migrate from `TravisCI` to `GitHub Actions`;
 - Extract `Type Interop` system to `smart_type-system`;
 
