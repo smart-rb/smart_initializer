@@ -43,7 +43,7 @@ module SmartCore
   end
 
   class << self
-    # @option type_system [String, Symbol, NilSymbol]
+    # @option type_system [String, Symbol]
     # @option strict_options [Boolean]
     # @option auto_cast [Boolean]
     # @return [Module]

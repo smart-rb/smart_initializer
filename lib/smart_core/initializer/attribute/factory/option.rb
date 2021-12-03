@@ -14,7 +14,7 @@ module SmartCore::Initializer::Attribute::Factory
       # @param mutable [Boolean]
       # @param as [String, Symbol, NilClass]
       # @param default [Proc, Any]
-      # @optional [Boolean]
+      # @param optional [Boolean]
       # @return [SmartCore::Initializer::Attribute::Value::Option]
       #
       # @api private
@@ -56,6 +56,7 @@ module SmartCore::Initializer::Attribute::Factory
       # @param mutable [Boolean]
       # @param as [String, Symbol]
       # @param default [Proc, Any]
+      # @param optional [Boolean]
       # @return [SmartCore::Initializer::Attribute::Value::Option]
       #
       # @api private

@@ -20,7 +20,7 @@ module SmartCore::Initializer::Attribute::Finalizer
     # @pai private
     # @since 0.1.0
     def call(value, instance)
-      instance.send(finalizer, value)
+      instance.__send__(finalizer, value)
     end
 
     private

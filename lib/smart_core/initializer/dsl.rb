@@ -114,7 +114,7 @@ module SmartCore::Initializer::DSL
     #
     # @api public
     # @since 0.1.0
-    # @version 0.4.0
+    # @version 0.8.0
     def param(
       name,
       type = __initializer_settings__.generic_type_object,

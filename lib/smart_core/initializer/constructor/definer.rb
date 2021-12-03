@@ -37,6 +37,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def define_parameter(
     name,
     type,
@@ -105,6 +106,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def define_option(
     name,
     type,
@@ -251,7 +253,7 @@ class SmartCore::Initializer::Constructor::Definer
   # rubocop:disable Metrics/AbcSize
   def add_parameter(parameter)
     klass.__params__ << parameter
-    klass.send(:attr_reader, parameter.name)
+    klass.__send__(:attr_reader, parameter.name)
 
     if parameter.mutable?
       # NOTE:
@@ -268,8 +270,8 @@ class SmartCore::Initializer::Constructor::Definer
     end
 
     if parameter.as
-      klass.send(:alias_method, parameter.as, parameter.name)
-      klass.send(:alias_method, "#{parameter.as}=", "#{parameter.name}=") if mutable?
+      klass.__send__(:alias_method, parameter.as, parameter.name)
+      klass.__send__(:alias_method, "#{parameter.as}=", "#{parameter.name}=") if mutable?
     end
 
     klass.send(parameter.privacy, parameter.name)
@@ -285,7 +287,7 @@ class SmartCore::Initializer::Constructor::Definer
   # rubocop:disable Metrics/AbcSize
   def add_option(option)
     klass.__options__ << option
-    klass.send(:attr_reader, option.name)
+    klass.__send__(:attr_reader, option.name)
 
     if option.mutable?
       # NOTE:
@@ -302,11 +304,11 @@ class SmartCore::Initializer::Constructor::Definer
     end
 
     if option.as
-      klass.send(:alias_method, option.as, option.name)
-      klass.send(:alias_method, "#{option.as}=", "#{option.name}=") if option.mutable?
+      klass.__send__(:alias_method, option.as, option.name)
+      klass.__send__(:alias_method, "#{option.as}=", "#{option.name}=") if option.mutable?
     end
 
-    klass.send(option.privacy, option.name)
+    klass.__send__(option.privacy, option.name)
   end
   # rubocop:enable Metrics/AbcSize
 

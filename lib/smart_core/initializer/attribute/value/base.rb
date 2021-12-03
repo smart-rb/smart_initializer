@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # @api private
-# @sicne 0.8.0
+# @since 0.8.0
 class SmartCore::Initializer::Attribute::Value::Base
   # @return [Hash<Symbol,Symbol>]
   #

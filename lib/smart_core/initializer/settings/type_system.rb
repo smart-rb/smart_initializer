@@ -2,11 +2,13 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.8.0
 class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Settings::Base
   # @return [void]
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def initialize
     @value = nil
     @lock = SmartCore::Engine::Lock.new
@@ -26,6 +28,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def resolve
     thread_safe do
       @value == nil ? SmartCore::Initializer::Configuration[:default_type_system] : @value
@@ -37,6 +40,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def assign(value)
     thread_safe do
       # NOTE: type system existence validation

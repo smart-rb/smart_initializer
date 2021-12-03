@@ -14,11 +14,15 @@ class SmartCore::Initializer::Settings::Base
 
   # @!method resolve
   #   @return [Any]
+  #   @api private
+  #   @since 0.8.0
 
   # @!method assign(value)
   #   @param value [Any]
   #   @return [void]
   #   @raise [SmartCore::Initializer::SettingArgumentError]
+  #   @api private
+  #   @since 0.8.0
 
   # @return [SmartCore::Initializer::Settings::Base]
   #

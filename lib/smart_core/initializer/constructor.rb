@@ -171,7 +171,7 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   def process_original_initializer(instance)
-    instance.send(:initialize, *arguments, &block)
+    instance.__send__(:initialize, *arguments, &block)
   end
 
   # @param instance [Any]

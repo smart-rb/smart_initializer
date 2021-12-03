@@ -106,7 +106,7 @@ class SmartCore::Initializer::Attribute::Factory::Base
       mutable
     end
 
-    # @param [String, Symbol, NilClass]
+    # @param as [String, Symbol, NilClass]
     # @return [String, Symbol, NilClass]
     #
     # @api private

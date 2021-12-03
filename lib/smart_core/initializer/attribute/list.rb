@@ -15,6 +15,7 @@ class SmartCore::Initializer::Attribute::List
     @lock = SmartCore::Engine::Lock.new
   end
 
+  # @param attribute_name [Symbol]
   # @return [SmartCore::Initializer::Atribute]
   #
   # @raise [SmartCore::Initializer::UndefinedAttributeError]
