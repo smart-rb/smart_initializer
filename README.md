@@ -65,11 +65,20 @@ require 'smart_core/initializer'
   - `cast` - type-cast received value if value has invalid type;
   - `privacy` - reader incapsulation level;
   - `finalize` - value post-processing (receives method name or proc);
+    - expects `Proc` object or `symbol`/`string` isntance method;
   - `default` - defalut value (if an attribute is not provided);
+    - expects `Proc` object or a simple value of any type;
+    - non-proc values will be `dup`licate during initialization;
   - `type_system` - differently chosen type system for the current attribute;
 - last `Hash` argument will be treated as `kwarg`s;
 
-#### initializer integration
+#### Initializer integration
+
+- supports per-class configurations;
+- possible configurations:
+  - `:type_system` - chosen type-system (`smart_types` by default);
+  - `:strict_options` - fail extra kwarg-attributes, passed to the constructor (`true` by default);
+  - `:auto_cast` - type-cast all values to the declared attribute type (`false` by default);
 
 ```ruby
 # with pre-configured type system (:smart_types, see Configuration doc)
@@ -80,14 +89,18 @@ end
 ```
 
 ```ruby
-# with manually chosen type system
+# with manually chosen settings
 
 class MyStructure
-  include SmartCore::Initializer(type_system: :smart_types)
+  include SmartCore::Initializer(
+    type_system: :smart_types, # use smart_types
+    auto_cast: true, # type-cast all values by default
+    strict_options: false # ignore extra kwargs passed to the constructor
+  )
 end
 
 class AnotherStructure
-  include SmartCore::Initializer(type_system: :thy_types)
+  include SmartCore::Initializer(type_system: :thy_types) # use thy_types and global defaults
 end
 ```
 
@@ -113,6 +126,7 @@ option <attribute_name>,
        finalize: proc { |value| value }, # no finalization by default
        finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
        default: 123, # no default value by default
+       default: proc { 123 }, # use proc/lambda object for dynamic initialization
        type_system: :smart_types # used by default
 ```
 
@@ -168,23 +182,61 @@ user.__attributes__ # => { first_name: 'Rustam', second_name: 'Ibragimov', age: 
 
 - based on `Qonfig` gem;
 - you can read config values via `[]` or `.config.settings` or `.config[key]`;
-- setitngs:
+- by default, all classes uses and inherits the Global configuration;
+- configuration setitngs:
   - `default_type_system` - default type system (`smart_types` by default);
-  - `strict_options` - raise an error when got unknown options if true (`true` by default);
+  - `:strict_options` - fail on extra kwarg-attributes passed to the constructor (`true` by default);
+  - `:auto_cast` - type-cast all values to the declared attribute type (`false` by default);
+- each class can be configured separately (in `include` invocation);
+- global configuration affects classes used the default global configs in run-time;
+- each class can be re-configured separately in run-time;
 
 ```ruby
-# configure:
+# Global configuration:
+
 SmartCore::Initializer::Configuration.configure do |config|
   config.default_type_system = :smart_types # default setting value
   config.strict_options = true # default setting value
+  config.auto_cast = false # default setting value
 end
 ```
 
 ```ruby
-# read:
+# Read configs:
+
 SmartCore::Initializer::Configuration[:default_type_system]
 SmartCore::Initializer::Configuration.config[:default_type_system]
 SmartCore::Initializer::Configuration.config.settings.default_type_system
+```
+
+```ruby
+# per-class configuration:
+
+class Parameters
+  include SmartCore::Initializer(auto_cast: true, strict_options: false)
+  # 1. use globally configured `smart_types` (default value)
+  # 2. type-cast all attributes by default (auto_cast: true)
+  # 3. ignore extra kwarg-attributes passed to the constructor (strict_options: false)
+end
+
+class User
+  include SmartCore::Initializer(type_system: :thy_types)
+  # 1. use :thy_types isntead of pre-configured :smart_types
+  # 2. use pre-configured auto_cast (false by default above)
+  # 3. use pre-configured strict_options ()
+end
+```
+
+```ruby
+# debug class-related configurations:
+
+class SomeClass
+  include SmartCore::Initializer(type_system: :thy_types)
+end
+
+SomeClass.__initializer_settings__[:type_system] # => :thy_types
+SomeClass.__initializer_settings__[:auto_cast] # => false
+SomeClass.__initializer_settings__[:strict_options] # => true
 ```
 
 ---
