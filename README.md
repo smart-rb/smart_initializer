@@ -169,7 +169,8 @@ class User
 
   option :role, default: :user, finalize: -> { |value| Role.find(name: value) }
 
-  # NOTE: for method-based finalizetion use `your_method(value)` isntance method of your class
+  # NOTE: for method-based finalizetion use `your_method(value)` isntance method of your class;
+  # NOTE: for dynamic default values use `proc` objects and `lambda` objects;
 
   params :name, :password
   options :metadata, :enabled
