@@ -76,6 +76,10 @@ RSpec.describe 'SmartCore::Initializer integration' do
   end
 
   describe 'mixed configuration' do
-    xspecify 'TODO'
+    xspecify 'you can configure your own configs per class with inherited globals' do
+    end
+
+    xspecify 'global configs affects local configs' do
+    end
   end
 end
