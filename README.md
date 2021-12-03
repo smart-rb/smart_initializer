@@ -56,20 +56,30 @@ require 'smart_core/initializer'
 **Constructor definition**:
 
 - `param` - defines name-like attribute:
-  - `cast` - type-cast received value if value has invalid type;
-  - `privacy` - reader incapsulation level;
-  - `finalize` - value post-processing (receives method name or proc);
-  - `type_system` - differently chosen type system for the current attribute;
-  - (limitation) param has no `:default` option;
+  - `cast` (optional) - type-cast received value if value has invalid type;
+  - `privacy` (optional) - reader incapsulation level;
+  - `finalize` (optional) - value post-processing (receives method name or proc);
+  - `type_system` (optional) - differently chosen type system for the current attribute;
+  - `as`  (optional)- attribute alias (be careful with naming aliases that overlap the names of other attributes);
+  - `mutable` (optional) - generate type-validated attr_writer in addition to attr_reader (`false` by default)
+  - (**limitation**) param has no `:default` option;
 - `option` - defined kwarg-like attribute:
-  - `cast` - type-cast received value if value has invalid type;
-  - `privacy` - reader incapsulation level;
-  - `finalize` - value post-processing (receives method name or proc);
+  - `cast` (optional) - type-cast received value if value has invalid type;
+  - `privacy` (optional) - reader incapsulation level;
+  - `as` (optional) - attribute alias (be careful with naming aliases that overlap the names of other attributes);
+  - `mutable` (optional) - generate type-validated attr_writer in addition to attr_reader (`false` by default)
+  - `optional` (optional) - mark attribut as optional (you can may not initialize optional attributes,
+    their values will be initialized with `nil` or by `default:` parameter);
+  - `finalize` (optional) - value post-processing (receives method name or proc);
     - expects `Proc` object or `symbol`/`string` isntance method;
-  - `default` - defalut value (if an attribute is not provided);
+  - `default` (optional) - defalut value (if an attribute is not provided);
     - expects `Proc` object or a simple value of any type;
     - non-proc values will be `dup`licate during initialization;
-  - `type_system` - differently chosen type system for the current attribute;
+  - `type_system` (optional) - differently chosen type system for the current attribute;
+- `params` - define a series of parameters (supports only `mutable` option);
+  - `:mutable` (optional) - (`false` by default);
+- `options` - define a series of options;
+  - `:mutable` (optional) - (`false` by default);
 - last `Hash` argument will be treated as `kwarg`s;
 
 #### Initializer integration
@@ -104,7 +114,7 @@ class AnotherStructure
 end
 ```
 
-#### `param` signautre:
+#### `param` and `params` signautre:
 
 ```ruby
 param <attribute_name>,
@@ -113,10 +123,17 @@ param <attribute_name>,
       privacy: :public, # :public by default
       finalize: proc { |value| value }, # no finalization by default
       finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
+      as: :some_alias, # define attribute alias
+      mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
       type_system: :smart_types # used by default
 ```
 
-#### `option` signature:
+```ruby
+params <atribute_name1>, <attribute_name2>, <attribute_name3>, ...,
+       mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
+```
+
+#### `option` and `options` signature:
 
 ```ruby
 option <attribute_name>,
@@ -127,7 +144,15 @@ option <attribute_name>,
        finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
        default: 123, # no default value by default
        default: proc { 123 }, # use proc/lambda object for dynamic initialization
+       as: :some_alias, # define attribute alias
+       mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
+       optional: true # (false by default) mark attribute as optional (attribute will be defined with `nil` or by `default:` value)
        type_system: :smart_types # used by default
+```
+
+```ruby
+options <attribute_name1>, <attribute_name2>, <attribute_name3>, ...,
+        mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
 ```
 
 Example:

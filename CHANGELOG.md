@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
     - supports: `option`, `param`;
   - Support for attribute **auto-casting** (`:auto_cast` parameter);
     - supports: `option`, `param`;
-  - Support for **mutable** attributes (`:mutable` parameter);
+  - Support for **mutable** attributes (`:mutable` parameter) with type-validation inside;
     - supports: `option`, `options`, `param`, `params`;
   - Support for **optional** attributes (`:optional` parameter);
     - supports: `option`;
