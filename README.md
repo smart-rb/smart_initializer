@@ -5,11 +5,7 @@ A simple and convenient way to declare complex constructors with a support for v
 
 ---
 
-<p>
-  <a href="https://github.com/Cado-Labs">
-    <img src="https://github.com/Cado-Labs/cado-labs-logos/blob/main/cado_labs_supporting.svg" alt="Supported by Cado Labs" />
-  </a>
-</p>
+<img src="https://github.com/Cado-Labs/cado-labs-resources/blob/main/cado_labs_supporting_rounded.svg" alt="Supported by Cado Labs" />
 
 ---
 
@@ -459,8 +455,8 @@ Released under MIT License.
 
 ## Supporting
 
-<a href="https://github.com/Cado-Labs">
-  <img src="https://github.com/Cado-Labs/cado-labs-logos/blob/main/cado_labs_logo.png" alt="Supported by Cado Labs" />
+<a target="_blank" href="https://github.com/Cado-Labs">
+  <img src="https://github.com/Cado-Labs/cado-labs-logos/raw/main/cado_labs_badge.svg" alt="Supported by Cado Labs" style="max-width: 100%;">
 </a>
 
 ## Authors
