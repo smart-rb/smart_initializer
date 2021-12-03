@@ -3,14 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Support for attribute **aliasing** (`:as` parameter);
-  - supports: `option`, `param`;
-- Support for attribute **auto-casting** (`:auto_cast` parameter);
-  - supports: `option`, `param`;
-- Support for **mutable** attributes (`:mutable` parameter);
-  - supports: `option`, `options`, `param`, `params`;
-- Support for **optional** attributes (`:optional` parameter);
-  - supports: `option`;
+- New options for option and param attributes:
+  - Support for attribute **aliasing** (`:as` parameter);
+    - supports: `option`, `param`;
+  - Support for attribute **auto-casting** (`:auto_cast` parameter);
+    - supports: `option`, `param`;
+  - Support for **mutable** attributes (`:mutable` parameter);
+    - supports: `option`, `options`, `param`, `params`;
+  - Support for **optional** attributes (`:optional` parameter);
+    - supports: `option`;
+- **SmartCore::Initializer::Configuration**:
+  - Configuration setting `strict_options` now works separately "per-class" (each class shares the global state but has own state too)
+  - Support for per-class/global `:auto_cast` configuration;
+    - provides a global/per-class behavior for `:cast option` (`false` by default);
 
 ### Changed
 - Drop support of **Ruby@2.4**;
