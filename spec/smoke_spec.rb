@@ -102,9 +102,9 @@ RSpec.describe 'Smoke Test' do
     end
 
     expect { Animal.new(123, age: 123) }
-      .to raise_error(SmartCore::Types::TypeError)
+      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
     expect { Animal.new('test', age: 'test') }
-      .to raise_error(SmartCore::Types::TypeError)
+      .to raise_error(SmartCore::Initializer::IncorrectTypeError)
     expect { Animal.new('test', age: 123) }.not_to raise_error
   end
 
@@ -219,7 +219,8 @@ RSpec.describe 'Smoke Test' do
         # test that value was changed
         expect(instance.a).to eq('2')
         # test the type checking of mutable methods
-        expect { instance.a = 2 }.to raise_error(SmartCore::Types::TypeError)
+        expect { instance.a = 2 }.to raise_error(SmartCore::Initializer::IncorrectTypeError)
+        # NOTE: old version of error => SmartCore::Types::TypeError
 
         # non-mutable option
         expect { instance.b = 3 }.to raise_error(::NoMethodError)
@@ -238,7 +239,8 @@ RSpec.describe 'Smoke Test' do
         # test that value was changed
         expect(instance.d).to eq('2')
         # test the type checking of mutable methods
-        expect { instance.d = 2 }.to raise_error(SmartCore::Types::TypeError)
+        expect { instance.d = 2 }.to raise_error(SmartCore::Initializer::IncorrectTypeError)
+        # NOTE: old version of error => SmartCore::Types::TypeError
 
         # non-mutable option
         expect { instance.e = 3 }.to raise_error(::NoMethodError)

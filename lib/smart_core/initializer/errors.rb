@@ -66,6 +66,10 @@ module SmartCore::Initializer
   TypeSystemError = Class.new(Error)
 
   # @api public
+  # @since 0.5.1
+  IncorrectTypeError = Class.new(TypeSystemError)
+
+  # @api public
   # @since 0.1.0
   TypeAliasNotFoundError = Class.new(TypeSystemError)
 
