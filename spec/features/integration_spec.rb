@@ -2,7 +2,7 @@
 
 RSpec.describe 'SmartCore::Initializer integration' do
   describe 'configurable integration' do
-    describe 'type system config' do
+    describe 'type_system config' do
       specify 'custom type-system definition' do
         custom_klass = Class.new { include SmartCore::Initializer(type_system: :smart_types) }
         expect(custom_klass.__initializer_settings__.type_system).to eq(:smart_types)
@@ -19,5 +19,17 @@ RSpec.describe 'SmartCore::Initializer integration' do
         expect(custom_klass.__initializer_settings__.type_system).to eq(:smart_types)
       end
     end
+  end
+
+  describe 'strict_options config' do
+    xspecify 'TODO'
+  end
+
+  describe 'auto_cast config' do
+    xspecify 'TODO'
+  end
+
+  describe 'mixed configuration' do
+    xspecify 'TODO'
   end
 end
