@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Drop support of **Ruby@2.4**;
 
+## Fixed
+- Options and params named as `send` breaks the internal framework-related invocations of
+  the attribute definitioning inside the custom object constructor (this name rewrites
+  internal Ruby's `send` method);
+
 ## [0.7.0] - 2021-06-23
 ## Added
 - `strict_options` config option for non-strict checking of passed options;
