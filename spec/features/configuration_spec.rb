@@ -21,13 +21,45 @@ RSpec.describe 'Initializer configuration' do
 
   describe 'strict_options' do
     specify 'default value' do
-      expect(SmartCore::Initializer::Configuration[:strict_options]).to be_truthy
+      expect(SmartCore::Initializer::Configuration[:strict_options]).to eq(true)
     end
 
-    specify 'unsupported value - fails' do
+    specify 'unsupported value => fail' do
       expect(SmartCore::Initializer::Configuration.config.valid_with?({
         strict_options: :kek_pek
       })).to eq(false)
+    end
+
+    specify 'you choose any supported config-switching' do
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        strict_options: true
+      })).to eq(true)
+
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        strict_options: false
+      })).to eq(true)
+    end
+  end
+
+  describe 'auto_cast' do
+    specify 'default value' do
+      expect(SmartCore::Initializer::Configuration[:auto_cast]).to eq(false)
+    end
+
+    specify 'unsupported value => fail' do
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        auto_cast: :kek_pek
+      })).to eq(false)
+    end
+
+    specify 'you choose any supported config-switching' do
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        auto_cast: true
+      })).to eq(true)
+
+      expect(SmartCore::Initializer::Configuration.config.valid_with?({
+        auto_cast: false
+      })).to eq(true)
     end
   end
 end
