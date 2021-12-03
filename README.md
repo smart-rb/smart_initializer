@@ -82,7 +82,7 @@ require 'smart_core/initializer'
   - `:mutable` (optional) - (`false` by default);
 - last `Hash` argument will be treated as `kwarg`s;
 
-#### Initializer integration
+### Initializer integration
 
 - supports per-class configurations;
 - possible configurations:
@@ -114,7 +114,7 @@ class AnotherStructure
 end
 ```
 
-#### `param` and `params` signautre:
+### `param` and `params` signautre:
 
 ```ruby
 param <attribute_name>,
@@ -133,7 +133,7 @@ params <atribute_name1>, <attribute_name2>, <attribute_name3>, ...,
        mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
 ```
 
-#### `option` and `options` signature:
+### `option` and `options` signature:
 
 ```ruby
 option <attribute_name>,
@@ -155,7 +155,7 @@ options <attribute_name1>, <attribute_name2>, <attribute_name3>, ...,
         mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
 ```
 
-Example:
+### Example:
 
 
 ```ruby
@@ -165,6 +165,8 @@ class User
   include SmartCore::Initializer(type_system: :smart_types)
 
   param :user_id, SmartCore::Types::Value::Integer, cast: false, privacy: :public
+  param :login, :string, mutable: true
+
   option :role, default: :user, finalize: -> { |value| Role.find(name: value) }
 
   # NOTE: for method-based finalizetion use `your_method(value)` isntance method of your class
@@ -173,7 +175,23 @@ class User
   options :metadata, :enabled
 end
 
-User.new(1, 'John', 'test123', role: :admin, metadata: {}, enabled: false)
+# with correct types (incorrect types will raise SmartCore::Initializer::IncorrectTypeError)
+object = User.new(1, 'kek123', 'John', 'test123', role: :admin, metadata: {}, enabled: false)
+
+# attribute accessing:
+object.user_id # => 1
+object.login # => 'kek123'
+object.name # => 'John'
+object.password # => 'test123'
+object.role # => :admin
+object.metadata # => {}
+object.enabled # => false
+
+# attribute mutation (only mutable attributes have a mutator):
+object.login = 123 # => (type vlaidation error) raises SmartCore::Initializer::IncorrectTypeError (expected String, got Integer)
+object.login # => 'kek123'
+object.login = 'pek456'
+object.login # => 'pek456'
 ```
 
 ---
