@@ -2,24 +2,36 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Support for attribute **aliasing** (`:as` parameter);
+  - supports: `option`, `param`;
+- Support for attribute **auto-casting** (`:auto_cast` parameter);
+  - supports: `option`, `param`;
+- Support for **mutable** attributes (`:mutable` parameter);
+  - supports: `option`, `options`, `param`, `params`;
+- Support for **optional** attributes (`:optional` parameter);
+  - supports: `option`;
+
 ### Changed
 - Drop support of **Ruby@2.4**;
+- `:default` attribute parameter now duplicates the passed value during object instantiation;
+- `:default` attribute parameter only works with `option` attribute (`param` can't have `default` parameter now);
 
 ## Fixed
-- Options and params named as `send` breaks the internal framework-related invocations of
-  the attribute definitioning inside the custom object constructor (this name rewrites
-  internal Ruby's `send` method);
+- `send` method overlaping/rewriting: otions and params named as `send` breaks the internal
+  framework-related invocations of the attribute definitioning inside the custom object constructor
+  (this name rewrites internal Ruby's `send` method and brokes some things);
 
 ## [0.7.0] - 2021-06-23
-## Added
+### Added
 - `strict_options` config option for non-strict checking of passed options;
 
 ## [0.6.0] - 2021-06-23
-## Added
+### Added
 - Validation messages for incorrect attribute types;
 
 ## [0.5.0] - 2021-01-18
-## Changed
+### Changed
 - Updated `smart_types` dependency (`~> 0.4.0`) to guarantee **Ruby@3** compatibility;
 - Updated development dependencies;
 
