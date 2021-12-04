@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.8.0] - 2021-12-04
 ### Added
 - New options for option and param attributes:
   - Support for attribute **aliasing** (`:as` parameter);
