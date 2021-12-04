@@ -30,15 +30,17 @@ require 'smart_core/initializer'
 ## Table of contents
 
 - [Synopsis](#synopsis)
-  - [Initialization flow](initialization-flow)
-  - [Attribute value definition flow](attribute-value-definition-flow-during-object-allocation-and-construction)
-  - [Constructor definition](constructor-definition)
-    - [param](param)
-    - [option](option)
-    - [params](params)
-    - [options](options)
-    - [param and params signature](param-and-params-signature)
-    - [option and options signature](option-and-options-signature)
+  - [Initialization flow](#initialization-flow)
+  - [Attribute value definition flow](#attribute-value-definition-flow-during-object-allocation-and-construction)
+  - [Constructor definition](#constructor-definition)
+    - [param](#param)
+    - [option](#option)
+    - [params](#params)
+    - [options](#options)
+    - [param and params signature](#param-and-params-signature)
+    - [option and options signature](#option-and-options-signature)
+- [Initializer integration](#initializer-integration)
+- [Basic Example](#basic-example)
 - [Access to the instance attributes](#access-to-the-instance-attributes)
 - [Configuration](#configuration)
 - [Type aliasing](#type-aliasing)
@@ -66,7 +68,7 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 #### Attribute value definition flow (during object allocation and construction):
 
 1. `original value`
-2. *(if defined)*: `default value` (if `original value` is not defined)
+2. *(if defined)*: `default value` (default value is used when `original value` is not defined)
 3. *(if defined)*: `finalize`;
 
 ---
@@ -192,7 +194,9 @@ class AnotherStructure
 end
 ```
 
-### Example:
+---
+
+### Basic Example:
 
 
 ```ruby
