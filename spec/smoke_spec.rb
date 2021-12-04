@@ -10,6 +10,7 @@ RSpec.describe 'Smoke Test' do
       param :user_id, SmartCore::Types::Value::Integer, cast: true, privacy: :private
       option :password, :integer, cast: true, default: 'test', privacy: :private
       option :keka, finalize: (-> (value) { value.to_s })
+      option :send, :string, default: 'yes!' # you can use `send` as attribtue name
 
       params :creds, :nickname
       options :metadata, :datameta
@@ -31,14 +32,15 @@ RSpec.describe 'Smoke Test' do
     expect(user).to be_a(User)
 
     expect { user.user_id }.to raise_error(NoMethodError)
-    expect(user.send(:user_id)).to eq(1)
+    expect(user.__send__(:user_id)).to eq(1)
     expect(user.creds).to eq(admin: true)
     expect(user.nickname).to eq('0exp')
     expect { user.password }.to raise_error(NoMethodError)
-    expect(user.send(:password)).to eq(0)
+    expect(user.__send__(:password)).to eq(0)
     expect(user.metadata).to eq({})
     expect(user.datameta).to eq({})
     expect(user.keka).to eq('123')
+    expect(user.send).to eq('yes!')
 
     expect(user.attrs).to eq(
       [1, { admin: true }, '0exp',
