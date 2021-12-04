@@ -27,6 +27,10 @@ module SmartCore::Initializer
 
   # @api public
   # @since 0.8.0
+  AliasArgumentError = Class.new(ArgumentError)
+
+  # @api public
+  # @since 0.8.0
   SettingArgumentError = Class.new(ArgumentError)
 
   # @api public

@@ -88,6 +88,16 @@ class SmartCore::Initializer::Attribute::Factory::Base
         ERROR_MESSAGE
       end
 
+      if finalize.is_a?(::Proc) && finalize.lambda?
+        unless (finalize.arity == 1 || finalize.arity == -1)
+          raise(
+            SmartCore::Initializer::ArgumentError,
+            "Lambda-based finalizer should have arity equal to 1 or equal to -1 " \
+            "(your lambda object should require one attribute)"
+          )
+        end
+      end
+
       SmartCore::Initializer::Attribute::Finalizer.create(finalize)
     end
 

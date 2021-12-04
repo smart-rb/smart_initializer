@@ -76,10 +76,51 @@ RSpec.describe 'SmartCore::Initializer integration' do
   end
 
   describe 'mixed configuration' do
-    xspecify 'you can configure your own configs per class with inherited globals' do
+    specify 'you can configure your own configs per class with inherited globals' do
+      expect(SmartCore::Initializer::Configuration[:auto_cast]).to eq(false)
+      expect(SmartCore::Initializer::Configuration[:default_type_system]).to eq(:smart_types)
+      expect(SmartCore::Initializer::Configuration[:strict_options]).to eq(true)
+
+      aggregate_failures 'inheritable defaults' do
+        klass = Class.new { include SmartCore::Initializer }
+
+        expect(klass.__initializer_settings__.auto_cast).to eq(false)
+        expect(klass.__initializer_settings__.type_system).to eq(:smart_types)
+        expect(klass.__initializer_settings__.strict_options).to eq(true)
+      end
+
+      aggregate_failures 'local configs has higher priority over the global configs' do
+        klass = Class.new do
+          include SmartCore::Initializer(auto_cast: true, strict_options: false)
+        end
+
+        expect(klass.__initializer_settings__.auto_cast).to eq(true)
+        expect(klass.__initializer_settings__.strict_options).to eq(false)
+        expect(klass.__initializer_settings__.type_system).to eq(:smart_types)
+      end
     end
 
-    xspecify 'global configs affects local configs' do
+    context 'global config affect' do
+      specify 'global configs affects local configs' do
+        klass = Class.new { include SmartCore::Initializer }
+        # initial global config
+        expect(klass.__initializer_settings__.auto_cast).to eq(false)
+        # initial global config
+        expect(klass.__initializer_settings__.strict_options).to eq(true)
+
+        # temporary change the global config
+        SmartCore::Initializer::Configuration.config.with({
+          auto_cast: true,
+          strict_options: false
+        }) do
+          klass = Class.new { include SmartCore::Initializer }
+
+          # new global config
+          expect(klass.__initializer_settings__.auto_cast).to eq(true)
+          # new global config
+          expect(klass.__initializer_settings__.strict_options).to eq(false)
+        end
+      end
     end
   end
 end

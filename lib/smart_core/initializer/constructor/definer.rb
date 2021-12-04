@@ -66,19 +66,20 @@ class SmartCore::Initializer::Constructor::Definer
 
   # @param names [Array<String, Symbol>]
   # @option mutable [Boolean]
+  # @option privacy [String, Symbol]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
   # @version 0.8.0
-  def define_parameters(*names, mutable:)
+  def define_parameters(*names, mutable:, privacy:)
     thread_safe do
       names.map do |name|
         build_param_attribute(
           name,
           klass.__initializer_settings__.generic_type_object,
           klass.__initializer_settings__.type_system,
-          SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE,
+          privacy,
           SmartCore::Initializer::Attribute::Value::Param::DEFAULT_FINALIZER,
           klass.__initializer_settings__.auto_cast,
           mutable,
@@ -139,19 +140,20 @@ class SmartCore::Initializer::Constructor::Definer
 
   # @param names [Array<String, Symbol>]
   # @option mutable [Boolean]
+  # @option privacy [String, Symbol]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
   # @version 0.8.0
-  def define_options(*names, mutable:)
+  def define_options(*names, mutable:, privacy:)
     thread_safe do
       names.map do |name|
         build_option_attribute(
           name,
           klass.__initializer_settings__.generic_type_object,
           klass.__initializer_settings__.type_system,
-          SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE,
+          privacy,
           SmartCore::Initializer::Attribute::Value::Option::DEFAULT_FINALIZER,
           klass.__initializer_settings__.auto_cast,
           mutable,
@@ -254,6 +256,8 @@ class SmartCore::Initializer::Constructor::Definer
   def add_parameter(parameter)
     klass.__params__ << parameter
     klass.__send__(:attr_reader, parameter.name)
+    klass.__send__(parameter.privacy, parameter.name)
+
 
     if parameter.mutable?
       # NOTE:
@@ -262,7 +266,7 @@ class SmartCore::Initializer::Constructor::Definer
       #   access the current context or the current variable set and the way to avoid this by
       #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
       klass.class_eval(<<~METHOD_CODE, __FILE__, __LINE__ + 1)
-        def #{parameter.name}=(new_value)
+        #{parameter.privacy} def #{parameter.name}=(new_value)
           self.class.__params__[:#{parameter.name}].validate!(new_value)
           @#{parameter.name} = new_value
         end
@@ -271,10 +275,11 @@ class SmartCore::Initializer::Constructor::Definer
 
     if parameter.as
       klass.__send__(:alias_method, parameter.as, parameter.name)
-      klass.__send__(:alias_method, "#{parameter.as}=", "#{parameter.name}=") if mutable?
-    end
+      klass.__send__(:alias_method, "#{parameter.as}=", "#{parameter.name}=") if parameter.mutable?
 
-    klass.send(parameter.privacy, parameter.name)
+      klass.__send__(parameter.privacy, parameter.as)
+      klass.__send__(parameter.privacy, "#{parameter.as}=") if parameter.mutable?
+    end
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -288,6 +293,7 @@ class SmartCore::Initializer::Constructor::Definer
   def add_option(option)
     klass.__options__ << option
     klass.__send__(:attr_reader, option.name)
+    klass.__send__(option.privacy, option.name)
 
     if option.mutable?
       # NOTE:
@@ -296,7 +302,7 @@ class SmartCore::Initializer::Constructor::Definer
       #   access the current context or the current variable set and the way to avoid this by
       #   ruby method is more diffcult to support and read insead of the real `code` evaluation)
       klass.class_eval(<<~METHOD_CODE, __FILE__, __LINE__ + 1)
-        def #{option.name}=(new_value)
+        #{option.privacy} def #{option.name}=(new_value)
           self.class.__options__[:#{option.name}].validate!(new_value)
           @#{option.name} = new_value
         end
@@ -306,9 +312,10 @@ class SmartCore::Initializer::Constructor::Definer
     if option.as
       klass.__send__(:alias_method, option.as, option.name)
       klass.__send__(:alias_method, "#{option.as}=", "#{option.name}=") if option.mutable?
-    end
 
-    klass.__send__(option.privacy, option.name)
+      klass.__send__(option.privacy, option.as)
+      klass.__send__(option.privacy, "#{option.as}=") if option.mutable?
+    end
   end
   # rubocop:enable Metrics/AbcSize
 

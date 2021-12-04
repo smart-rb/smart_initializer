@@ -119,9 +119,10 @@ class SmartCore::Initializer::Attribute::Value::Base
   def validate!(value)
     type.validate!(value)
   rescue => error # TODO: move to typesystem interop
-    raise(SmartCore::Initializer::IncorrectTypeError, <<~ERROR_MESSAGE)
-      Validation of attribute `#{name}` failed:
-      (expected: #{type.identifier}, got: #{value.class}) "#{error.message}"
-    ERROR_MESSAGE
+    raise(
+      SmartCore::Initializer::IncorrectTypeError,
+      "Validation of attribute `#{name}` failed:" \
+      "(expected: #{type.identifier}, got: #{value.class}) \"#{error.message}\""
+    )
   end
 end

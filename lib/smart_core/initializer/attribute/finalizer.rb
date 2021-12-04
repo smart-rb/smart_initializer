@@ -21,11 +21,10 @@ module SmartCore::Initializer::Attribute::Finalizer
       when Proc
         AnonymousBlock.new(finalization_approach)
       else
-        # :nocov:
-        raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
-          Finalization approach should be a type of Proc, Symbol or String'
-        ERROR_MESSAGE
-        # :nocov:
+        raise(
+          SmartCore::Initializer::ArgumentError,
+          'Finalization approach should be a type of Proc, Symbol or String'
+        )
       end
     end
   end

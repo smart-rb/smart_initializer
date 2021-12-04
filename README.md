@@ -33,6 +33,7 @@ require 'smart_core/initializer'
 - [Access to the instance attributes](#access-to-the-instance-attributes)
 - [Configuration](#configuration)
 - [Type aliasing](#type-aliasing)
+- [Type auto-casting](#type-auto-casting)
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
@@ -45,16 +46,26 @@ require 'smart_core/initializer'
 
 **Initialization flow**:
 
-1. Parameter + Option definitioning;
-2. Original #initialize invokation;
+1. Parameter + Option definitioning and initialization;
+2. Original **#initialize** invokation;
 3. Initialization extensions invokation;
+
+**NOTE!**: original constructor is called after **SmarteCore::Initializer**'s constructor
+in order to guarantee the validity of the SmartCore::Initializer's functionality
+(such as `attribute overlap chek`, `instant type checking`, `value post-processing by finalize`, etc)
+
+**Argument value definition flow** (during object allocation and construction):
+
+- `original value` / `default value` => `finalize`;
+
+---
 
 **Constructor definition**:
 
 - `param` - defines name-like attribute:
   - `cast` (optional) - type-cast received value if value has invalid type;
   - `privacy` (optional) - reader incapsulation level;
-  - `finalize` (optional) - value post-processing (receives method name or proc);
+  - `finalize` (optional) - value post-processing (receives method name or proc) (the result value type is also validate);
   - `type_system` (optional) - differently chosen type system for the current attribute;
   - `as`  (optional)- attribute alias (be careful with naming aliases that overlap the names of other attributes);
   - `mutable` (optional) - generate type-validated attr_writer in addition to attr_reader (`false` by default)
@@ -66,16 +77,18 @@ require 'smart_core/initializer'
   - `mutable` (optional) - generate type-validated attr_writer in addition to attr_reader (`false` by default)
   - `optional` (optional) - mark attribut as optional (you can may not initialize optional attributes,
     their values will be initialized with `nil` or by `default:` parameter);
-  - `finalize` (optional) - value post-processing (receives method name or proc);
+  - `finalize` (optional) - value post-processing (receives method name or proc) (the result value type is also validate);
     - expects `Proc` object or `symbol`/`string` isntance method;
   - `default` (optional) - defalut value (if an attribute is not provided);
     - expects `Proc` object or a simple value of any type;
     - non-proc values will be `dup`licate during initialization;
   - `type_system` (optional) - differently chosen type system for the current attribute;
-- `params` - define a series of parameters (supports only `mutable` option);
+- `params` - define a series of parameters;
   - `:mutable` (optional) - (`false` by default);
+  - `:privacy` (optional) - (`:public` by default);
 - `options` - define a series of options;
   - `:mutable` (optional) - (`false` by default);
+  - `:privacy` (optional) - (`:public` by default);
 - last `Hash` argument will be treated as `kwarg`s;
 
 ### Initializer integration
@@ -126,7 +139,8 @@ param <attribute_name>,
 
 ```ruby
 params <atribute_name1>, <attribute_name2>, <attribute_name3>, ...,
-       mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
+       mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
+       privacy: :private # incapsulate all attributes as private
 ```
 
 ### `option` and `options` signature:
@@ -148,7 +162,8 @@ option <attribute_name>,
 
 ```ruby
 options <attribute_name1>, <attribute_name2>, <attribute_name3>, ...,
-        mutable: true # generate type-validated attr_writer in addition to attr_reader (false by default);
+        mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
+        privacy: :private # incapsulate all attributes as private
 ```
 
 ### Example:
@@ -220,16 +235,16 @@ user.__attributes__ # => { first_name: 'Rustam', second_name: 'Ibragimov', age: 
 
 ## Configuration
 
-- based on `Qonfig` gem;
-- you can read config values via `[]` or `.config.settings` or `.config[key]`;
-- by default, all classes uses and inherits the Global configuration;
-- configuration setitngs:
-  - `default_type_system` - default type system (`smart_types` by default);
+- **configuration setitngs**:
+  - `:default_type_system` - default type system (`smart_types` by default);
   - `:strict_options` - fail on extra kwarg-attributes passed to the constructor (`true` by default);
   - `:auto_cast` - type-cast all values to the declared attribute type (`false` by default);
+- by default, all classes uses and inherits the Global configuration;
+- you can read config values via `[]` or `.config.settings` or `.config[key]`;
 - each class can be configured separately (in `include` invocation);
 - global configuration affects classes used the default global configs in run-time;
 - each class can be re-configured separately in run-time;
+- based on `Qonfig` gem;
 
 ```ruby
 # Global configuration:
@@ -310,6 +325,63 @@ SmartCore::Initializer::TypeSystem::SmartTypes.type_aliases
 
 # for thy_types:
 SmartCore::Initializer::TypeSystem::ThyTypes.type_aliases
+```
+
+---
+
+## Type-casting
+
+- make param/option as type-castable:
+
+```ruby
+class Order
+  include SmartCore::Initializer
+
+  param :manager, 'string' # cast: false is used by default
+  param :amount, 'float', cast: true
+
+  option :status, :symbol # cast: false is used by default
+  option :is_processed, 'boolean', cast: true
+  option :processed_at, 'time', cast: true
+end
+
+order = Order.new(
+  'Daiver',
+  '123.456',
+  status: :pending,
+  is_processed: nil,
+  processed_at: '2021-01-01'
+)
+
+order.manager # => 'Daiver'
+order.amount # => 123.456 (type casted)
+order.status # => :pending
+order.is_processed # => false (type casted)
+order.processed_at # => 2021-01-01 00:00:00 +0300 (type casted)
+```
+
+- configure automatic type casting:
+
+```ruby
+# per class
+
+class User
+  include SmartCore::Initializer(auto_cast: true) # auto type cast every attribute
+
+  param :x, 'string'
+  param :y, 'numeric', cast: false # disable type-casting
+
+  option :b, 'integer', cast: false # disable type-casting
+  option :c, 'boolean'
+end
+```
+
+```ruby
+# globally
+
+SmartCore::Initializer::Configuration.configure do |config|
+  config.auto_cast = true # false by default
+end
 ```
 
 ---
@@ -397,7 +469,9 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ## Roadmap
 
+- (**thinking** / **discussing**) Finalize should be invoked on `mutable` attributes after mutation too;
 - Support for `RSpec` doubles and instance_doubles inside the type system integration;
+- Specs restructuring;
 - Migrate from `TravisCI` to `GitHub Actions`;
 - Extract `Type Interop` system to `smart_type-system`;
 

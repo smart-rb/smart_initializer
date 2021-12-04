@@ -132,13 +132,18 @@ module SmartCore::Initializer::DSL
 
     # @param names [Array<String, Symbol>]
     # @option mutable [Boolean]
+    # @option privacy [String, Symbol]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
     # @verison 0.8.0
-    def params(*names, mutable: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE)
-      __definer__.define_parameters(*names, mutable: mutable)
+    def params(
+      *names,
+      mutable: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_MUTABLE,
+      privacy: SmartCore::Initializer::Attribute::Value::Param::DEFAULT_PRIVACY_MODE
+    )
+      __definer__.define_parameters(*names, mutable: mutable, privacy: privacy)
     end
 
     # @param name [String, Symbol]
@@ -175,13 +180,18 @@ module SmartCore::Initializer::DSL
 
     # @param names [Array<String, Symbol>]
     # @option mutable [Boolean]
+    # @option privacy [String, Symbol]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
     # @version 0.8.0
-    def options(*names, mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE)
-      __definer__.define_options(*names, mutable: mutable)
+    def options(
+      *names,
+      mutable: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_MUTABLE,
+      privacy: SmartCore::Initializer::Attribute::Value::Option::DEFAULT_PRIVACY_MODE
+    )
+      __definer__.define_options(*names, mutable: mutable, privacy: privacy)
     end
 
     # @param block [Block]

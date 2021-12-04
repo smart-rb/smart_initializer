@@ -124,8 +124,9 @@ class SmartCore::Initializer::Constructor
       end
 
       attribute.validate!(parameter_value)
-
       final_value = attribute.finalizer.call(parameter_value, instance)
+      attribute.validate!(final_value)
+
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
@@ -160,6 +161,9 @@ class SmartCore::Initializer::Constructor
       #   TODO: it should be covered by tests
 
       final_value = attribute.finalizer.call(option_value, instance)
+      # NOTE: validae `final_value` if only the `option` is provided (passed to constructor)
+      attribute.validate!(final_value) if options.key?(attribute.name)
+
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
