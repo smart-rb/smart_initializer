@@ -3,15 +3,21 @@
 # @api private
 # @since 0.1.0
 class SmartCore::Initializer::Settings
+  require_relative 'settings/base'
   require_relative 'settings/type_system'
+  require_relative 'settings/strict_options'
+  require_relative 'settings/auto_cast'
   require_relative 'settings/duplicator'
 
   # @return [void]
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def initialize
     @type_system = TypeSystem.new
+    @strict_options = StrictOptions.new
+    @auto_cast = AutoCast.new
   end
 
   # @return [Any]
@@ -30,6 +36,22 @@ class SmartCore::Initializer::Settings
     @type_system.resolve
   end
 
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.8.0
+  def strict_options
+    @strict_options.resolve
+  end
+
+  # @return [Boolean]
+  #
+  # @api private
+  # @since 0.8.0
+  def auto_cast
+    @auto_cast.resolve
+  end
+
   # @param value [String, System]
   # @return [void]
   #
@@ -37,6 +59,24 @@ class SmartCore::Initializer::Settings
   # @since 0.1.0
   def type_system=(value)
     @type_system.assign(value)
+  end
+
+  # @param value [Boolean]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.8.0
+  def strict_options=(value)
+    @strict_options.assign(value)
+  end
+
+  # @param value [Boolean]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.8.0
+  def auto_cast=(value)
+    @auto_cast.assign(value)
   end
 
   # @return [SmartCore::Initializer::Settings]

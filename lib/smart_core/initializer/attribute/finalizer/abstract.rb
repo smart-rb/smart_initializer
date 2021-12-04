@@ -19,7 +19,9 @@ class SmartCore::Initializer::Attribute::Finalizer::Abstract
   # @api private
   # @since 0.1.0
   def call(value, instance)
+    # :nocov:
     raise NoMethodError
+    # :nocov:
   end
 
   # @return [SmartCore::Initializer::Attribute::Finalizer::Abstract]

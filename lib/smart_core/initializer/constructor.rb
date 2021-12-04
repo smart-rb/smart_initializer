@@ -72,7 +72,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.7.0
+  # @version 0.8.0
   # rubocop:disable Metrics/AbcSize
   def prevent_attribute_insufficiency
     required_parameter_count = klass.__params__.size
@@ -83,8 +83,8 @@ class SmartCore::Initializer::Constructor
       "(given #{parameters.size}, expected #{required_parameter_count})"
     ) unless parameters.size == required_parameter_count
 
-    required_options = klass.__options__.reject(&:has_default?).map(&:name)
-    missing_options  = required_options.reject { |option| options.key?(option) }
+    required_options = klass.__options__.reject(&:has_default?).reject(&:optional?).map(&:name)
+    missing_options  = required_options.reject { |option_name| options.key?(option_name) }
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
@@ -97,7 +97,7 @@ class SmartCore::Initializer::Constructor
     raise(
       SmartCore::Initializer::OptionArgumentError,
       "Unknown options: #{unknown_options.join(', ')}"
-    ) if unknown_options.any? && SmartCore::Initializer::Configuration[:strict_options]
+    ) if klass.__initializer_settings__.strict_options && unknown_options.any?
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -124,8 +124,9 @@ class SmartCore::Initializer::Constructor
       end
 
       attribute.validate!(parameter_value)
-
       final_value = attribute.finalizer.call(parameter_value, instance)
+      attribute.validate!(final_value)
+
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
@@ -135,21 +136,38 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.5.1
+  # @version 0.8.0
+  # rubocop:disable Metrics/AbcSize
   def initialize_options(instance)
     klass.__options__.each do |attribute|
-      option_value = options.fetch(attribute.name) { attribute.default }
-
-      if !attribute.type.valid?(option_value) && attribute.cast?
-        option_value = attribute.type.cast(option_value)
+      option_value = options.fetch(attribute.name) do
+        # NOTE: `nil` case is a case when an option is `optional`
+        attribute.has_default? ? attribute.default : nil
       end
 
-      attribute.validate!(option_value)
+      if options.key?(attribute.name) || attribute.has_default?
+        if !attribute.type.valid?(option_value) && attribute.cast?
+          option_value = attribute.type.cast(option_value)
+        end
+
+        attribute.validate!(option_value)
+      end
+      # NOTE: (if-block: what if `if` receives `false`?):
+      #   For other case passed `attribute` is optional and
+      #   should not be type-checked/type-casted/etc.
+      #   But optional attributes with defined `default` setting should be
+      #   type-checked and type-casted.
+      #
+      #   TODO: it should be covered by tests
 
       final_value = attribute.finalizer.call(option_value, instance)
+      # NOTE: validae `final_value` if only the `option` is provided (passed to constructor)
+      attribute.validate!(final_value) if options.key?(attribute.name)
+
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # @param instance [Any]
   # @return [void]
@@ -157,7 +175,7 @@ class SmartCore::Initializer::Constructor
   # @api private
   # @since 0.1.0
   def process_original_initializer(instance)
-    instance.send(:initialize, *arguments, &block)
+    instance.__send__(:initialize, *arguments, &block)
   end
 
   # @param instance [Any]

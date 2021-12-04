@@ -10,12 +10,28 @@ module SmartCore::Initializer
   ArgumentError = Class.new(SmartCore::ArgumentError)
 
   # @api public
+  # @since 0.8.0
+  AttributeError = Class.new(Error)
+
+  # @api public
+  # @since 0.8.0
+  UndefinedAttributeError = Class.new(AttributeError)
+
+  # @api public
   # @since 0.1.0
   ParameterArgumentError = Class.new(ArgumentError)
 
   # @api public
   # @since 0.1.0
   OptionArgumentError = Class.new(ArgumentError)
+
+  # @api public
+  # @since 0.8.0
+  AliasArgumentError = Class.new(ArgumentError)
+
+  # @api public
+  # @since 0.8.0
+  SettingArgumentError = Class.new(ArgumentError)
 
   # @api public
   # @since 0.1.0
@@ -54,6 +70,10 @@ module SmartCore::Initializer
   TypeSystemError = Class.new(Error)
 
   # @api public
+  # @since 0.5.1
+  IncorrectTypeError = Class.new(TypeSystemError)
+
+  # @api public
   # @since 0.1.0
   TypeAliasNotFoundError = Class.new(TypeSystemError)
 
@@ -72,10 +92,6 @@ module SmartCore::Initializer
   # @api public
   # @since 0.1.0
   UnsupportedTypeOperationError = Class.new(TypeSystemError)
-
-  # @api public
-  # @since 0.5.1
-  IncorrectTypeError = Class.new(TypeSystemError)
 
   # @api public
   # @since 0.1.0

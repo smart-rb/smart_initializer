@@ -126,6 +126,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.8.0
   def fetch(system_identifier)
     identifier = indifferently_accessible_identifier(system_identifier)
 
@@ -133,7 +134,7 @@ class SmartCore::Initializer::TypeSystem::Registry
       systems.fetch(identifier)
     rescue ::KeyError
       raise(SmartCore::Initializer::UnsupportedTypeSystemError, <<~ERROR_MESSAGE)
-        "#{identifier}" type system is not supported.
+        `#{identifier}` type system is not supported.
       ERROR_MESSAGE
     end
   end

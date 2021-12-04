@@ -121,12 +121,14 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
 
       # NOTE: invalid
       expect { data_klass.new('test', { age: '123' }) }.to raise_error(
-        SmartCore::Initializer::ThyTypeValidationError
+        # NOTE: old version => SmartCore::Initializer::ThyTypeValidationError
+        SmartCore::Initializer::IncorrectTypeError
       )
 
       # NOTE: invalid
       expect { data_klass.new(123, { age: 123 }) }.to raise_error(
-        SmartCore::Initializer::ThyTypeValidationError
+        # NOTE: old version => SmartCore::Initializer::ThyTypeValidationError
+        SmartCore::Initializer::IncorrectTypeError
       )
 
       # NOTE: valid
@@ -142,11 +144,13 @@ RSpec.describe 'Plugins: thy_types', plugin: :thy_types do
       end
 
       expect { data_klass.new(123, 'iamdaiver@gmail.com') }.to raise_error(
-        SmartCore::Types::TypeError
+        # NOTE: old version => SmartCore::Types::TypeError
+        SmartCore::Initializer::IncorrectTypeError
       )
 
       expect { data_klass.new('123', :email) }.to raise_error(
-        SmartCore::Initializer::ThyTypeValidationError
+        # NOTE: old version => SmartCore::Initializer::ThyTypeValidationError
+        SmartCore::Initializer::IncorrectTypeError
       )
 
       expect { data_klass.new('123', 'iamdaiver@gmail.com') }.not_to raise_error
