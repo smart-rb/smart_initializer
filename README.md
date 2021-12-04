@@ -44,7 +44,7 @@ require 'smart_core/initializer'
 - [Access to the instance attributes](#access-to-the-instance-attributes)
 - [Configuration](#configuration)
 - [Type aliasing](#type-aliasing)
-- [Type auto-casting](#type-auto-casting)
+- [Type casting](#type-casting)
 - [Initialization extension](#initialization-extension)
 - [Plugins](#plugins)
   - [thy-types](#plugin-thy-types)
