@@ -51,20 +51,31 @@ RSpec.describe 'Smoke Test' do
 
   specify 'incompatible param/params/option/options names should raise an error' do
     expect do
-      Class.new { include SmartCore::Initializer; param 123 }
+      Class.new do
+        include SmartCore::Initializer
+        param 123
+      end
     end.to raise_error(SmartCore::Initializer::ArgumentError)
 
     expect do
-      Class.new { include SmartCore::Initializer; option 123 }
+      Class.new do
+        include SmartCore::Initializer
+        option 123
+      end
     end.to raise_error(SmartCore::Initializer::ArgumentError)
 
     expect do
-      Class.new { include SmartCore::Initializer; params :a, :b, 123, Object.new, 'test' }
+      Class.new do
+        include SmartCore::Initializer
+        params :a, :b, 123, Object.new, 'test'
+      end
     end.to raise_error(SmartCore::Initializer::ArgumentError)
 
-
     expect do
-      Class.new { include SmartCore::Initializer; options :a, :b, 123, Object.new, 'test' }
+      Class.new do
+        include SmartCore::Initializer
+        options :a, :b, 123, Object.new, 'test'
+      end
     end.to raise_error(SmartCore::Initializer::ArgumentError)
   end
 
@@ -118,6 +129,7 @@ RSpec.describe 'Smoke Test' do
     end.to raise_error(SmartCore::Initializer::TypeAliasNotFoundError)
   end
 
+  # rubocop:disable Naming/VariableNumber
   specify ':privacy attribute functionality' do
     aggregate_failures 'correct values amd fuctionality' do
       instance = Class.new do
@@ -154,7 +166,6 @@ RSpec.describe 'Smoke Test' do
         options :x3, :x4, privacy: 'private'
         options :y3, :y4, privacy: 'protected'
         options :z3, :z4, privacy: 'public'
-
       end.new(
         '', '', '', '', '', '',
         '', '', '', '', '', '',
@@ -162,7 +173,7 @@ RSpec.describe 'Smoke Test' do
         o: 1, p: 1, q: 1, r: 1, s: 1, t: 1,
         x1: 1, x2: 1, x3: 1, x4: 1,
         y1: 1, y2: 1, y3: 1, y4: 1,
-        z1: 1, z2: 1, z3: 1, z4: 1,
+        z1: 1, z2: 1, z3: 1, z4: 1
       )
 
       expect(instance.private_methods(false)).to contain_exactly(*%i[
@@ -194,6 +205,7 @@ RSpec.describe 'Smoke Test' do
       end.to raise_error(SmartCore::Initializer::ArgumentError) # TODO: PrivacyArgumentError
     end
   end
+  # rubocop:enable Naming/VariableNumber
 
   describe ':finalize' do
     specify 'finalize the result value of attribute via instance method' do
@@ -235,7 +247,7 @@ RSpec.describe 'Smoke Test' do
 
         param :x, 'numeric', finalize: -> (val) { val * val }
         param :y, 'boolean', finalize: proc { |val| !val }
-        option :a, 'integer', finalize: -> (val) { val + 1}
+        option :a, 'integer', finalize: -> (val) { val + 1 }
         option :b, 'string', finalize: proc { 'NOPE! :D' }
       end
 
@@ -333,7 +345,6 @@ RSpec.describe 'Smoke Test' do
           param :a, finalize: -> (*val) {}
         end
       end.not_to raise_error
-
 
       # NOTE: proc objects can omit attribute in their signature
       expect do
@@ -523,6 +534,7 @@ RSpec.describe 'Smoke Test' do
       expect(instance.login).to eq(:daiver)
     end
 
+    # rubocop:disable Naming/VariableNumber
     specify 'takes into original attribute incapsulation (private/protected/public)' do
       instance = Class.new do
         include SmartCore::Initializer
@@ -542,6 +554,7 @@ RSpec.describe 'Smoke Test' do
       expect(instance.public_methods(false)).to contain_exactly(:c, :c=, :c1, :c1=, :z, :z=, :z1, :z1=)
       # rubocop:enable Layout/LineLength
     end
+    # rubocop:enable Naming/VariableNumber
 
     specify 'aliased mutable attributes gives type-validated mutator too' do
       klass = Class.new do
@@ -770,7 +783,6 @@ RSpec.describe 'Smoke Test' do
       expect(first_instance.age.object_id).to eq(second_instance.age.object_id)
     end
 
-
     specify 'default value should be type validated too' do
       klass = Class.new do
         include SmartCore::Initializer
@@ -784,27 +796,45 @@ RSpec.describe 'Smoke Test' do
   describe 'attribute type casting' do
     specify 'expects boolean' do
       expect do
-        Class.new { include SmartCore::Initializer; param :a, :integer, cast: 123 }
+        Class.new do
+          include SmartCore::Initializer
+          param :a, :integer, cast: 123
+        end
       end.to raise_error(SmartCore::Initializer::ArgumentError) # TODO: CastArgumentError
 
       expect do
-        Class.new { include SmartCore::Initializer; option :a, :integer, cast: 'kek' }
+        Class.new do
+          include SmartCore::Initializer
+          option :a, :integer, cast: 'kek'
+        end
       end.to raise_error(SmartCore::Initializer::ArgumentError) # TODO: CastArgumentError
 
       expect do
-        Class.new { include SmartCore::Initializer; param :a, :integer, cast: true }
+        Class.new do
+          include SmartCore::Initializer
+          param :a, :integer, cast: true
+        end
       end.not_to raise_error
 
       expect do
-        Class.new { include SmartCore::Initializer; param :a, :integer, cast: false }
+        Class.new do
+          include SmartCore::Initializer
+          param :a, :integer, cast: false
+        end
       end.not_to raise_error
 
       expect do
-        Class.new { include SmartCore::Initializer; option :a, :integer, cast: true }
+        Class.new do
+          include SmartCore::Initializer
+          option :a, :integer, cast: true
+        end
       end.not_to raise_error
 
       expect do
-        Class.new { include SmartCore::Initializer; option :a, :integer, cast: false }
+        Class.new do
+          include SmartCore::Initializer
+          option :a, :integer, cast: false
+        end
       end.not_to raise_error
     end
 

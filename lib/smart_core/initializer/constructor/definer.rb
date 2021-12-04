@@ -258,7 +258,6 @@ class SmartCore::Initializer::Constructor::Definer
     klass.__send__(:attr_reader, parameter.name)
     klass.__send__(parameter.privacy, parameter.name)
 
-
     if parameter.mutable?
       # NOTE:
       #   code evaluation approach is used instead of `define_method` approach in order
