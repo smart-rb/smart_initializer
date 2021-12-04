@@ -30,6 +30,15 @@ require 'smart_core/initializer'
 ## Table of contents
 
 - [Synopsis](#synopsis)
+  - [Initialization flow](initialization-flow)
+  - [Attribute value definition flow](attribute-value-definition-flow-during-object-allocation-and-construction)
+  - [Constructor definition](constructor-definition)
+    - [param](param)
+    - [option](option)
+    - [params](params)
+    - [options](options)
+    - [param and params signature](param-and-params-signature)
+    - [option and options signature](option-and-options-signature)
 - [Access to the instance attributes](#access-to-the-instance-attributes)
 - [Configuration](#configuration)
 - [Type aliasing](#type-aliasing)
@@ -44,7 +53,7 @@ require 'smart_core/initializer'
 
 ## Synopsis
 
-**Initialization flow**:
+#### Initialization flow
 
 1. Parameter + Option definitioning and initialization;
 2. Original **#initialize** invokation;
@@ -54,13 +63,19 @@ require 'smart_core/initializer'
 in order to guarantee the validity of the SmartCore::Initializer's functionality
 (such as `attribute overlap chek`, `instant type checking`, `value post-processing by finalize`, etc)
 
-**Argument value definition flow** (during object allocation and construction):
+#### Attribute value definition flow (during object allocation and construction):
 
-- `original value` / `default value` => `finalize`;
+1. `original value`
+2. *(if defined)*: `default value` (if `original value` is not defined)
+3. *(if defined)*: `finalize`;
 
 ---
 
-**Constructor definition**:
+### Constructor definition DSL
+
+**NOTE**: last `Hash` argument will be treated as `kwarg`s;
+
+#### param
 
 - `param` - defines name-like attribute:
   - `cast` (optional) - type-cast received value if value has invalid type;
@@ -70,6 +85,9 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
   - `as`  (optional)- attribute alias (be careful with naming aliases that overlap the names of other attributes);
   - `mutable` (optional) - generate type-validated attr_writer in addition to attr_reader (`false` by default)
   - (**limitation**) param has no `:default` option;
+
+#### option
+
 - `option` - defined kwarg-like attribute:
   - `cast` (optional) - type-cast received value if value has invalid type;
   - `privacy` (optional) - reader incapsulation level;
@@ -83,15 +101,66 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
     - expects `Proc` object or a simple value of any type;
     - non-proc values will be `dup`licate during initialization;
   - `type_system` (optional) - differently chosen type system for the current attribute;
+
+#### params
+
 - `params` - define a series of parameters;
   - `:mutable` (optional) - (`false` by default);
   - `:privacy` (optional) - (`:public` by default);
+
+#### options
+
 - `options` - define a series of options;
   - `:mutable` (optional) - (`false` by default);
   - `:privacy` (optional) - (`:public` by default);
-- last `Hash` argument will be treated as `kwarg`s;
 
-### Initializer integration
+
+#### `param` and `params` signautre:
+
+```ruby
+param <attribute_name>,
+      <type=SmartCore::Types::Value::Any>, # Any by default
+      cast: false, # false by default
+      privacy: :public, # :public by default
+      finalize: proc { |value| value }, # no finalization by default
+      finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
+      as: :some_alias, # define attribute alias
+      mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
+      type_system: :smart_types # used by default
+```
+
+```ruby
+params <atribute_name1>, <attribute_name2>, <attribute_name3>, ...,
+       mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
+       privacy: :private # incapsulate all attributes as private
+```
+
+#### `option` and `options` signature:
+
+```ruby
+option <attribute_name>,
+       <type=SmartCore::Types::Value::Any>, # Any by default
+       cast: false, # false by default
+       privacy: :public, # :public by default
+       finalize: proc { |value| value }, # no finalization by default
+       finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
+       default: 123, # no default value by default
+       default: proc { 123 }, # use proc/lambda object for dynamic initialization
+       as: :some_alias, # define attribute alias
+       mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
+       optional: true # (false by default) mark attribute as optional (attribute will be defined with `nil` or by `default:` value)
+       type_system: :smart_types # used by default
+```
+
+```ruby
+options <attribute_name1>, <attribute_name2>, <attribute_name3>, ...,
+        mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
+        privacy: :private # incapsulate all attributes as private
+```
+
+---
+
+## Initializer integration
 
 - supports per-class configurations;
 - possible configurations:
@@ -121,49 +190,6 @@ end
 class AnotherStructure
   include SmartCore::Initializer(type_system: :thy_types) # use thy_types and global defaults
 end
-```
-
-### `param` and `params` signautre:
-
-```ruby
-param <attribute_name>,
-      <type=SmartCore::Types::Value::Any>, # Any by default
-      cast: false, # false by default
-      privacy: :public, # :public by default
-      finalize: proc { |value| value }, # no finalization by default
-      finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
-      as: :some_alias, # define attribute alias
-      mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
-      type_system: :smart_types # used by default
-```
-
-```ruby
-params <atribute_name1>, <attribute_name2>, <attribute_name3>, ...,
-       mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
-       privacy: :private # incapsulate all attributes as private
-```
-
-### `option` and `options` signature:
-
-```ruby
-option <attribute_name>,
-       <type=SmartCore::Types::Value::Any>, # Any by default
-       cast: false, # false by default
-       privacy: :public, # :public by default
-       finalize: proc { |value| value }, # no finalization by default
-       finalize: :some_method, # use this apporiach in order to finalize by `some_method(value)` instance method
-       default: 123, # no default value by default
-       default: proc { 123 }, # use proc/lambda object for dynamic initialization
-       as: :some_alias, # define attribute alias
-       mutable: true, # (false by default) generate type-validated attr_writer in addition to attr_reader
-       optional: true # (false by default) mark attribute as optional (attribute will be defined with `nil` or by `default:` value)
-       type_system: :smart_types # used by default
-```
-
-```ruby
-options <attribute_name1>, <attribute_name2>, <attribute_name3>, ...,
-        mutable: true, # generate type-validated attr_writer in addition to attr_reader (false by default);
-        privacy: :private # incapsulate all attributes as private
 ```
 
 ### Example:
