@@ -90,7 +90,7 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 
 #### option
 
-- `option` - defined kwarg-like attribute:
+- `option` - defines kwarg-like attribute:
   - `cast` (optional) - type-cast received value if value has invalid type;
   - `privacy` (optional) - reader incapsulation level;
   - `as` (optional) - attribute alias (be careful with naming aliases that overlap the names of other attributes);
@@ -106,13 +106,13 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 
 #### params
 
-- `params` - define a series of parameters;
+- `params` - defines a series of parameters;
   - `:mutable` (optional) - (`false` by default);
   - `:privacy` (optional) - (`:public` by default);
 
 #### options
 
-- `options` - define a series of options;
+- `options` - defines a series of options;
   - `:mutable` (optional) - (`false` by default);
   - `:privacy` (optional) - (`:public` by default);
 
