@@ -57,7 +57,7 @@ require 'smart_core/initializer'
 
 #### Initialization flow
 
-1. Parameter + Option definitioning and initialization;
+1. Parameter + Option definitioning and initialization (custom constructor);
 2. Original **#initialize** invokation;
 3. Initialization extensions invokation;
 
