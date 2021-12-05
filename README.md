@@ -500,6 +500,9 @@ User.new(123, 'test', { admin: true, age: 22 })
 ## Roadmap
 
 - More semantic attribute declaration errors (more domain-related error objects);
+  - bad `:finalize` argument type: `ArgumentError` => `FinalizeArgumentError`;
+  - bad `:as` argument type: `ArguemntError` => `AsArgumentError`;
+  - etc;
 - (**thinking** / **discussing**) Finalize should be invoked on `mutable` attributes after mutation too;
 - Support for `RSpec` doubles and instance_doubles inside the type system integration;
 - Specs restructuring;
