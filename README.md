@@ -57,11 +57,11 @@ require 'smart_core/initializer'
 
 #### Initialization flow
 
-1. Parameter + Option definitioning and initialization (custom constructor);
+1. Parameter + Option definitioning and initialization (custom object allocator and constructor);
 2. Original **#initialize** invokation;
 3. Initialization extensions invokation;
 
-**NOTE!**: original constructor is called after **SmarteCore::Initializer**'s constructor
+**NOTE!**:  **SmarteCore::Initializer**'s constructor is invoked first
 in order to guarantee the validity of the SmartCore::Initializer's functionality
 (such as `attribute overlap chek`, `instant type checking`, `value post-processing by finalize`, etc)
 
