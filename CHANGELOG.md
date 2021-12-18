@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2021-12-19
+### Changed
+- `:finalize` block is not invoked on the `option` with `optional: true` flag;
+
 ## [0.8.0] - 2021-12-04
 ### Added
 - New options for option and param attributes:

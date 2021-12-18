@@ -71,7 +71,30 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 2. *(if defined)*: `default value` (default value is used when `original value` is not defined)
 3. *(if defined)*: `finalize`;
 
----
+**NOTE**: `:finalize` block are not invoked on omitted `optional: true` attributes
+which has no `:default` definition bock and which are not passed to the constructor. Example:
+
+```ruby
+# without :default
+
+class User
+  include SmartCore::Initializer
+  option :age, :string, optional: true, finalize: -> (val) { "#{val}_years" }
+end
+
+User.new.age # => nil
+```
+
+```ruby
+# with :default
+
+class User
+  include SmartCore::Initializer
+  option :age, :string, optional: true, default: '0', finalize: -> (val) { "#{val}_years" }
+end
+
+User.new.age # => '0_years'
+```
 
 ### Constructor definition DSL
 
@@ -503,7 +526,6 @@ User.new(123, 'test', { admin: true, age: 22 })
   - incorrect `:finalize` argument type: `ArgumentError` => `FinalizeArgumentError`;
   - incorrect `:as` argument type: `ArguemntError` => `AsArgumentError`;
   - etc;
-- (**thinking** / **discussing**) Finalize should be invoked on `mutable` attributes after mutation too;
 - Support for `RSpec` doubles and instance_doubles inside the type system integration;
 - Specs restructuring;
 - Migrate from `TravisCI` to `GitHub Actions`;

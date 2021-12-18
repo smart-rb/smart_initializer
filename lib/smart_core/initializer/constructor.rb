@@ -145,26 +145,22 @@ class SmartCore::Initializer::Constructor
         attribute.has_default? ? attribute.default : nil
       end
 
+      # NOTE: (if-block: what if `if` receives `false`?):
+      #   For other case passed `attribute` is optional and
+      #   should not be type-checked/type-casted/etc.
+      #   But optional attributes with defined `default` setting should be
+      #   type-checked and type-casted.
       if options.key?(attribute.name) || attribute.has_default?
         if !attribute.type.valid?(option_value) && attribute.cast?
           option_value = attribute.type.cast(option_value)
         end
 
         attribute.validate!(option_value)
+        option_value = attribute.finalizer.call(option_value, instance)
+        attribute.validate!(option_value)
       end
-      # NOTE: (if-block: what if `if` receives `false`?):
-      #   For other case passed `attribute` is optional and
-      #   should not be type-checked/type-casted/etc.
-      #   But optional attributes with defined `default` setting should be
-      #   type-checked and type-casted.
-      #
-      #   TODO: it should be covered by tests
 
-      final_value = attribute.finalizer.call(option_value, instance)
-      # NOTE: validae `final_value` if only the `option` is provided (passed to constructor)
-      attribute.validate!(final_value) if options.key?(attribute.name)
-
-      instance.instance_variable_set("@#{attribute.name}", final_value)
+      instance.instance_variable_set("@#{attribute.name}", option_value)
     end
   end
   # rubocop:enable Metrics/AbcSize

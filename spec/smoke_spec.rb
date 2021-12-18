@@ -707,6 +707,24 @@ RSpec.describe 'Smoke Test' do
       expect(instance.f).to eq(nil)
     end
 
+    specify 'optional attributes without :default should not be finalized' do
+      aggregate_failures 'without :default => without finalization' do
+        instance = Class.new do
+          include SmartCore::Initializer
+          option :a, :numeric, optional: true, finalize: -> (val) { 123 }
+        end.new
+        expect(instance.a).to eq(nil)
+      end
+
+      aggregate_failures 'with :default => with finalization' do
+        instance = Class.new do
+          include SmartCore::Initializer
+          option :a, :numeric, default: 3, optional: true, finalize: -> (val) { val * 2 }
+        end.new
+        expect(instance.a).to eq(6)
+      end
+    end
+
     specify 'expects boolean value' do
       expect do
         Class.new do
