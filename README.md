@@ -499,7 +499,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ## Roadmap
 
-- More semantic attribute declaration errors (more domain-related error objects);
+- More semantic attribute declaration errors (more domain-related attribute error objects);
   - bad `:finalize` argument type: `ArgumentError` => `FinalizeArgumentError`;
   - bad `:as` argument type: `ArguemntError` => `AsArgumentError`;
   - etc;
