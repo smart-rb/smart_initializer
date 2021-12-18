@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.8.0)
+    smart_initializer (0.9.0)
       qonfig (~> 0.24)
       smart_engine (~> 0.11)
       smart_types (~> 0.4)
@@ -84,7 +84,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.3)
-    smart_engine (0.11.0)
+    smart_engine (0.12.0)
     smart_types (0.7.0)
       smart_engine (~> 0.11)
     tzinfo (2.0.4)
@@ -107,4 +107,4 @@ DEPENDENCIES
   smart_initializer!
 
 BUNDLED WITH
-   2.2.31
+   2.2.32
