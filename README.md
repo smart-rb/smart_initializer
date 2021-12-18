@@ -96,6 +96,8 @@ end
 User.new.age # => '0_years'
 ```
 
+---
+
 ### Constructor definition DSL
 
 **NOTE**: last `Hash` argument will be treated as `kwarg`s;
