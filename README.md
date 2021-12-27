@@ -74,6 +74,10 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 **NOTE**: `:finalize` block are not invoked on omitted `optional: true` attributes
 which has no `:default` definition bock and which are not passed to the constructor. Example:
 
+**NOTE**:
+- the `default` proc will be invoked in the `outer scope` context (class object);
+- the `finalize` proc will be invoked in the `isntance` context (class instance);
+
 ```ruby
 # without :default
 
