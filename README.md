@@ -69,14 +69,12 @@ in order to guarantee the validity of the SmartCore::Initializer's functionality
 
 1. `original value`
 2. *(if defined)*: `default value` (default value is used when `original value` is not defined)
-3. *(if defined)*: `finalize`;
+ - if `default`-object is a proc-object - this proc-object will be invoked in the `outer scope` of block definition;
+4. *(if defined)*: `finalize`;
+ - if `finalize`-object is a proc-object - this proc-object will be invoked in the `isntance` context (class instance);
 
 **NOTE**: `:finalize` block are not invoked on omitted `optional: true` attributes
 which has no `:default` definition bock and which are not passed to the constructor. Example:
-
-**NOTE**:
-- the `default` proc will be invoked in the `outer scope` context (class object);
-- the `finalize` proc will be invoked in the `isntance` context (class instance);
 
 ```ruby
 # without :default
