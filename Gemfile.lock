@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.9.0)
+    smart_initializer (0.9.1)
       qonfig (~> 0.24)
       smart_engine (~> 0.11)
       smart_types (~> 0.4)
@@ -36,7 +36,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    qonfig (0.26.0)
+    qonfig (0.27.0)
     rack (2.2.3)
     rainbow (3.0.0)
     rake (13.0.6)

@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.9.1] - 2022-03-06
 
 ### Fixed
 

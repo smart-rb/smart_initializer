@@ -90,7 +90,7 @@ class SmartCore::Initializer::Attribute::Factory::Base
 
       # rubocop:disable Style/SoleNestedConditional
       if finalize.is_a?(::Proc) && finalize.lambda?
-        unless [1, -1, -2].include?(finalize.arity)
+        unless allowed_lambda_arity.bsearch { |element| finalize.arity <=> element }
           raise(
             SmartCore::Initializer::ArgumentError,
             'Lambda-based finalizer should have arity equal to 1, -1 or -2 ' \
@@ -101,6 +101,13 @@ class SmartCore::Initializer::Attribute::Factory::Base
       # rubocop:enable Style/SoleNestedConditional
 
       SmartCore::Initializer::Attribute::Finalizer.create(finalize)
+    end
+
+    # return [Array<Integer>]
+    # @api private
+    # @since 0.9.1
+    def allowed_lambda_arity
+      @allowed_lambda_arity ||= [-2, -1, 1].freeze
     end
 
     # @param mutable [Boolean]
