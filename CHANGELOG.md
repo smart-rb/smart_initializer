@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### Fixed
+
+- `finalize` now accepts lambdas with arity -2. For example `->(a, *b) {}` or `:freeze.to_proc` in
+  `Ruby >= 3` returns lambda with arity equal to `-2`.
+
 ## [0.9.0] - 2021-12-19
 ### Changed
 - `:finalize` block is not invoked on the `option` with `optional: true` flag;
