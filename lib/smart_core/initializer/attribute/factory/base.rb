@@ -93,8 +93,9 @@ class SmartCore::Initializer::Attribute::Factory::Base
         unless allowed_lambda_arity.bsearch { |element| finalize.arity <=> element }
           raise(
             SmartCore::Initializer::ArgumentError,
-            'Lambda-based finalizer should have arity equal to 1, -1 or -2 ' \
-            '(your lambda object should require one attribute)'
+            "Lambda-based finalizer should have arity " \
+            "equal to #{allowed_lambda_arity.join(', ')} " \
+            "(your lambda object should require one attribute)"
           ) # TODO: show the name of attribute in error message (if the name is a valid, of course)
         end
       end
