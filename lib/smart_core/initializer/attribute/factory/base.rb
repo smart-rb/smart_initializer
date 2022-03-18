@@ -81,6 +81,7 @@ class SmartCore::Initializer::Attribute::Factory::Base
     #
     # @api private
     # @since 0.8.0
+    # @version 0.9.1
     def prepare_finalize_param(finalize)
       unless finalize.is_a?(::String) || finalize.is_a?(::Symbol) || finalize.is_a?(::Proc)
         raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
