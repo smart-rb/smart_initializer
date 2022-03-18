@@ -348,6 +348,13 @@ RSpec.describe 'Smoke Test' do
         end
       end.not_to raise_error
 
+      expect do
+        Class.new do
+          include SmartCore::Initializer
+          param :a, finalize: -> (req_arg, *val) {}
+        end
+      end.not_to raise_error
+
       # NOTE: proc objects can omit attribute in their signature
       expect do
         Class.new do

@@ -90,17 +90,25 @@ class SmartCore::Initializer::Attribute::Factory::Base
 
       # rubocop:disable Style/SoleNestedConditional
       if finalize.is_a?(::Proc) && finalize.lambda?
-        unless (finalize.arity == 1 || finalize.arity == -1)
+        unless allowed_lambda_arity.bsearch { |element| finalize.arity <=> element }
           raise(
             SmartCore::Initializer::ArgumentError,
-            'Lambda-based finalizer should have arity equal to 1 or equal to -1 ' \
-            '(your lambda object should require one attribute)'
+            "Lambda-based finalizer should have arity " \
+            "equal to #{allowed_lambda_arity.join(', ')} " \
+            "(your lambda object should require one attribute)"
           ) # TODO: show the name of attribute in error message (if the name is a valid, of course)
         end
       end
       # rubocop:enable Style/SoleNestedConditional
 
       SmartCore::Initializer::Attribute::Finalizer.create(finalize)
+    end
+
+    # return [Array<Integer>]
+    # @api private
+    # @since 0.9.1
+    def allowed_lambda_arity
+      @allowed_lambda_arity ||= [-2, -1, 1].freeze
     end
 
     # @param mutable [Boolean]
