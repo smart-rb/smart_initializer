@@ -131,7 +131,6 @@ RSpec.describe 'Smoke Test' do
     end.to raise_error(SmartCore::Initializer::TypeAliasNotFoundError)
   end
 
-  # rubocop:disable Naming/VariableNumber
   specify ':privacy attribute functionality' do
     aggregate_failures 'correct values amd fuctionality' do
       instance = Class.new do
@@ -207,8 +206,6 @@ RSpec.describe 'Smoke Test' do
       end.to raise_error(SmartCore::Initializer::ArgumentError) # TODO: PrivacyArgumentError
     end
   end
-  # rubocop:enable Naming/VariableNumber
-
   describe ':finalize' do
     specify 'finalize the result value of attribute via instance method' do
       klass = Class.new do
@@ -543,7 +540,6 @@ RSpec.describe 'Smoke Test' do
       expect(instance.login).to eq(:daiver)
     end
 
-    # rubocop:disable Naming/VariableNumber
     specify 'takes into original attribute incapsulation (private/protected/public)' do
       instance = Class.new do
         include SmartCore::Initializer
@@ -563,8 +559,6 @@ RSpec.describe 'Smoke Test' do
       expect(instance.public_methods(false)).to contain_exactly(:c, :c=, :c1, :c1=, :z, :z=, :z1, :z1=)
       # rubocop:enable Layout/LineLength
     end
-    # rubocop:enable Naming/VariableNumber
-
     specify 'aliased mutable attributes gives type-validated mutator too' do
       klass = Class.new do
         include SmartCore::Initializer
@@ -907,7 +901,6 @@ RSpec.describe 'Smoke Test' do
   end
 
   describe 'mutable attributes' do
-    # rubocop:disable Naming/VariableNumber
     specify 'attribute definition' do
       klass = Class.new do
         include SmartCore::Initializer
@@ -1018,8 +1011,6 @@ RSpec.describe 'Smoke Test' do
         expect(instance.z6).to eq('z6')
       end
     end
-    # rubocop:enable Naming/VariableNumber
-
     specify 'expects boolean value' do
       expect do
         Class.new do
