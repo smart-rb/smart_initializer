@@ -11,7 +11,7 @@ class SmartCore::Initializer::Plugins::Abstract
     # @since 0.1.0
     def inherited(child_klass)
       child_klass.instance_variable_set(:@__loaded__, false)
-      child_klass.instance_variable_set(:@__lock__, Mutex.new)
+      child_klass.instance_variable_set(:@__lock__, SmartCore::Engine::Lock.new)
       super
     end
 

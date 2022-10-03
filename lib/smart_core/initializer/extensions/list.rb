@@ -12,7 +12,7 @@ class SmartCore::Initializer::Extensions::List
   # @since 0.1.0
   def initialize
     @extensions = []
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @param extension [SmartCore::Initializer::Extensions::Abstract]
@@ -21,7 +21,7 @@ class SmartCore::Initializer::Extensions::List
   # @api private
   # @since 0.1.0
   def add(extension)
-    thread_safe { extensions << extension }
+    @lock.write_sync { extensions << extension }
   end
   alias_method :<<, :add
 
@@ -31,7 +31,7 @@ class SmartCore::Initializer::Extensions::List
   # @api private
   # @since 0.1.0
   def concat(list)
-    thread_safe do
+    @lock.write_sync do
       list.each { |extension| add(extension.dup) }
     end
   end
@@ -42,7 +42,7 @@ class SmartCore::Initializer::Extensions::List
   # @api private
   # @since 0.1.0
   def each(&block)
-    thread_safe do
+    @lock.read_sync do
       block_given? ? extensions.each(&block) : extensions.each
     end
   end
@@ -52,7 +52,7 @@ class SmartCore::Initializer::Extensions::List
   # @api private
   # @since 0.1.0
   def size
-    thread_safe { extensions.size }
+    @lock.read_sync { extensions.size }
   end
 
   private
@@ -62,13 +62,4 @@ class SmartCore::Initializer::Extensions::List
   # @api private
   # @since 0.1.0
   attr_reader :extensions
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
-  end
 end

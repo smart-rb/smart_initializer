@@ -12,7 +12,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @since 0.1.0
   def initialize
     @plugin_set = {}
-    @access_lock = Mutex.new
+    @access_lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @param plugin_name [Symbol, String]
@@ -21,7 +21,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   def [](plugin_name)
-    thread_safe { fetch(plugin_name) }
+    @access_lock.read_sync { fetch(plugin_name) }
   end
 
   # @param plugin_name [Symbol, String]
@@ -31,7 +31,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   def register(plugin_name, plugin_module)
-    thread_safe { apply(plugin_name, plugin_module) }
+    @access_lock.write_sync { apply(plugin_name, plugin_module) }
   end
   alias_method :[]=, :register
 
@@ -40,7 +40,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   def names
-    thread_safe { plugin_names }
+    @access_lock.read_sync { plugin_names }
   end
 
   # @return [Hash<String,Class<SmartCore::Initializer::Plugins::Abstract>>]
@@ -48,7 +48,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   def loaded
-    thread_safe { loaded_plugins }
+    @access_lock.read_sync { loaded_plugins }
   end
 
   # @param block [Block]
@@ -57,7 +57,7 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   def each(&block)
-    thread_safe { iterate(&block) }
+    @access_lock.read_sync { iterate(&block) }
   end
 
   private
@@ -73,14 +73,6 @@ class SmartCore::Initializer::Plugins::Registry
   # @api private
   # @since 0.1.0
   attr_reader :access_lock
-
-  # @return [void]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe
-    access_lock.synchronize { yield if block_given? }
-  end
 
   # @return [Array<String>]
   #

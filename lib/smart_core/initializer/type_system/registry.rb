@@ -12,7 +12,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @since 0.1.0
   def initialize
     @systems = {}
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @param system_identifier [String, Symbol]
@@ -22,7 +22,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def register(system_identifier, interop_klass)
-    thread_safe { apply(system_identifier, interop_klass) }
+    @lock.write_sync { apply(system_identifier, interop_klass) }
   end
 
   # @param system_identifier [String, Symbol]
@@ -31,7 +31,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def resolve(system_identifier)
-    thread_safe { fetch(system_identifier) }
+    @lock.read_sync { fetch(system_identifier) }
   end
 
   # @return [Array<String>]
@@ -39,7 +39,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def names
-    thread_safe { system_names }
+    @lock.read_sync { system_names }
   end
 
   # @return [Array<Class<SmartCore::Initializer::TypeSystem::Interop>>]
@@ -47,7 +47,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def interops
-    thread_safe { system_interops }
+    @lock.read_sync { system_interops }
   end
 
   # @param block [Block]
@@ -59,7 +59,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def each(&block)
-    thread_safe { iterate(&block) }
+    @lock.read_sync { iterate(&block) }
   end
 
   # @return [Hash<String,Class<SmartCore::Initializer::TypeSystem::Interop>]
@@ -67,7 +67,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @api private
   # @since 0.1.0
   def to_h
-    thread_safe { systems.dup }
+    @lock.write_sync { systems.dup }
   end
   alias_method :to_hash, :to_h
 
@@ -130,13 +130,12 @@ class SmartCore::Initializer::TypeSystem::Registry
   def fetch(system_identifier)
     identifier = indifferently_accessible_identifier(system_identifier)
 
-    begin
-      systems.fetch(identifier)
-    rescue ::KeyError
-      raise(SmartCore::Initializer::UnsupportedTypeSystemError, <<~ERROR_MESSAGE)
-        `#{identifier}` type system is not supported.
-      ERROR_MESSAGE
-    end
+    raise(
+      SmartCore::Initializer::UnsupportedTypeSystemError,
+      "`#{identifier}` type system is not supported."
+    ) unless systems.key?(identifier)
+
+    systems.fetch(identifier)
   end
 
   # @param interop_klass [Class<SMartCore::Initializer::TypeSystem::Interop>]
@@ -162,14 +161,5 @@ class SmartCore::Initializer::TypeSystem::Registry
   # @since 0.1.0
   def indifferently_accessible_identifier(system_identifier)
     system_identifier.to_s.clone.tap(&:freeze)
-  end
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
   end
 end

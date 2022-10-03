@@ -9,7 +9,7 @@ class SmartCore::Initializer::Settings::Base
   # @since 0.8.0
   def initialize
     @value = nil
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @!method resolve
@@ -29,21 +29,10 @@ class SmartCore::Initializer::Settings::Base
   # @api private
   # @since 0.8.0
   def dup
-    thread_safe do
+    @lock.write_sync do
       self.class.new.tap do |duplicate|
         duplicate.instance_variable_set(:@value, @value)
       end
     end
-  end
-
-  private
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.8.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
   end
 end
