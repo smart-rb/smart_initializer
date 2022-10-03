@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::Extensions::List
   # @since 0.1.0
   include Enumerable
@@ -10,6 +11,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize
     @extensions = []
     @lock = SmartCore::Engine::ReadWriteLock.new
@@ -20,6 +22,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def add(extension)
     @lock.write_sync { extensions << extension }
   end
@@ -30,6 +33,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def concat(list)
     @lock.write_sync do
       list.each { |extension| add(extension.dup) }
@@ -41,6 +45,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def each(&block)
     @lock.read_sync do
       block_given? ? extensions.each(&block) : extensions.each
@@ -51,6 +56,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def size
     @lock.read_sync { extensions.size }
   end

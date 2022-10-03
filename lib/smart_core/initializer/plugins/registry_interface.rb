@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 module SmartCore::Initializer::Plugins::RegistryInterface
   class << self
     # @param base_module [Class, Module]
@@ -9,6 +10,7 @@ module SmartCore::Initializer::Plugins::RegistryInterface
     #
     # @api private
     # @since 0.1.0
+    # @version 0.10.0
     def extended(base_module)
       base_module.instance_variable_set(
         :@plugin_registry, SmartCore::Initializer::Plugins::Registry.new
@@ -24,6 +26,7 @@ module SmartCore::Initializer::Plugins::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def load(plugin_name)
     @access_lock.read_sync { plugin_registry[plugin_name].load! }
   end
@@ -32,6 +35,7 @@ module SmartCore::Initializer::Plugins::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def loaded_plugins
     @access_lock.read_sync { plugin_registry.loaded.keys }
   end
@@ -40,6 +44,7 @@ module SmartCore::Initializer::Plugins::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def names
     @access_lock.read_sync { plugin_registry.names }
   end
@@ -49,6 +54,7 @@ module SmartCore::Initializer::Plugins::RegistryInterface
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def register_plugin(plugin_name, plugin_module)
     @access_lock.write_sync { plugin_registry[plugin_name] = plugin_module }
   end

@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 module SmartCore::Initializer::DSL
   require_relative 'dsl/inheritance'
 
@@ -11,6 +12,7 @@ module SmartCore::Initializer::DSL
     #
     # @api private
     # @since 0.1.0
+    # @version 0.10.0
     def extended(base_klass)
       base_klass.instance_eval do
         instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)
@@ -26,13 +28,14 @@ module SmartCore::Initializer::DSL
 
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   module ClassInheritance
     # @param child_klass [Class]
     # @return [void]
     #
     # @api private
     # @since 0.1.0
-    # @version 0.3.2
+    # @version 0.10.0
     def inherited(child_klass)
       child_klass.instance_exec(__initializer_settings__) do |init_settings|
         instance_variable_set(:@__params__, SmartCore::Initializer::Attribute::List.new)

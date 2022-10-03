@@ -2,11 +2,13 @@
 
 # @api private
 # @since 0.8.0
+# @version 0.10.0
 class SmartCore::Initializer::Settings::Base
   # @return [void]
   #
   # @api private
   # @since 0.8.0
+  # @version 0.10.0
   def initialize
     @value = nil
     @lock = SmartCore::Engine::ReadWriteLock.new
@@ -28,6 +30,7 @@ class SmartCore::Initializer::Settings::Base
   #
   # @api private
   # @since 0.8.0
+  # @version 0.10.0
   def dup
     @lock.write_sync do
       self.class.new.tap do |duplicate|

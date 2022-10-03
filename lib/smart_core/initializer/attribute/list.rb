@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::Attribute::List
   # @since 0.1.0
   include Enumerable
@@ -10,6 +11,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize
     @attributes = {}
     @lock = SmartCore::Engine::ReadWriteLock.new
@@ -22,6 +24,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.8.0
+  # @version 0.10.0
   def fetch(attribute_name)
     @lock.read_sync do
       raise(
@@ -40,6 +43,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def add(attribute)
     @lock.write_sync { attributes[attribute.name] = attribute }
   end
@@ -50,6 +54,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def concat(list)
     @lock.write_sync do
       list.each { |attribute| add(attribute.dup) }
@@ -70,6 +75,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def each(&block)
     @lock.read_sync do
       block_given? ? attributes.values.each(&block) : attributes.values.each
@@ -80,6 +86,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def size
     @lock.read_sync { attributes.size }
   end
@@ -89,6 +96,7 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def count(&block)
     @lock.read_sync { attributes.values.count(&block) }
   end

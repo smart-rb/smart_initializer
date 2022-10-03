@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 module SmartCore::Initializer::TypeSystem::RegistryInterface
   class << self
     # @param base_module [Class, Module]
@@ -9,6 +10,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
     #
     # @api private
     # @since 0.1.0
+    # @version 0.10.0
     def extended(base_module)
       base_module.instance_variable_set(
         :@registry, SmartCore::Initializer::TypeSystem::Registry.new
@@ -25,6 +27,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def build_interop(system: system_identifier, type: type_object)
     @access_lock.read_sync { registry.resolve(system_identifier).create(type_object) }
   end
@@ -35,6 +38,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def register(identifier, interop_klass)
     @access_lock.write_sync { registry.register(identifier, interop_klass) }
   end
@@ -44,6 +48,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def resolve(identifier)
     @access_lock.read_sync { registry.resolve(identifier) }
   end
@@ -53,6 +58,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def names
     @access_lock.read_sync { registry.names }
   end
@@ -61,6 +67,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def systems
     @access_lock.read_sync { registry.to_h }
   end
@@ -73,6 +80,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   #
   # @api public
   # @since 0.1.0
+  # @version 0.10.0
   def each(&block)
     @access_lock.read_sync { registry.each(&block) }
   end

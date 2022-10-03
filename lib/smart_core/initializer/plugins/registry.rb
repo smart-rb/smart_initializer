@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::Plugins::Registry
   # @since 0.1.0
   include Enumerable
@@ -10,6 +11,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize
     @plugin_set = {}
     @access_lock = SmartCore::Engine::ReadWriteLock.new
@@ -20,6 +22,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def [](plugin_name)
     @access_lock.read_sync { fetch(plugin_name) }
   end
@@ -30,6 +33,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def register(plugin_name, plugin_module)
     @access_lock.write_sync { apply(plugin_name, plugin_module) }
   end
@@ -39,6 +43,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def names
     @access_lock.read_sync { plugin_names }
   end
@@ -47,6 +52,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def loaded
     @access_lock.read_sync { loaded_plugins }
   end
@@ -56,6 +62,7 @@ class SmartCore::Initializer::Plugins::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def each(&block)
     @access_lock.read_sync { iterate(&block) }
   end

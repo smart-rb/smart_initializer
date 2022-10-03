@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 # rubocop:disable Metrics/ClassLength
 class SmartCore::Initializer::Constructor::Definer
   # @param klass [Class]
@@ -9,6 +10,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize(klass)
     @klass = klass
     @lock = SmartCore::Engine::ReadWriteLock.new
@@ -19,6 +21,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def define_init_extension(block)
     @lock.write_sync do
       add_init_extension(build_init_extension(block))
@@ -37,7 +40,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.10.0
   def define_parameter(
     name,
     type,
@@ -71,7 +74,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.10.0
   def define_parameters(*names, mutable:, privacy:)
     @lock.write_sync do
       names.map do |name|
@@ -107,7 +110,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.10.0
   def define_option(
     name,
     type,
@@ -145,7 +148,7 @@ class SmartCore::Initializer::Constructor::Definer
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.10.0
   def define_options(*names, mutable:, privacy:)
     @lock.write_sync do
       names.map do |name|

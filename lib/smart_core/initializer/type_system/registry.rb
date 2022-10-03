@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::TypeSystem::Registry
   # @since 0.1.0
   include Enumerable
@@ -10,6 +11,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize
     @systems = {}
     @lock = SmartCore::Engine::ReadWriteLock.new
@@ -21,6 +23,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def register(system_identifier, interop_klass)
     @lock.write_sync { apply(system_identifier, interop_klass) }
   end
@@ -30,6 +33,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def resolve(system_identifier)
     @lock.read_sync { fetch(system_identifier) }
   end
@@ -38,6 +42,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def names
     @lock.read_sync { system_names }
   end
@@ -46,6 +51,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def interops
     @lock.read_sync { system_interops }
   end
@@ -58,6 +64,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def each(&block)
     @lock.read_sync { iterate(&block) }
   end
@@ -66,6 +73,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def to_h
     @lock.write_sync { systems.dup }
   end
@@ -126,7 +134,7 @@ class SmartCore::Initializer::TypeSystem::Registry
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.10.0
   def fetch(system_identifier)
     identifier = indifferently_accessible_identifier(system_identifier)
 

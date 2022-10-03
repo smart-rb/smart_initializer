@@ -2,12 +2,14 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @param interop_klass [Class<SmartCore::Initializer::TypeSystem::Interop>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def initialize(interop_klass)
     @interop_klass = interop_klass
     @list = {}
@@ -18,6 +20,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def keys
     @lock.read_sync { registered_aliases }
   end
@@ -26,6 +29,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def to_h
     @lock.read_sync { transform_to_hash }
   end
@@ -37,6 +41,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def associate(alias_name, type)
     interop_klass.prevent_incompatible_type!(type)
     @lock.write_sync { set_alias(alias_name, type) }
@@ -47,6 +52,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def resolve(alias_name)
     @lock.read_sync { get_alias(alias_name) }
   end
@@ -88,6 +94,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   #
   # @api private
   # @since 0.1.0
+  # @version 0.10.0
   def get_alias(alias_name)
     alias_name = normalized_alias(alias_name)
 

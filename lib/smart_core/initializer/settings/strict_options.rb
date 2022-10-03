@@ -2,11 +2,13 @@
 
 # @api private
 # @since 0.8.0
+# @version 0.10.0
 class SmartCore::Initializer::Settings::StrictOptions < SmartCore::Initializer::Settings::Base
   # @return [Boolean]
   #
   # @api private
   # @since 0.8.0
+  # @version 0.10.0
   def resolve
     @lock.read_sync do
       @value == nil ? SmartCore::Initializer::Configuration[:strict_options] : @value
@@ -18,6 +20,7 @@ class SmartCore::Initializer::Settings::StrictOptions < SmartCore::Initializer::
   #
   # @api private
   # @since 0.8.0
+  # @version 0.10.0
   def assign(value)
     @lock.write_sync do
       raise(

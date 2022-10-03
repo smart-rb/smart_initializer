@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.1.0
+# @version 0.10.0
 class SmartCore::Initializer::Plugins::Abstract
   class << self
     # @param child_klass [Class]
@@ -9,6 +10,7 @@ class SmartCore::Initializer::Plugins::Abstract
     #
     # @api private
     # @since 0.1.0
+    # @version 0.10.0
     def inherited(child_klass)
       child_klass.instance_variable_set(:@__loaded__, false)
       child_klass.instance_variable_set(:@__lock__, SmartCore::Engine::Lock.new)
