@@ -11,7 +11,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   def initialize(interop_klass)
     @interop_klass = interop_klass
     @list = {}
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @return [Array<String>]
@@ -19,7 +19,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @api private
   # @since 0.1.0
   def keys
-    thread_safe { registered_aliases }
+    @lock.read_sync { registered_aliases }
   end
 
   # @return [Hash<String,Any>]
@@ -27,7 +27,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @api private
   # @since 0.1.0
   def to_h
-    thread_safe { transform_to_hash }
+    @lock.read_sync { transform_to_hash }
   end
   alias_method :to_hash, :to_h
 
@@ -39,7 +39,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @since 0.1.0
   def associate(alias_name, type)
     interop_klass.prevent_incompatible_type!(type)
-    thread_safe { set_alias(alias_name, type) }
+    @lock.write_sync { set_alias(alias_name, type) }
   end
 
   # @param alias_name [String, Symbol]
@@ -48,7 +48,7 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @api private
   # @since 0.1.0
   def resolve(alias_name)
-    thread_safe { get_alias(alias_name) }
+    @lock.read_sync { get_alias(alias_name) }
   end
 
   private
@@ -64,15 +64,6 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   # @api private
   # @since 0.1.0
   attr_reader :interop_klass
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
-  end
 
   # @param alias_name [String, Symbol]
   # @param type [Any]
@@ -100,13 +91,12 @@ class SmartCore::Initializer::TypeSystem::Interop::Aliasing::AliasList
   def get_alias(alias_name)
     alias_name = normalized_alias(alias_name)
 
-    begin
-      list.fetch(alias_name)
-    rescue ::KeyError
-      raise(SmartCore::Initializer::TypeAliasNotFoundError, <<~ERROR_MESSAGE)
-        Alias with name "#{alias_name}" not found.
-      ERROR_MESSAGE
-    end
+    raise(
+      SmartCore::Initializer::TypeAliasNotFoundError,
+      "Alias with name `#{alias_name}` not found."
+    ) unless list.key?(alias_name)
+
+    list.fetch(alias_name)
   end
 
   # @param alias_name [String, Symbol]

@@ -12,7 +12,7 @@ class SmartCore::Initializer::Attribute::List
   # @since 0.1.0
   def initialize
     @attributes = {}
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @param attribute_name [Symbol]
@@ -23,14 +23,14 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.8.0
   def fetch(attribute_name)
-    thread_safe do
-      attributes.fetch(attribute_name)
-    rescue ::KeyError
+    @lock.read_sync do
       raise(
         ::SmartCore::Initializer::UndefinedAttributeError,
         "Attribute with `#{attribute_name}` name is not defined in your constructor. " \
         "Please, check your attribute definitions inside your class."
-      )
+      ) unless attributes.key?(attribute_name)
+
+      attributes[attribute_name]
     end
   end
   alias_method :[], :fetch
@@ -41,7 +41,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def add(attribute)
-    thread_safe { attributes[attribute.name] = attribute }
+    @lock.write_sync { attributes[attribute.name] = attribute }
   end
   alias_method :<<, :add
 
@@ -51,7 +51,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def concat(list)
-    thread_safe do
+    @lock.write_sync do
       list.each { |attribute| add(attribute.dup) }
     end
   end
@@ -62,7 +62,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def include?(attribute)
-    thread_safe { attributes.key?(attribute.name) }
+    @lock.read_sync { attributes.key?(attribute.name) }
   end
 
   # @param block [Block]
@@ -71,7 +71,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def each(&block)
-    thread_safe do
+    @lock.read_sync do
       block_given? ? attributes.values.each(&block) : attributes.values.each
     end
   end
@@ -81,7 +81,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def size
-    thread_safe { attributes.size }
+    @lock.read_sync { attributes.size }
   end
 
   # @param block [Block]
@@ -90,7 +90,7 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   def count(&block)
-    thread_safe { attributes.values.count(&block) }
+    @lock.read_sync { attributes.values.count(&block) }
   end
 
   private
@@ -100,13 +100,4 @@ class SmartCore::Initializer::Attribute::List
   # @api private
   # @since 0.1.0
   attr_reader :attributes
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
-  end
 end

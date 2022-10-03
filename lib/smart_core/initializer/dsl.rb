@@ -17,7 +17,6 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
-        instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
         instance_variable_set(:@__initializer_settings__, SmartCore::Initializer::Settings.new)
       end
       base_klass.extend(ClassMethods)
@@ -40,7 +39,6 @@ module SmartCore::Initializer::DSL
         instance_variable_set(:@__options__, SmartCore::Initializer::Attribute::List.new)
         instance_variable_set(:@__init_extensions__, SmartCore::Initializer::Extensions::List.new)
         instance_variable_set(:@__definer__, SmartCore::Initializer::Constructor::Definer.new(self))
-        instance_variable_set(:@__deflock__, SmartCore::Engine::Lock.new)
         instance_variable_set(:@__initializer_settings__, init_settings.dup)
       end
       child_klass.extend(ClassMethods)

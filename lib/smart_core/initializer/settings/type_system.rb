@@ -4,22 +4,12 @@
 # @since 0.1.0
 # @version 0.8.0
 class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Settings::Base
-  # @return [void]
-  #
-  # @api private
-  # @since 0.1.0
-  # @version 0.8.0
-  def initialize
-    @value = nil
-    @lock = SmartCore::Engine::Lock.new
-  end
-
   # @return [Any]
   #
   # @api private
   # @since 0.1.0
   def generic_type_object
-    thread_safe do
+    @lock.read_sync do
       SmartCore::Initializer::TypeSystem.resolve(resolve).generic_type_object
     end
   end
@@ -30,7 +20,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   # @since 0.1.0
   # @version 0.8.0
   def resolve
-    thread_safe do
+    @lock.read_sync do
       @value == nil ? SmartCore::Initializer::Configuration[:default_type_system] : @value
     end
   end
@@ -42,7 +32,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   # @since 0.1.0
   # @version 0.8.0
   def assign(value)
-    thread_safe do
+    @lock.write_sync do
       # NOTE: type system existence validation
       SmartCore::Initializer::TypeSystem.resolve(value)
       @value = value

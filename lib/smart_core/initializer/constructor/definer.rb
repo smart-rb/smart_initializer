@@ -11,7 +11,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @since 0.1.0
   def initialize(klass)
     @klass = klass
-    @lock = SmartCore::Engine::Lock.new
+    @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
   # @param block [Proc]
@@ -20,7 +20,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @api private
   # @since 0.1.0
   def define_init_extension(block)
-    thread_safe do
+    @lock.write_sync do
       add_init_extension(build_init_extension(block))
     end
   end
@@ -48,7 +48,7 @@ class SmartCore::Initializer::Constructor::Definer
     mutable,
     as
   )
-    thread_safe do
+    @lock.write_sync do
       attribute = build_param_attribute(
         name,
         type,
@@ -73,7 +73,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @since 0.1.0
   # @version 0.8.0
   def define_parameters(*names, mutable:, privacy:)
-    thread_safe do
+    @lock.write_sync do
       names.map do |name|
         build_param_attribute(
           name,
@@ -120,7 +120,7 @@ class SmartCore::Initializer::Constructor::Definer
     default,
     optional
   )
-    thread_safe do
+    @lock.write_sync do
       attribute = build_option_attribute(
         name,
         type,
@@ -147,7 +147,7 @@ class SmartCore::Initializer::Constructor::Definer
   # @since 0.1.0
   # @version 0.8.0
   def define_options(*names, mutable:, privacy:)
-    thread_safe do
+    @lock.write_sync do
       names.map do |name|
         build_option_attribute(
           name,
@@ -351,15 +351,6 @@ class SmartCore::Initializer::Constructor::Definer
         You have already defined parameter with name :#{option.name}
       ERROR_MESSAGE
     end
-  end
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api private
-  # @since 0.1.0
-  def thread_safe(&block)
-    @lock.synchronize(&block)
   end
 end
 # rubocop:enable Metrics/ClassLength

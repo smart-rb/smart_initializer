@@ -14,7 +14,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
         :@registry, SmartCore::Initializer::TypeSystem::Registry.new
       )
       base_module.instance_variable_set(
-        :@access_lock, SmartCore::Engine::Lock.new
+        :@access_lock, SmartCore::Engine::ReadWriteLock.new
       )
     end
   end
@@ -26,7 +26,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api private
   # @since 0.1.0
   def build_interop(system: system_identifier, type: type_object)
-    thread_safe { registry.resolve(system_identifier).create(type_object) }
+    @access_lock.read_sync { registry.resolve(system_identifier).create(type_object) }
   end
 
   # @param identifier [String, Symbol]
@@ -36,7 +36,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api private
   # @since 0.1.0
   def register(identifier, interop_klass)
-    thread_safe { registry.register(identifier, interop_klass) }
+    @access_lock.write_sync { registry.register(identifier, interop_klass) }
   end
 
   # @param identifier [String, Symbol]
@@ -45,7 +45,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api private
   # @since 0.1.0
   def resolve(identifier)
-    thread_safe { registry.resolve(identifier) }
+    @access_lock.read_sync { registry.resolve(identifier) }
   end
   alias_method :[], :resolve
 
@@ -54,7 +54,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api public
   # @since 0.1.0
   def names
-    thread_safe { registry.names }
+    @access_lock.read_sync { registry.names }
   end
 
   # @return [Array<Class<SmartCore::Initializer::TypeSystem::Interop>>]
@@ -62,7 +62,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api public
   # @since 0.1.0
   def systems
-    thread_safe { registry.to_h }
+    @access_lock.read_sync { registry.to_h }
   end
 
   # @param block [Block]
@@ -74,7 +74,7 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api public
   # @since 0.1.0
   def each(&block)
-    thread_safe { registry.each(&block) }
+    @access_lock.read_sync { registry.each(&block) }
   end
 
   private
@@ -84,19 +84,4 @@ module SmartCore::Initializer::TypeSystem::RegistryInterface
   # @api private
   # @since 0.1.0
   attr_reader :registry
-
-  # @return [SmartCore::Engine::Lock]
-  #
-  # @api private
-  # @since 0.1.0
-  attr_reader :access_lock
-
-  # @param block [Block]
-  # @return [Any]
-  #
-  # @api pribate
-  # @since 0.1.0
-  def thread_safe(&block)
-    access_lock.synchronize(&block)
-  end
 end
