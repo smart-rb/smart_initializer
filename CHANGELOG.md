@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2022-10-04
+### Changed
+- `SmartCore::Engine::ReadWriteLock` is used instead `SmartCore::Engine::Lock` in order to decrease the count of RubyVM's context switching and useless Mutexes usage;
+- reduced `KeyError`-exception flow use cases in some cases inside the framework internals (in order to reduce object allocations under the hood);
+- bumped development dependencies;
+- bumped core dependencies (in order to use `ReadWiteLock` (and actualize available inner-framework features);
+
 ## [0.9.1] - 2022-03-06
 ### Fixed
 - `finalize` now accepts lambdas with arity `-2`. For example `->(a, *b) {}` or `:freeze.to_proc`
