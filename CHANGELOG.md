@@ -2,9 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [0.9.1] - 2022-03-06
-
 ### Fixed
-
 - `finalize` now accepts lambdas with arity `-2`. For example `->(a, *b) {}` or `:freeze.to_proc`
   which in `Ruby >= 3` returns lambda with arity equal to `-2`.
 

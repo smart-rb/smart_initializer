@@ -30,14 +30,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'smart_engine', '~> 0.11'
-  spec.add_dependency 'smart_types',  '~> 0.4'
+  spec.add_dependency 'smart_engine', '~> 0.16'
+  spec.add_dependency 'smart_types',  '~> 0.7'
   spec.add_dependency 'qonfig',       '~> 0.24'
 
-  spec.add_development_dependency 'bundler',          '~> 2.2'
+  spec.add_development_dependency 'bundler',          '~> 2.3'
   spec.add_development_dependency 'rake',             '~> 13.0'
-  spec.add_development_dependency 'rspec',            '~> 3.10'
-  spec.add_development_dependency 'armitage-rubocop', '~> 1.23'
+  spec.add_development_dependency 'rspec',            '~> 3.11'
+  spec.add_development_dependency 'armitage-rubocop', '~> 1.30'
   spec.add_development_dependency 'simplecov',        '~> 0.21'
   spec.add_development_dependency 'pry',              '~> 0.14'
 end
