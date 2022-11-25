@@ -2,6 +2,7 @@
 
 # @api private
 # @since 0.8.0
+# @version 0.11.0
 class SmartCore::Initializer::Attribute::Value::Base
   # @return [Hash<Symbol,Symbol>]
   #
@@ -114,15 +115,16 @@ class SmartCore::Initializer::Attribute::Value::Base
   # @param value [Any]
   # @return [void]
   #
+  # @raise [SmartCore::Initializer::IncorrectTypeError]
+  #
   # @api private
   # @since 0.8.0
+  # @version 0.11.0
   def validate!(value)
-    type.validate!(value)
-  rescue => error # TODO: move to typesystem interop
     raise(
       SmartCore::Initializer::IncorrectTypeError,
       "Validation of attribute `#{name}` failed:" \
-      "(expected: #{type.identifier}, got: #{value.class}) \"#{error.message}\""
-    )
+      "(expected: #{type.identifier}, got: #{value.class})"
+    ) unless type.valid?(value)
   end
 end

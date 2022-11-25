@@ -11,7 +11,7 @@ class SmartCore::Initializer::Settings::StrictOptions < SmartCore::Initializer::
   # @version 0.10.0
   def resolve
     @lock.read_sync do
-      @value == nil ? SmartCore::Initializer::Configuration[:strict_options] : @value
+      (@value == nil) ? SmartCore::Initializer::Configuration[:strict_options] : @value
     end
   end
 

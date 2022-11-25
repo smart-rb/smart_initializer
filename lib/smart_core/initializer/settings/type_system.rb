@@ -22,7 +22,7 @@ class SmartCore::Initializer::Settings::TypeSystem < SmartCore::Initializer::Set
   # @version 0.10.0
   def resolve
     @lock.read_sync do
-      @value == nil ? SmartCore::Initializer::Configuration[:default_type_system] : @value
+      (@value == nil) ? SmartCore::Initializer::Configuration[:default_type_system] : @value
     end
   end
 

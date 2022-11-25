@@ -11,7 +11,7 @@ class SmartCore::Initializer::Settings::AutoCast < SmartCore::Initializer::Setti
   # @version 0.10.0
   def resolve
     @lock.read_sync do
-      @value == nil ? SmartCore::Initializer::Configuration[:auto_cast] : @value
+      (@value == nil) ? SmartCore::Initializer::Configuration[:auto_cast] : @value
     end
   end
 

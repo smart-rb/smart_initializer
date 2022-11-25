@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.11.0] - 2022-11-25
+### Changed
+- Support for *Ruby@2.5* and *Ruby@2.6* has ended;
+- Reduced object allocation count during type checking process;
+- Removed useless `Incorrect type` text part from `SmartCore::Initializer::IncorrectTypeError` exception message;
+- Updated development dependencies;
+
 ## [0.10.0] - 2022-10-04
 ### Changed
 - `SmartCore::Engine::ReadWriteLock` is used instead `SmartCore::Engine::Lock` in order to decrease the count of RubyVM's context switching and useless Mutexes usage;
