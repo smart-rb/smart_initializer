@@ -535,6 +535,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 - Specs restructuring;
 - Migrate from `TravisCI` to `GitHub Actions`;
 - Extract `Type Interop` system to `smart_type-system`;
+- an ability to define nested-`option` (or `param`) for structure-like object (for object with "nested" nature like `a.b.c` or `a[:b][:c]`) with data type validaitons and with a support of (almost) full attribute DSL;
 
 ---
 
