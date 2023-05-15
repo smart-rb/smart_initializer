@@ -527,6 +527,7 @@ User.new(123, 'test', { admin: true, age: 22 })
 
 ## Roadmap
 
+- an ability to re-define existing options and parameters in children classes;
 - More semantic attribute declaration errors (more domain-related attribute error objects);
   - incorrect `:finalize` argument type: `ArgumentError` => `FinalizeArgumentError`;
   - incorrect `:as` argument type: `ArguemntError` => `AsArgumentError`;
