@@ -140,9 +140,9 @@ class SmartCore::Initializer::Attribute::Value::Base
 
   private
 
-  def truncate(string, length)
-    return string unless string.size > length
+  def truncate(string, max_length)
+    return string unless string.size > max_length
     omission = "..."
-    "#{string[0, string.size - omission.size]}#{omission}"
+    "#{string[0, max_length - omission.size]}#{omission}"
   end
 end
