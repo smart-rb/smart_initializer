@@ -5,6 +5,7 @@ module SmartCore::Initializer::Attribute::Factory
   # @since 0.8.0
   class Param < Base
     class << self
+      # @param klass [Class]
       # @param name [String, Symbol]
       # @param type [String, Symbol, Any]
       # @param type_system [String, Symbol]
@@ -17,7 +18,7 @@ module SmartCore::Initializer::Attribute::Factory
       #
       # @api private
       # @since 0.8.0
-      def create(name, type, type_system, privacy, finalize, cast, mutable, as)
+      def create(klass, name, type, type_system, privacy, finalize, cast, mutable, as)
         prepared_name        = prepare_name_param(name)
         prepared_privacy     = prepare_privacy_param(privacy)
         prepared_finalize    = prepare_finalize_param(finalize)
@@ -25,9 +26,10 @@ module SmartCore::Initializer::Attribute::Factory
         prepared_type_system = prepare_type_system_param(type_system)
         prepared_type        = prepare_type_param(type, prepared_type_system)
         prepared_mutable     = prepare_mutable_param(mutable)
-        prepared_as          = preapre_as_param(as)
+        prepared_as          = prepare_as_param(as)
 
         create_attribute(
+          klass,
           prepared_name,
           prepared_type,
           prepared_type_system,
@@ -53,9 +55,9 @@ module SmartCore::Initializer::Attribute::Factory
       #
       # @api private
       # @since 0.8.0
-      def create_attribute(name, type, type_system, privacy, finalize, cast, mutable, as)
+      def create_attribute(klass, name, type, type_system, privacy, finalize, cast, mutable, as)
         SmartCore::Initializer::Attribute::Value::Param.new(
-          name, type, type_system, privacy, finalize, cast, mutable, as
+          klass, name, type, type_system, privacy, finalize, cast, mutable, as
         )
       end
     end

@@ -5,6 +5,7 @@ module SmartCore::Initializer::Attribute::Factory
   # @since 0.8.0
   class Option < Base
     class << self
+      # @param klass [Class]
       # @param name [String, Symbol]
       # @param type [String, Symbol, Any]
       # @param type_system [String, Symbol]
@@ -19,7 +20,7 @@ module SmartCore::Initializer::Attribute::Factory
       #
       # @api private
       # @since 0.8.0
-      def create(name, type, type_system, privacy, finalize, cast, mutable, as, default, optional)
+      def create(klass, name, type, type_system, privacy, finalize, cast, mutable, as, default, optional)
         prepared_name        = prepare_name_param(name)
         prepared_privacy     = prepare_privacy_param(privacy)
         prepared_finalize    = prepare_finalize_param(finalize)
@@ -27,11 +28,12 @@ module SmartCore::Initializer::Attribute::Factory
         prepared_type_system = prepare_type_system_param(type_system)
         prepared_type        = prepare_type_param(type, prepared_type_system)
         prepared_mutable     = prepare_mutable_param(mutable)
-        prepared_as          = preapre_as_param(as)
+        prepared_as          = prepare_as_param(as)
         prepared_default     = prepare_default_param(default)
         prepared_optional    = prepare_optional_param(optional)
 
         create_attribute(
+          klass,
           prepared_name,
           prepared_type,
           prepared_type_system,
@@ -47,6 +49,7 @@ module SmartCore::Initializer::Attribute::Factory
 
       private
 
+      # @param klass [Class]
       # @param name [String]
       # @param type [SmartCore::Initializer::TypeSystem::Interop]
       # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
@@ -62,6 +65,7 @@ module SmartCore::Initializer::Attribute::Factory
       # @api private
       # @since 0.8.0
       def create_attribute(
+        klass,
         name,
         type,
         type_system,
@@ -74,7 +78,7 @@ module SmartCore::Initializer::Attribute::Factory
         optional
       )
         SmartCore::Initializer::Attribute::Value::Option.new(
-          name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
+          klass, name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
         )
       end
 

@@ -204,7 +204,7 @@ class SmartCore::Initializer::Constructor::Definer
     as
   )
     SmartCore::Initializer::Attribute::Factory::Param.create(
-      name, type, type_system, privacy, finalize, cast, mutable, as
+      klass, name, type, type_system, privacy, finalize, cast, mutable, as
     )
   end
 
@@ -236,7 +236,7 @@ class SmartCore::Initializer::Constructor::Definer
     optional
   )
     SmartCore::Initializer::Attribute::Factory::Option.create(
-      name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
+      klass, name, type, type_system, privacy, finalize, cast, mutable, as, default, optional
     )
   end
 

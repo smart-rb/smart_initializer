@@ -10,6 +10,7 @@ module SmartCore::Initializer::Attribute::Value
     # @since 0.8.0
     def dup
       self.class.new(
+        klass,
         name.dup,
         type,
         type_system,

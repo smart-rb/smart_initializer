@@ -23,6 +23,7 @@ module SmartCore::Initializer::Attribute::Value
     attr_reader :optional
     alias_method :optional?, :optional
 
+    # @param klass [Class]
     # @param name [Symbol]
     # @param type [SmartCore::Initializer::TypeSystem::Interop]
     # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
@@ -38,6 +39,7 @@ module SmartCore::Initializer::Attribute::Value
     # @api private
     # @since 0.8.0
     def initialize(
+      klass,
       name,
       type,
       type_system,
@@ -49,7 +51,7 @@ module SmartCore::Initializer::Attribute::Value
       default,
       optional
     )
-      super(name, type, type_system, privacy, finalizer, cast, mutable, as)
+      super(klass, name, type, type_system, privacy, finalizer, cast, mutable, as)
       @default = default
       @optional = optional
     end
@@ -85,6 +87,7 @@ module SmartCore::Initializer::Attribute::Value
       default = @default.equal?(UNDEFINED_DEFAULT) ? @default : @default.dup
 
       self.class.new(
+        klass,
         name.dup,
         type,
         type_system,
