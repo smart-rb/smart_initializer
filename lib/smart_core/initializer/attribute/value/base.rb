@@ -38,6 +38,12 @@ class SmartCore::Initializer::Attribute::Value::Base
   # @since 0.8.0
   DEFAULT_MUTABLE = false
 
+  # @return [Class]
+  #
+  # @api private
+  # @since 0.12.0
+  attr_reader :klass
+
   # @return [Symbol]
   #
   # @api private
@@ -89,6 +95,7 @@ class SmartCore::Initializer::Attribute::Value::Base
   # @since 0.8.0
   attr_reader :as
 
+  # @param klass [Class]
   # @param name [Symbol]
   # @param type [SmartCore::Initializer::TypeSystem::Interop]
   # @param type_system [Class<SmartCore::Initializer::TypeSystem::Interop>]
@@ -101,7 +108,8 @@ class SmartCore::Initializer::Attribute::Value::Base
   #
   # @api private
   # @since 0.8.0
-  def initialize(name, type, type_system, privacy, finalizer, cast, mutable, as)
+  def initialize(klass, name, type, type_system, privacy, finalizer, cast, mutable, as)
+    @klass = klass
     @name = name
     @type = type
     @type_system = type_system
@@ -121,10 +129,20 @@ class SmartCore::Initializer::Attribute::Value::Base
   # @since 0.8.0
   # @version 0.11.0
   def validate!(value)
-    raise(
-      SmartCore::Initializer::IncorrectTypeError,
-      "Validation of attribute `#{name}` failed:" \
-      "(expected: #{type.identifier}, got: #{value.class})"
-    ) unless type.valid?(value)
+    unless type.valid?(value)
+      raise(
+        SmartCore::Initializer::IncorrectTypeError,
+        "Validation of attribute `#{klass}##{name}` failed. " \
+        "Expected: #{type.identifier}, got: #{truncate(value.inspect, 100)}",
+      )
+    end
+  end
+
+  private
+
+  def truncate(string, length)
+    return string unless string.size > length
+    omission = "..."
+    "#{string[0, string.size - omission.size]}#{omission}"
   end
 end
