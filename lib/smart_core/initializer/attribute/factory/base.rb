@@ -132,7 +132,7 @@ class SmartCore::Initializer::Attribute::Factory::Base
     #
     # @api private
     # @since 0.4.0
-    def preapre_as_param(as)
+    def prepare_as_param(as)
       unless as.is_a?(::NilClass) || as.is_a?(::String) || as.is_a?(::Symbol)
         raise(SmartCore::Initializer::ArgumentError, <<~ERROR_MESSAGE)
           Attribute alias should be a type of String or Symbol

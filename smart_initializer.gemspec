@@ -40,4 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'armitage-rubocop', '~> 1.30'
   spec.add_development_dependency 'simplecov',        '~> 0.21'
   spec.add_development_dependency 'pry',              '~> 0.14'
+  spec.add_development_dependency 'ostruct'
+  spec.add_development_dependency 'bigdecimal'
 end

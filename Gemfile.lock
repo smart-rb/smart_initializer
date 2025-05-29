@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_initializer (0.11.1)
+    smart_initializer (0.12.0)
       qonfig (~> 0.24)
       smart_engine (~> 0.16)
       smart_types (~> 0.8)
@@ -21,6 +21,7 @@ GEM
       rubocop-rake (= 0.6.0)
       rubocop-rspec (= 2.13.2)
     ast (2.4.2)
+    bigdecimal (3.1.8)
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
@@ -30,6 +31,7 @@ GEM
     json (2.6.2)
     method_source (1.0.0)
     minitest (5.16.3)
+    ostruct (0.6.0)
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
@@ -94,10 +96,13 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-23
 
 DEPENDENCIES
   armitage-rubocop (~> 1.30)
+  bigdecimal
   bundler (~> 2.3)
+  ostruct
   pry (~> 0.14)
   rake (~> 13.0)
   rspec (~> 3.11)
@@ -105,4 +110,4 @@ DEPENDENCIES
   smart_initializer!
 
 BUNDLED WITH
-   2.3.17
+   2.5.19
