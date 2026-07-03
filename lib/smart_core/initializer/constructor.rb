@@ -72,11 +72,11 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.12.1
   # rubocop:disable Metrics/AbcSize
   def prevent_attribute_insufficiency
     options_list = klass.__options__
-    required_parameter_count = klass.__params__.to_a.size
+    required_parameter_count = klass.__params__.size
 
     raise(
       SmartCore::Initializer::ParameterArgumentError,
@@ -113,9 +113,9 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.5.1
+  # @version 0.12.1
   def initialize_parameters(instance)
-    parameter_definitions = klass.__params__.to_a.zip(parameters).to_h
+    parameter_definitions = klass.__params__.zip(parameters).to_h
 
     parameter_definitions.each_pair do |attribute, parameter_value|
       # NOTE: check #cast? first — it's a cheap flag, and lets us skip the type
@@ -139,10 +139,10 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.12.1
   # rubocop:disable Metrics/AbcSize
   def initialize_options(instance)
-    klass.__options__.to_a.each do |attribute|
+    klass.__options__.each do |attribute|
       option_value = options.fetch(attribute.name) do
         # NOTE: `nil` case is a case when an option is `optional`
         attribute.has_default? ? attribute.default : nil
@@ -187,8 +187,9 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.12.1
   def process_init_extensions(instance)
-    klass.__init_extensions__.to_a.each do |extension|
+    klass.__init_extensions__.each do |extension|
       extension.call(instance)
     end
   end

@@ -11,7 +11,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def initialize
     @extensions = []
     # NOTE: frozen snapshot rebuilt on mutation so the instantiation path can
@@ -25,7 +25,7 @@ class SmartCore::Initializer::Extensions::List
   #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def add(extension)
     @lock.write_sync do
       extensions << extension
@@ -33,16 +33,6 @@ class SmartCore::Initializer::Extensions::List
     end
   end
   alias_method :<<, :add
-
-  # @return [Array<SmartCore::Initializer::Extensions::Abstract>]
-  #
-  # @note Lock-free: returns the frozen snapshot maintained on mutation.
-  #
-  # @api private
-  # @since 0.12.0
-  def to_a
-    @snapshot
-  end
 
   # @param list [SmartCore::Initializer::Extensions::List]
   # @return [void]
@@ -59,22 +49,24 @@ class SmartCore::Initializer::Extensions::List
   # @param block [Block]
   # @return [Enumerable]
   #
+  # @note Lock-free: iterates the immutable snapshot maintained on mutation.
+  #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def each(&block)
-    @lock.read_sync do
-      block_given? ? extensions.each(&block) : extensions.each
-    end
+    block_given? ? @snapshot.each(&block) : @snapshot.each
   end
 
   # @return [Integer]
   #
+  # @note Lock-free: reads the size of the immutable snapshot.
+  #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def size
-    @lock.read_sync { extensions.size }
+    @snapshot.size
   end
 
   private

@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.12.1] - 2026-07-03
+### Changed
+- Performance: reduced per-instantiation overhead in `SmartCore::Initializer::Constructor`:
+  - `Attribute::List` and `Extensions::List` now serve reads (`#each` and every `Enumerable`
+    method derived from it, `#size`) from an immutable frozen snapshot **lock-free**; the shared
+    `SmartCore::Engine::ReadWriteLock` is kept only for mutation (`#add`/`#concat`) and no longer
+    serializes concurrent instantiations on a threaded server;
+  - derived option-name lists are memoized (`Attribute::List#names`, `#required_option_names`)
+    instead of being recomputed and re-allocated on every instantiation inside
+    `#prevent_attribute_insufficiency`;
+  - redundant type validations per attribute are avoided in `#initialize_options`/`#initialize_parameters`:
+    the cheap `cast?` flag is checked before `type.valid?`, and the post-finalizer re-validation runs
+    only when the finalizer actually returns a new value (the default finalizer is identity);
+  - ~40% faster instantiation in a single-threaded benchmark (larger under concurrency).
+    No public API or validation/casting/finalization-semantics change.
+
 ## [0.11.0] - 2022-11-25
 ### Changed
 - Support for *Ruby@2.5* and *Ruby@2.6* has ended;
