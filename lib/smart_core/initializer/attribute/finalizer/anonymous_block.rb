@@ -23,6 +23,16 @@ module SmartCore::Initializer::Attribute::Finalizer
       instance.instance_exec(value, &finalizer)
     end
 
+    # @return [Boolean] true only when wrapping the shared identity default,
+    #   which returns its argument untouched (so a value validated before the
+    #   call is still valid after it).
+    #
+    # @api private
+    # @since 0.12.1
+    def default_identity?
+      finalizer.equal?(SmartCore::Initializer::Attribute::Value::Base::DEFAULT_FINALIZER)
+    end
+
     private
 
     # @return [NilClass, Any]

@@ -126,9 +126,10 @@ class SmartCore::Initializer::Constructor
 
       attribute.validate!(parameter_value)
       final_value = attribute.finalizer.call(parameter_value, instance)
-      # NOTE: re-validate only when the finalizer actually produced a new value;
-      #   the default (identity) finalizer returns the already-validated object.
-      attribute.validate!(final_value) unless final_value.equal?(parameter_value)
+      # NOTE: skip re-validation only for the identity default finalizer, which
+      #   returns the already-validated value untouched. Custom finalizers may
+      #   transform or mutate it, so they are always re-validated.
+      attribute.validate!(final_value) unless attribute.finalizer.default_identity?
 
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
@@ -162,9 +163,10 @@ class SmartCore::Initializer::Constructor
 
         attribute.validate!(option_value)
         final_value = attribute.finalizer.call(option_value, instance)
-        # NOTE: re-validate only when the finalizer actually produced a new value;
-        #   the default (identity) finalizer returns the already-validated object.
-        attribute.validate!(final_value) unless final_value.equal?(option_value)
+        # NOTE: skip re-validation only for the identity default finalizer, which
+        #   returns the already-validated value untouched. Custom finalizers may
+        #   transform or mutate it, so they are always re-validated.
+        attribute.validate!(final_value) unless attribute.finalizer.default_identity?
         option_value = final_value
       end
 

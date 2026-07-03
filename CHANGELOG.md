@@ -12,8 +12,10 @@ All notable changes to this project will be documented in this file.
     instead of being recomputed and re-allocated on every instantiation inside
     `#prevent_attribute_insufficiency`;
   - redundant type validations per attribute are avoided in `#initialize_options`/`#initialize_parameters`:
-    the cheap `cast?` flag is checked before `type.valid?`, and the post-finalizer re-validation runs
-    only when the finalizer actually returns a new value (the default finalizer is identity);
+    the cheap `cast?` flag is checked before `type.valid?`, and the post-finalizer re-validation is
+    skipped only for the built-in identity default finalizer (which returns the already-validated value
+    untouched); custom finalizers are always re-validated, so a finalizer that mutates its argument in
+    place still raises `IncorrectTypeError` on an invalid result;
   - ~40% faster instantiation in a single-threaded benchmark (larger under concurrency).
     No public API or validation/casting/finalization-semantics change.
 

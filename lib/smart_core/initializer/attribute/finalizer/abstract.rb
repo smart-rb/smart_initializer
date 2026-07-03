@@ -24,6 +24,16 @@ class SmartCore::Initializer::Attribute::Finalizer::Abstract
     # :nocov:
   end
 
+  # @return [Boolean] whether this is the built-in identity finalizer
+  #   (returns its argument untouched). Custom finalizers may transform or
+  #   mutate the value, so callers must re-validate after invoking them.
+  #
+  # @api private
+  # @since 0.12.1
+  def default_identity?
+    false
+  end
+
   # @return [SmartCore::Initializer::Attribute::Finalizer::Abstract]
   def dup
     self.class.new(finalizer)

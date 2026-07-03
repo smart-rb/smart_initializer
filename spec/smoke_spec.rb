@@ -398,6 +398,30 @@ RSpec.describe 'Smoke Test' do
         end.new(d: 'test')
       end.to raise_error(SmartCore::Initializer::IncorrectTypeError)
     end
+
+    specify 'finalized value is re-validated even when the finalizer mutates it in place' do
+      # NOTE: content-dependent type — validity changes when the string is emptied.
+      non_empty_string = SmartCore::Types::Value.define_type(:SmokeSpecNonEmptyString) do |type|
+        type.define_checker { |value| value.is_a?(::String) }
+        type.invariant(:non_empty) { |value| !value.empty? }
+      end
+
+      # finalizer mutates the argument in place and returns the *same* object
+      # (String#clear returns self) — the post-finalizer validation must still run.
+      expect do
+        Class.new do
+          include SmartCore::Initializer
+          param :a, non_empty_string, finalize: ->(val) { val.clear }
+        end.new(+'filled')
+      end.to raise_error(SmartCore::Initializer::IncorrectTypeError)
+
+      expect do
+        Class.new do
+          include SmartCore::Initializer
+          option :b, non_empty_string, finalize: proc { |val| val.clear }
+        end.new(b: +'filled')
+      end.to raise_error(SmartCore::Initializer::IncorrectTypeError)
+    end
   end
 
   specify 'inheritance' do
