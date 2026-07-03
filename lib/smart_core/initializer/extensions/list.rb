@@ -14,6 +14,9 @@ class SmartCore::Initializer::Extensions::List
   # @version 0.10.0
   def initialize
     @extensions = []
+    # NOTE: frozen snapshot rebuilt on mutation so the instantiation path can
+    #   iterate (and skip when empty) lock-free.
+    @snapshot = [].freeze
     @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
@@ -24,9 +27,22 @@ class SmartCore::Initializer::Extensions::List
   # @since 0.1.0
   # @version 0.10.0
   def add(extension)
-    @lock.write_sync { extensions << extension }
+    @lock.write_sync do
+      extensions << extension
+      @snapshot = extensions.dup.freeze
+    end
   end
   alias_method :<<, :add
+
+  # @return [Array<SmartCore::Initializer::Extensions::Abstract>]
+  #
+  # @note Lock-free: returns the frozen snapshot maintained on mutation.
+  #
+  # @api private
+  # @since 0.12.0
+  def to_a
+    @snapshot
+  end
 
   # @param list [SmartCore::Initializer::Extensions::List]
   # @return [void]
