@@ -72,9 +72,10 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.12.1
   # rubocop:disable Metrics/AbcSize
   def prevent_attribute_insufficiency
+    options_list = klass.__options__
     required_parameter_count = klass.__params__.size
 
     raise(
@@ -83,16 +84,14 @@ class SmartCore::Initializer::Constructor
       "(given #{parameters.size}, expected #{required_parameter_count})"
     ) unless parameters.size == required_parameter_count
 
-    required_options = klass.__options__.reject(&:has_default?).reject(&:optional?).map(&:name)
-    missing_options  = required_options.reject { |option_name| options.key?(option_name) }
+    missing_options = options_list.required_option_names.reject { |name| options.key?(name) }
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
       "Missing options: #{missing_options.join(', ')}"
     ) if missing_options.any?
 
-    possible_options = klass.__options__.map(&:name)
-    unknown_options  = options.keys - possible_options
+    unknown_options = options.keys - options_list.names
 
     raise(
       SmartCore::Initializer::OptionArgumentError,
@@ -114,18 +113,23 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.5.1
+  # @version 0.12.1
   def initialize_parameters(instance)
     parameter_definitions = klass.__params__.zip(parameters).to_h
 
     parameter_definitions.each_pair do |attribute, parameter_value|
-      if !attribute.type.valid?(parameter_value) && attribute.cast?
+      # NOTE: check #cast? first — it's a cheap flag, and lets us skip the type
+      #   validation entirely when casting is disabled (the common case).
+      if attribute.cast? && !attribute.type.valid?(parameter_value)
         parameter_value = attribute.type.cast(parameter_value)
       end
 
       attribute.validate!(parameter_value)
       final_value = attribute.finalizer.call(parameter_value, instance)
-      attribute.validate!(final_value)
+      # NOTE: skip re-validation only for the identity default finalizer, which
+      #   returns the already-validated value untouched. Custom finalizers may
+      #   transform or mutate it, so they are always re-validated.
+      attribute.validate!(final_value) unless attribute.finalizer.default_identity?
 
       instance.instance_variable_set("@#{attribute.name}", final_value)
     end
@@ -136,7 +140,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
-  # @version 0.8.0
+  # @version 0.12.1
   # rubocop:disable Metrics/AbcSize
   def initialize_options(instance)
     klass.__options__.each do |attribute|
@@ -151,13 +155,19 @@ class SmartCore::Initializer::Constructor
       #   But optional attributes with defined `default` setting should be
       #   type-checked and type-casted.
       if options.key?(attribute.name) || attribute.has_default?
-        if !attribute.type.valid?(option_value) && attribute.cast?
+        # NOTE: check #cast? first — it's a cheap flag, and lets us skip the type
+        #   validation entirely when casting is disabled (the common case).
+        if attribute.cast? && !attribute.type.valid?(option_value)
           option_value = attribute.type.cast(option_value)
         end
 
         attribute.validate!(option_value)
-        option_value = attribute.finalizer.call(option_value, instance)
-        attribute.validate!(option_value)
+        final_value = attribute.finalizer.call(option_value, instance)
+        # NOTE: skip re-validation only for the identity default finalizer, which
+        #   returns the already-validated value untouched. Custom finalizers may
+        #   transform or mutate it, so they are always re-validated.
+        attribute.validate!(final_value) unless attribute.finalizer.default_identity?
+        option_value = final_value
       end
 
       instance.instance_variable_set("@#{attribute.name}", option_value)
@@ -179,6 +189,7 @@ class SmartCore::Initializer::Constructor
   #
   # @api private
   # @since 0.1.0
+  # @version 0.12.1
   def process_init_extensions(instance)
     klass.__init_extensions__.each do |extension|
       extension.call(instance)

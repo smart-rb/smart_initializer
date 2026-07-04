@@ -11,9 +11,14 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def initialize
     @attributes = {}
+    # NOTE: frozen snapshot of attribute values, rebuilt on each mutation so the
+    #   read-heavy instantiation path (see Constructor) can iterate lock-free.
+    @snapshot = [].freeze
+    @names = [].freeze
+    @required_option_names = nil
     @lock = SmartCore::Engine::ReadWriteLock.new
   end
 
@@ -43,11 +48,38 @@ class SmartCore::Initializer::Attribute::List
   #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def add(attribute)
-    @lock.write_sync { attributes[attribute.name] = attribute }
+    @lock.write_sync do
+      attributes[attribute.name] = attribute
+      @snapshot = attributes.values.freeze
+      @names = @snapshot.map(&:name).freeze
+      @required_option_names = nil
+    end
   end
   alias_method :<<, :add
+
+  # @return [Array<Symbol>] names of all attributes in the list
+  #
+  # @note Lock-free, memoized on mutation. Used on the instantiation path.
+  #
+  # @api private
+  # @since 0.12.1
+  def names
+    @names
+  end
+
+  # @return [Array<Symbol>] names of options that must be provided explicitly
+  #
+  # @note Lock-free, memoized (invalidated on mutation). Only meaningful for
+  #   an options list — its members respond to #has_default?/#optional?.
+  #
+  # @api private
+  # @since 0.12.1
+  def required_option_names
+    @required_option_names ||=
+      @snapshot.reject(&:has_default?).reject(&:optional?).map(&:name).freeze
+  end
 
   # @param list [SmartCore::Initializer::Attribute::List]
   # @return [void]
@@ -73,22 +105,24 @@ class SmartCore::Initializer::Attribute::List
   # @param block [Block]
   # @return [Enumerable]
   #
+  # @note Lock-free: iterates the immutable snapshot maintained on mutation.
+  #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def each(&block)
-    @lock.read_sync do
-      block_given? ? attributes.values.each(&block) : attributes.values.each
-    end
+    block_given? ? @snapshot.each(&block) : @snapshot.each
   end
 
   # @return [Integer]
   #
+  # @note Lock-free: reads the size of the immutable snapshot.
+  #
   # @api private
   # @since 0.1.0
-  # @version 0.10.0
+  # @version 0.12.1
   def size
-    @lock.read_sync { attributes.size }
+    @snapshot.size
   end
 
   # @param block [Block]
